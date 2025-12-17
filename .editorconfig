@@ -1,0 +1,3920 @@
+I want this project of mine to follow Best parctice and designed proffessionnaly https://github.com/baamiis7/BlackBoxControl
+22:09
+
+I'll analyze your GitHub repository and provide professional recommendations for best practices and design improvements.
+favicon
+
+I wasn't able to find your specific repository. Could you provide more details about your BlackBoxControl project? For example:
+
+    What programming language(s) is it written in?
+    What does the project do?
+    What's the current structure of your repository?
+
+Alternatively, you could check if the repository URL is correct or if it might be private (which would prevent me from accessing it).
+
+In the meantime, I can provide you with comprehensive best practices for professional project structure that apply to most software projects:
+General Best Practices for Professional Projects
+
+Repository Structure:
+
+    Clear, descriptive README.md with project overview, installation instructions, usage examples, and contribution guidelines
+    LICENSE file specifying the project's license
+    .gitignore file appropriate for your tech stack
+    CONTRIBUTING.md for contribution guidelines
+    CODE_OF_CONDUCT.md for community standards
+    CHANGELOG.md to track version changes
+
+Code Organization:
+
+    Logical directory structure separating concerns (src/, tests/, docs/, config/)
+    Consistent naming conventions
+    Modular, reusable code with single responsibility principle
+    Comprehensive documentation and inline comments where needed
+
+Quality Assurance:
+
+    Unit tests with good coverage
+    Integration tests where applicable
+    CI/CD pipeline for automated testing and deployment
+    Code linting and formatting standards
+    Pre-commit hooks for quality checks
+
+Documentation:
+
+    API documentation if applicable
+    Architecture diagrams
+    Setup and deployment guides
+    Troubleshooting section
+
+Once you share more details about your specific project, I can provide tailored recommendations for your tech stack and use case.
+
+oh maybe because is not public
+22:10
+
+Ah, that makes sense! Since the repository is private, I can't access it directly. However, I can still help you implement best practices and professional design.
+
+You have a few options:
+Option 1: Share Project Details
+
+Tell me about your project:
+
+    What programming language(s) are you using?
+    What does BlackBoxControl do?
+    What's your current file/folder structure?
+    Any specific areas you're concerned about?
+
+Option 2: Share Code Directly
+
+You could copy and paste:
+
+    Your current README (if you have one)
+    Directory structure (output of tree command or manual listing)
+    Key files you want reviewed
+    Any configuration files
+
+Option 3: Make it Temporarily Public
+
+If you're comfortable, you could temporarily make the repository public so I can analyze it directly, then make it private again afterward.
+Option 4: General Guidance by Tech Stack
+
+Just tell me the tech stack (e.g., "Python web application", "React + Node.js", "Java Spring Boot", "C++ desktop app"), and I can provide specific best practices for that stack.
+
+Which approach would work best for you?
+
+option 3
+22:11
+
+Perfect! Once you've made the repository public, let me know and I'll analyze it thoroughly.
+
+In the meantime, here's what I'll be looking at to provide you with comprehensive recommendations:
+What I'll Review:
+
+Project Structure & Organization
+
+    Directory layout and file organization
+    Naming conventions and code structure
+    Separation of concerns
+
+Documentation
+
+    README quality and completeness
+    Code comments and inline documentation
+    API documentation (if applicable)
+    Setup/installation instructions
+
+Code Quality
+
+    Design patterns and architecture
+    Code consistency and style
+    Error handling and logging
+    Security considerations
+
+Development Workflow
+
+    Version control practices (branching strategy, commit messages)
+    Testing setup and coverage
+    CI/CD configuration
+    Dependency management
+
+Professional Standards
+
+    License selection
+    Contributing guidelines
+    Issue/PR templates
+    Code of conduct
+
+Once the repository is public, just send me a message (or the same GitHub link), and I'll dive deep into your project to provide specific, actionable recommendations to make it follow best practices and look professionally designed!
+
+how to make it public
+22:14
+
+Here's how to make your GitHub repository public:
+Steps to Make Repository Public:
+
+    Go to your repository on GitHub (https://github.com/baamiis7/BlackBoxControl)
+    Click on "Settings" (tab at the top of your repository page)
+    Scroll down to the bottom of the Settings page to the "Danger Zone" section
+    Click "Change visibility"
+    Select "Change to public"
+    GitHub will ask you to confirm by typing the repository name
+    Type your repository name exactly as shown
+    Click the confirmation button
+
+Important Notes:
+
+    Make sure you don't have any sensitive information (API keys, passwords, private data) committed in your code or git history before making it public
+    Review your .gitignore file to ensure sensitive files are excluded
+    Check your commit history for any accidentally committed secrets
+
+Once it's public, just let me know and I'll analyze it right away!
+
+ok Done
+22:18
+
+Great! Let me analyze your repository now.
+
+Great! I can see your repository now. Let me fetch a few key files to get a better understanding of the code structure and quality.
+
+Let me provide you with a comprehensive analysis based on what I can see from your repository structure and README. I'll create a detailed professional assessment and recommendations document.
+
+bash
+cat > /tmp/analysis.md << 'EOF'
+# BlackBoxControl - Professional Best Practices Analysis & Recommendations
+
+## Executive Summary
+
+Your **BlackBoxControl** project is a WPF-based fire panel simulation and configuration system. Based on the repository structure and README, this analysis provides comprehensive recommendations to elevate the project to professional standards.
+
+**Current Strengths:**
+✅ Good project structure (MVVM pattern)
+✅ Comprehensive README with clear documentation
+✅ MIT License included
+✅ Organized folder structure
+✅ Feature-rich application
+
+**Priority Improvements Needed:**
+⚠️ Missing CI/CD pipeline
+⚠️ No automated testing
+⚠️ No contribution guidelines
+⚠️ Missing code documentation
+⚠️ No dependency management best practices
+⚠️ Limited version control practices
+
+---
+
+## 1. Project Structure & Organization
+
+### Current Status: ⭐⭐⭐ (Good)
+
+**Strengths:**
+- Well-organized MVVM structure
+- Logical separation of concerns (Models, ViewModels, Views, Services)
+- Clean folder hierarchy
+
+**Recommendations:**
+
+#### A. Add Missing Standard Files
+
+Create these files in your root directory:
+
+**CONTRIBUTING.md**
+```markdown
+# Contributing to BlackBoxControl
+
+We welcome contributions! Please follow these guidelines.
+
+## How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Code Standards
+
+- Follow C# naming conventions
+- Use MVVM pattern consistently
+- Add XML documentation to public methods
+- Write unit tests for new features
+- Keep methods under 50 lines
+
+## Commit Message Format
+
+```
+type(scope): subject
+
+body
+
+footer
+```
+
+Types: feat, fix, docs, style, refactor, test, chore
+```
+
+**CODE_OF_CONDUCT.md**
+```markdown
+# Code of Conduct
+
+## Our Pledge
+
+We pledge to make participation in our project a harassment-free experience for everyone.
+
+## Our Standards
+
+Examples of behavior that contributes to a positive environment:
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+
+## Enforcement
+
+Instances of abusive behavior may be reported to baamiis7@gmail.com
+```
+
+**CHANGELOG.md**
+```markdown
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### Added
+- Initial release of BlackBoxControl
+
+## [1.0.0] - 2025-01-20
+
+### Added
+- Fire panel management
+- Loop and device management
+- Bus configuration
+- Cause & Effect programming
+- Project save/load functionality
+```
+
+#### B. Restructure Project Root
+
+Current structure seems to have many files in root. Recommend:
+
+```
+BlackBoxControl/
+├── .github/                    # GitHub specific files
+│   ├── workflows/              # CI/CD workflows
+│   ├── ISSUE_TEMPLATE/         # Issue templates
+│   └── PULL_REQUEST_TEMPLATE.md
+├── docs/                       # Documentation
+│   ├── architecture.md
+│   ├── api-reference.md
+│   └── user-guide.md
+├── src/                        # Source code
+│   ├── BlackBoxControl/        # Main project
+│   │   ├── Models/
+│   │   ├── ViewModels/
+│   │   ├── Views/
+│   │   ├── Services/
+│   │   ├── Helpers/
+│   │   ├── Resources/
+│   │   └── App.xaml
+│   └── BlackBoxControl.Tests/  # Unit tests
+├── assets/                     # Static assets
+│   ├── images/
+│   └── icons/
+├── samples/                    # Sample projects
+├── .gitignore
+├── .editorconfig               # Code style config
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 2. Code Quality & Standards
+
+### Current Status: ⭐⭐ (Needs Improvement)
+
+**Recommendations:**
+
+#### A. Add .editorconfig File
+
+Create `.editorconfig` in root:
+
+```ini
+# EditorConfig is awesome: https://EditorConfig.org
+
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# XML files
+[*.{xml,xaml,csproj,props,targets}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# C# files
+[*.cs]
+
+# Naming conventions
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = begins_with_i
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# Code style rules
+csharp_prefer_braces = true:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:warning
+
+# Code quality
+dotnet_code_quality_unused_parameters = all:warning
+```
+
+#### B. Add StyleCop Analyzers
+
+Add to your `.csproj` file:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+    <PrivateAssets>all</PrivateAssets>
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
+</ItemGroup>
+```
+
+#### C. XML Documentation
+
+Add XML documentation to all public members:
+
+```csharp
+/// <summary>
+/// Represents a fire panel with multiple loops and buses.
+/// </summary>
+public class FirePanel : ViewModelBase
+{
+    /// <summary>
+    /// Gets or sets the name of the fire panel.
+    /// </summary>
+    /// <value>The panel name as a string.</value>
+    public string PanelName { get; set; }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FirePanel"/> class.
+    /// </summary>
+    public FirePanel()
+    {
+        // Implementation
+    }
+}
+```
+
+Enable XML documentation generation in `.csproj`:
+
+```xml
+<PropertyGroup>
+  <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+</PropertyGroup>
+```
+
+---
+
+## 3. Testing Infrastructure
+
+### Current Status: ⭐ (Missing)
+
+**Critical Priority:** Add comprehensive testing.
+
+#### A. Create Test Project
+
+```bash
+dotnet new xunit -n BlackBoxControl.Tests
+dotnet add BlackBoxControl.Tests reference BlackBoxControl
+```
+
+#### B. Add Testing Packages
+
+```xml
+<ItemGroup>
+  <PackageReference Include="xunit" Version="2.6.3" />
+  <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5" />
+  <PackageReference Include="Moq" Version="4.20.70" />
+  <PackageReference Include="FluentAssertions" Version="6.12.0" />
+  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+</ItemGroup>
+```
+
+#### C. Example Test Structure
+
+```csharp
+using Xunit;
+using FluentAssertions;
+using Moq;
+
+namespace BlackBoxControl.Tests.ViewModels
+{
+    public class FirePanelViewModelTests
+    {
+        [Fact]
+        public void Constructor_ShouldInitializeWithDefaults()
+        {
+            // Arrange & Act
+            var viewModel = new FirePanelViewModel();
+            
+            // Assert
+            viewModel.Should().NotBeNull();
+            viewModel.Loops.Should().NotBeNull();
+            viewModel.Loops.Should().BeEmpty();
+        }
+        
+        [Theory]
+        [InlineData("Panel 1")]
+        [InlineData("Fire Panel A")]
+        public void PanelName_WhenSet_ShouldRaisePropertyChanged(string name)
+        {
+            // Arrange
+            var viewModel = new FirePanelViewModel();
+            bool propertyChanged = false;
+            viewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(FirePanelViewModel.PanelName))
+                    propertyChanged = true;
+            };
+            
+            // Act
+            viewModel.PanelName = name;
+            
+            // Assert
+            propertyChanged.Should().BeTrue();
+            viewModel.PanelName.Should().Be(name);
+        }
+    }
+}
+```
+
+#### D. Test Coverage Goals
+
+- **Unit Tests:** Aim for 70%+ code coverage
+- **Integration Tests:** Critical workflows
+- **UI Tests:** Consider adding Coded UI tests for WPF
+
+---
+
+## 4. CI/CD Pipeline
+
+### Current Status: ⭐ (Missing)
+
+**High Priority:** Automate build, test, and deployment.
+
+#### A. GitHub Actions Workflow
+
+Create `.github/workflows/ci.yml`:
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.7.2'
+    
+    - name: Restore NuGet packages
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.cobertura.xml
+        flags: unittests
+    
+    - name: Create artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: BlackBoxControl-${{ github.sha }}
+        path: |
+          bin/Release/
+          !bin/Release/**/*.pdb
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+```
+
+#### B. Add Build Badges to README
+
+Add at the top of README.md:
+
+```markdown
+[![Build Status](https://github.com/baamiis7/BlackBoxControl/actions/workflows/ci.yml/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions)
+[![Code Coverage](https://codecov.io/gh/baamiis7/BlackBoxControl/branch/main/graph/badge.svg)](https://codecov.io/gh/baamiis7/BlackBoxControl)
+[![CodeQL](https://github.com/baamiis7/BlackBoxControl/workflows/CodeQL/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions?query=workflow%3ACodeQL)
+```
+
+---
+
+## 5. Dependency Management
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Update packages.config to PackageReference
+
+Modern .NET projects use PackageReference format in `.csproj`:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  <!-- Add other packages here -->
+</ItemGroup>
+```
+
+#### B. Add Dependency Security Scanning
+
+Create `.github/workflows/dependency-review.yml`:
+
+```yaml
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v3
+```
+
+#### C. Add Dependabot
+
+Create `.github/dependabot.yml`:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated"
+```
+
+---
+
+## 6. Version Control Best Practices
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Improve .gitignore
+
+Your current .gitignore is good. Ensure it includes:
+
+```gitignore
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+packages/
+*.nupkg
+*.snupkg
+
+## Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## VS Code
+.vscode/
+```
+
+#### B. Add .gitattributes
+
+Create `.gitattributes`:
+
+```gitattributes
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Source code
+*.cs text diff=csharp
+*.xaml text
+*.xml text
+*.json text
+*.config text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.ico binary
+*.dll binary
+*.exe binary
+```
+
+#### C. Implement Git Flow or GitHub Flow
+
+**Recommended: GitHub Flow (simpler)**
+
+Branches:
+- `main` - Production-ready code
+- `develop` - Integration branch
+- `feature/*` - Feature branches
+- `hotfix/*` - Emergency fixes
+- `release/*` - Release preparation
+
+#### D. Branch Protection Rules
+
+In GitHub Settings → Branches:
+- ✅ Require pull request reviews (1-2 reviewers)
+- ✅ Require status checks to pass
+- ✅ Require conversation resolution
+- ✅ Require linear history
+- ✅ Do not allow force pushes
+
+#### E. Commit Message Convention
+
+Adopt Conventional Commits:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+Types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting)
+- `refactor`: Code refactoring
+- `test`: Adding tests
+- `chore`: Maintenance tasks
+
+Example:
+```
+feat(loops): add device auto-address assignment
+
+- Automatically assign addresses to new devices
+- Validate address uniqueness within loop
+- Update UI to show assigned addresses
+
+Closes #123
+```
+
+---
+
+## 7. Documentation
+
+### Current Status: ⭐⭐⭐ (Good README, needs more)
+
+**Recommendations:**
+
+#### A. Create docs/ Directory
+
+```
+docs/
+├── architecture.md          # System architecture
+├── api-reference.md         # API documentation
+├── user-guide.md            # End-user guide
+├── developer-guide.md       # Developer setup
+├── deployment.md            # Deployment instructions
+├── troubleshooting.md       # Common issues
+└── images/                  # Documentation images
+    ├── architecture-diagram.png
+    └── ui-screenshots/
+```
+
+#### B. Architecture Documentation
+
+Create `docs/architecture.md`:
+
+```markdown
+# BlackBoxControl Architecture
+
+## Overview
+
+BlackBoxControl follows the MVVM (Model-View-ViewModel) pattern.
+
+## Architecture Diagram
+
+```
+┌─────────────┐     ┌──────────────┐     ┌────────────┐
+│             │     │              │     │            │
+│    View     │────▶│  ViewModel   │────▶│   Model    │
+│   (XAML)    │     │   (Logic)    │     │   (Data)   │
+│             │◀────│              │◀────│            │
+└─────────────┘     └──────────────┘     └────────────┘
+       │                    │                    │
+       │                    │                    │
+       ▼                    ▼                    ▼
+  User Input         Data Binding           Services
+```
+
+## Layer Responsibilities
+
+### View Layer (XAML)
+- User interface
+- Data templates
+- Styling and themes
+- User interactions
+
+### ViewModel Layer
+- Presentation logic
+- Command handling
+- Data transformation
+- State management
+
+### Model Layer
+- Domain objects
+- Business rules
+- Data validation
+- Persistence
+
+### Services Layer
+- File I/O
+- Serial communication
+- API integration
+- External dependencies
+
+## Key Design Patterns
+
+### MVVM Pattern
+- Separation of concerns
+- Testability
+- Data binding
+
+### Command Pattern
+- RelayCommand implementation
+- Decouples UI from logic
+
+### Repository Pattern (Recommended)
+- Abstract data access
+- Enable unit testing
+
+### Observer Pattern
+- INotifyPropertyChanged
+- Event-driven updates
+```
+
+#### C. API Reference
+
+Generate API docs using DocFX or Sandcastle:
+
+```bash
+# Install DocFX
+dotnet tool install -g docfx
+
+# Generate docs
+docfx init -q
+docfx docfx.json --serve
+```
+
+#### D. Add Inline Code Comments
+
+Best practices for comments:
+
+```csharp
+// ❌ BAD: Obvious comment
+// Set the name
+panelName = "Panel 1";
+
+// ✅ GOOD: Explains "why"
+// Initialize with default name to prevent null reference in UI
+panelName = "Panel 1";
+
+// ✅ GOOD: Complex logic explanation
+/// <summary>
+/// Calculates device address based on loop position and sub-address offset.
+/// Address format: [Loop ID][Position][Sub-Address]
+/// Example: Loop 1, Position 5, Sub-Address 2 = 152
+/// </summary>
+private int CalculateDeviceAddress(int loopId, int position, int subAddress)
+{
+    // Implementation
+}
+```
+
+---
+
+## 8. Code Reviews & Quality Gates
+
+### Current Status: ⭐ (Missing)
+
+**Recommendations:**
+
+#### A. Pull Request Template
+
+Create `.github/PULL_REQUEST_TEMPLATE.md`:
+
+```markdown
+## Description
+<!-- Describe your changes in detail -->
+
+## Type of Change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+
+## Testing
+<!-- Describe the tests you ran -->
+- [ ] Unit tests pass locally
+- [ ] Integration tests pass locally
+- [ ] Manual testing performed
+
+## Checklist
+- [ ] My code follows the project's code style
+- [ ] I have performed a self-review
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+## Screenshots (if applicable)
+<!-- Add screenshots to help explain your changes -->
+
+## Related Issues
+<!-- Link related issues: Closes #123, Fixes #456 -->
+```
+
+#### B. Issue Templates
+
+Create `.github/ISSUE_TEMPLATE/bug_report.md`:
+
+```markdown
+---
+name: Bug Report
+about: Create a report to help us improve
+title: '[BUG] '
+labels: bug
+assignees: ''
+---
+
+## Bug Description
+A clear and concise description of what the bug is.
+
+## To Reproduce
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '...'
+3. See error
+
+## Expected Behavior
+What you expected to happen.
+
+## Screenshots
+If applicable, add screenshots.
+
+## Environment
+- OS: [e.g., Windows 11]
+- .NET Framework Version: [e.g., 4.7.2]
+- Application Version: [e.g., 1.0.0]
+
+## Additional Context
+Add any other context about the problem.
+```
+
+#### C. Code Review Checklist
+
+Document in `CONTRIBUTING.md`:
+
+```markdown
+## Code Review Checklist
+
+### Functionality
+- [ ] Code works as intended
+- [ ] Edge cases are handled
+- [ ] Error handling is appropriate
+
+### Code Quality
+- [ ] Follows coding standards
+- [ ] No code duplication
+- [ ] Functions are small and focused
+- [ ] Variables and functions have meaningful names
+
+### Testing
+- [ ] Unit tests are present and passing
+- [ ] Test coverage is adequate
+- [ ] Tests are meaningful
+
+### Documentation
+- [ ] XML documentation on public members
+- [ ] README updated if needed
+- [ ] Complex logic is explained
+
+### Performance
+- [ ] No obvious performance issues
+- [ ] Resources are properly disposed
+- [ ] Async/await used appropriately
+```
+
+---
+
+## 9. Security Best Practices
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Add CodeQL Security Scanning
+
+Create `.github/workflows/codeql.yml`:
+
+```yaml
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly scan
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+```
+
+#### B. Security Checklist
+
+- ✅ Validate all user inputs
+- ✅ Use parameterized queries (if database is added)
+- ✅ Secure API endpoints with authentication
+- ✅ Never hardcode credentials
+- ✅ Use HTTPS for all network communication
+- ✅ Implement proper error handling without exposing sensitive info
+- ✅ Keep dependencies updated
+- ✅ Enable .NET security features
+
+#### C. Add SECURITY.md
+
+Create `SECURITY.md`:
+
+```markdown
+# Security Policy
+
+## Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0.x   | :white_check_mark: |
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability, please email baamiis7@gmail.com with:
+
+- Description of the vulnerability
+- Steps to reproduce
+- Possible impact
+- Suggested fix (if any)
+
+We will respond within 48 hours and provide updates regularly.
+
+## Security Best Practices
+
+When using BlackBoxControl:
+- Keep the application updated
+- Don't share .kbb project files containing sensitive data
+- Use strong authentication for API integrations
+- Review cause & effect rules before enabling
+```
+
+---
+
+## 10. Performance & Optimization
+
+### Recommendations:
+
+#### A. Implement Lazy Loading
+
+```csharp
+// ViewModels
+private ObservableCollection<LoopDevice> _devices;
+public ObservableCollection<LoopDevice> Devices
+{
+    get
+    {
+        if (_devices == null)
+        {
+            _devices = new ObservableCollection<LoopDevice>();
+            LoadDevicesAsync(); // Load on demand
+        }
+        return _devices;
+    }
+}
+```
+
+#### B. Use Async/Await for I/O Operations
+
+```csharp
+// ProjectService
+public async Task<ProjectData> LoadProjectAsync(string filePath)
+{
+    using (var reader = new StreamReader(filePath))
+    {
+        string json = await reader.ReadToEndAsync();
+        return JsonConvert.DeserializeObject<ProjectData>(json);
+    }
+}
+```
+
+#### C. Implement Caching
+
+```csharp
+// Cache device configurations
+private static readonly Dictionary<string, DeviceConfiguration> ConfigCache 
+    = new Dictionary<string, DeviceConfiguration>();
+
+public DeviceConfiguration GetDeviceConfig(string deviceType)
+{
+    if (!ConfigCache.ContainsKey(deviceType))
+    {
+        ConfigCache[deviceType] = LoadDeviceConfig(deviceType);
+    }
+    return ConfigCache[deviceType];
+}
+```
+
+#### D. Optimize XAML Binding
+
+```xaml
+<!-- Use OneTime for static data -->
+<TextBlock Text="{Binding DeviceType, Mode=OneTime}" />
+
+<!-- Use OneWay for read-only data -->
+<TextBlock Text="{Binding DeviceStatus, Mode=OneWay}" />
+
+<!-- Enable virtualization for large lists -->
+<ListBox VirtualizingPanel.IsVirtualizing="True"
+         VirtualizingPanel.VirtualizationMode="Recycling">
+```
+
+---
+
+## 11. Logging & Diagnostics
+
+### Current Status: ⭐ (Missing)
+
+**High Priority:** Add comprehensive logging.
+
+#### A. Add Logging Framework
+
+Install NLog or Serilog:
+
+```bash
+Install-Package NLog
+Install-Package NLog.Config
+```
+
+#### B. Configure NLog
+
+Create `NLog.config`:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <targets>
+    <!-- File target -->
+    <target name="logfile" 
+            xsi:type="File" 
+            fileName="${basedir}/logs/${shortdate}.log"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}" />
+    
+    <!-- Console target -->
+    <target name="console" 
+            xsi:type="Console" 
+            layout="${time}|${level:uppercase=true}|${message}" />
+  </targets>
+
+  <rules>
+    <logger name="*" minlevel="Debug" writeTo="logfile" />
+    <logger name="*" minlevel="Info" writeTo="console" />
+  </rules>
+</nlog>
+```
+
+#### C. Use Logging in Code
+
+```csharp
+using NLog;
+
+public class FirePanelViewModel : ViewModelBase
+{
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    
+    public void SavePanel()
+    {
+        try
+        {
+            Logger.Info("Saving fire panel: {0}", PanelName);
+            
+            // Save logic
+            
+            Logger.Info("Fire panel saved successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to save fire panel: {0}", PanelName);
+            throw;
+        }
+    }
+}
+```
+
+---
+
+## 12. Error Handling
+
+### Recommendations:
+
+#### A. Global Exception Handler
+
+```csharp
+// App.xaml.cs
+public partial class App : Application
+{
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+        
+        // Global exception handler
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        DispatcherUnhandledException += OnDispatcherUnhandledException;
+    }
+    
+    private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var exception = e.ExceptionObject as Exception;
+        Logger.Fatal(exception, "Unhandled exception");
+        
+        MessageBox.Show(
+            "A critical error occurred. Please check the log file.",
+            "Error",
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+    }
+    
+    private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        Logger.Error(e.Exception, "Unhandled dispatcher exception");
+        
+        MessageBox.Show(
+            $"An error occurred: {e.Exception.Message}",
+            "Error",
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+        
+        e.Handled = true; // Prevent application crash
+    }
+}
+```
+
+#### B. Validation Framework
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+public class FirePanel : ViewModelBase, IDataErrorInfo
+{
+    private string _panelName;
+    
+    [Required(ErrorMessage = "Panel name is required")]
+    [StringLength(50, ErrorMessage = "Panel name must be less than 50 characters")]
+    public string PanelName
+    {
+        get => _panelName;
+        set
+        {
+            if (_panelName != value)
+            {
+                _panelName = value;
+                OnPropertyChanged();
+                Validate(nameof(PanelName), value);
+            }
+        }
+    }
+    
+    // IDataErrorInfo implementation
+    public string Error => string.Empty;
+    
+    public string this[string propertyName]
+    {
+        get
+        {
+            var results = new List<ValidationResult>();
+            var property = GetType().GetProperty(propertyName);
+            var value = property.GetValue(this);
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            
+            Validator.TryValidateProperty(value, context, results);
+            
+            return results.FirstOrDefault()?.ErrorMessage;
+        }
+    }
+}
+```
+
+---
+
+## 13. Release Management
+
+### Current Status: ⭐ (Missing)
+
+**Recommendations:**
+
+#### A. Semantic Versioning
+
+Adopt SemVer (MAJOR.MINOR.PATCH):
+- MAJOR: Breaking changes
+- MINOR: New features (backward compatible)
+- PATCH: Bug fixes
+
+Update in `AssemblyInfo.cs`:
+
+```csharp
+[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyFileVersion("1.0.0")]
+[assembly: AssemblyInformationalVersion("1.0.0")]
+```
+
+#### B. Release Checklist
+
+Create `docs/release-checklist.md`:
+
+```markdown
+# Release Checklist
+
+## Pre-Release
+- [ ] All tests passing
+- [ ] Code review completed
+- [ ] CHANGELOG.md updated
+- [ ] Version numbers updated
+- [ ] Documentation updated
+- [ ] Security scan passed
+- [ ] Performance testing completed
+
+## Release
+- [ ] Create release branch
+- [ ] Build release version
+- [ ] Create GitHub release
+- [ ] Tag version in git
+- [ ] Upload binaries
+- [ ] Update release notes
+
+## Post-Release
+- [ ] Merge to main
+- [ ] Announce release
+- [ ] Monitor for issues
+- [ ] Update documentation site
+```
+
+#### C. Automated Releases
+
+Add to `.github/workflows/release.yml`:
+
+```yaml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.7.2'
+    
+    - name: Build Release
+      run: dotnet build --configuration Release
+    
+    - name: Create Installer
+      run: |
+        # Add MSI/installer creation script
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          bin/Release/**/*.exe
+          bin/Release/**/*.msi
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+## 14. Deployment
+
+### Recommendations:
+
+#### A. ClickOnce Deployment
+
+Add to `.csproj`:
+
+```xml
+<PropertyGroup>
+  <IsWebBootstrapper>false</IsWebBootstrapper>
+  <PublishUrl>publish\</PublishUrl>
+  <Install>true</Install>
+  <InstallFrom>Disk</InstallFrom>
+  <UpdateEnabled>true</UpdateEnabled>
+  <UpdateMode>Foreground</UpdateMode>
+  <UpdateInterval>7</UpdateInterval>
+  <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+  <ProductName>BlackBoxControl</ProductName>
+  <PublisherName>baamiis</PublisherName>
+  <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+</PropertyGroup>
+```
+
+#### B. Windows Installer (WiX)
+
+Create installer project using WiX Toolset.
+
+#### C. Portable Version
+
+Create a portable build:
+
+```xml
+<PropertyGroup>
+  <SelfContained>true</SelfContained>
+  <PublishSingleFile>true</PublishSingleFile>
+  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+</PropertyGroup>
+```
+
+---
+
+## 15. Monitoring & Analytics
+
+### Recommendations:
+
+#### A. Application Insights
+
+```bash
+Install-Package Microsoft.ApplicationInsights
+Install-Package Microsoft.ApplicationInsights.WindowsDesktop
+```
+
+#### B. Usage Analytics
+
+```csharp
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+
+public class AnalyticsService
+{
+    private readonly TelemetryClient _telemetry;
+    
+    public AnalyticsService()
+    {
+        _telemetry = new TelemetryClient();
+    }
+    
+    public void TrackEvent(string eventName, Dictionary<string, string> properties = null)
+    {
+        _telemetry.TrackEvent(eventName, properties);
+    }
+    
+    public void TrackException(Exception exception)
+    {
+        _telemetry.TrackException(exception);
+    }
+}
+```
+
+---
+
+## 16. README Improvements
+
+### Current Status: ⭐⭐⭐⭐ (Excellent, minor improvements)
+
+**Recommendations:**
+
+#### A. Add Badges
+
+Add more badges at the top:
+
+```markdown
+[![Build Status](https://github.com/baamiis7/BlackBoxControl/actions/workflows/ci.yml/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions)
+[![Code Coverage](https://codecov.io/gh/baamiis7/BlackBoxControl/branch/main/graph/badge.svg)](https://codecov.io/gh/baamiis7/BlackBoxControl)
+[![CodeQL](https://github.com/baamiis7/BlackBoxControl/workflows/CodeQL/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions?query=workflow%3ACodeQL)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![.NET](https://img.shields.io/badge/.NET%20Framework-4.7.2-purple.svg)](https://dotnet.microsoft.com/download/dotnet-framework/net472)
+[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://www.microsoft.com/windows)
+[![Downloads](https://img.shields.io/github/downloads/baamiis7/BlackBoxControl/total.svg)](https://github.com/baamiis7/BlackBoxControl/releases)
+[![Issues](https://img.shields.io/github/issues/baamiis7/BlackBoxControl.svg)](https://github.com/baamiis7/BlackBoxControl/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/baamiis7/BlackBoxControl.svg)](https://github.com/baamiis7/BlackBoxControl/pulls)
+```
+
+#### B. Add Table of Contents
+
+```markdown
+## Table of Contents
+
+- [Features](#-features)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [Technologies Used](#-technologies-used)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Support](#-support)
+- [Acknowledgments](#-acknowledgments)
+```
+
+#### C. Add Demo GIF/Video
+
+Consider adding an animated demo:
+
+```markdown
+## Demo
+
+![BlackBoxControl Demo](docs/images/demo.gif)
+
+*Watch a quick demo of key features*
+```
+
+#### D. Add FAQ Section
+
+```markdown
+## Frequently Asked Questions
+
+### Can I use this for commercial projects?
+Yes, this project is MIT licensed and can be used commercially.
+
+### What hardware is supported?
+Currently, the system is a simulation. Hardware integration is planned for v1.3.
+
+### How do I report bugs?
+Please create an issue on GitHub with detailed steps to reproduce.
+```
+
+---
+
+## 17. Professional Git Workflow
+
+### Recommended Workflow:
+
+```bash
+# 1. Create feature branch
+git checkout -b feature/add-device-validation
+
+# 2. Make changes and commit
+git add .
+git commit -m "feat(devices): add input validation for device configuration
+
+- Add validation rules for device addresses
+- Implement error messages for invalid inputs
+- Add unit tests for validation logic
+
+Closes #45"
+
+# 3. Push to remote
+git push origin feature/add-device-validation
+
+# 4. Create pull request on GitHub
+
+# 5. After review and approval, merge
+
+# 6. Delete feature branch
+git branch -d feature/add-device-validation
+git push origin --delete feature/add-device-validation
+```
+
+---
+
+## 18. Code Quality Metrics
+
+### Recommended Tools:
+
+#### A. SonarQube / SonarCloud
+
+Add to CI pipeline for:
+- Code smells detection
+- Security vulnerabilities
+- Code duplication
+- Technical debt calculation
+
+#### B. Code Metrics Power Tool
+
+Use Visual Studio Code Metrics:
+- Maintainability Index
+- Cyclomatic Complexity
+- Depth of Inheritance
+- Lines of Code
+
+Target metrics:
+- Maintainability Index: > 80
+- Cyclomatic Complexity: < 10 per method
+- Class Coupling: < 15
+
+---
+
+## 19. User Experience
+
+### Recommendations:
+
+#### A. Add Application Icon
+
+Create a professional app icon:
+- 16x16, 32x32, 48x48, 256x256 sizes
+- Professional design
+- Matches fire safety theme
+
+#### B. Installer/Setup Experience
+
+- Custom installer wizard
+- License agreement screen
+- Installation location choice
+- Desktop shortcut option
+- Start menu entry
+
+#### C. First-Run Experience
+
+```csharp
+// Show welcome screen on first run
+if (Settings.Default.IsFirstRun)
+{
+    var welcomeWindow = new WelcomeWindow();
+    welcomeWindow.ShowDialog();
+    Settings.Default.IsFirstRun = false;
+    Settings.Default.Save();
+}
+```
+
+#### D. Crash Recovery
+
+```csharp
+// Auto-save feature
+private DispatcherTimer _autoSaveTimer;
+
+private void InitializeAutoSave()
+{
+    _autoSaveTimer = new DispatcherTimer();
+    _autoSaveTimer.Interval = TimeSpan.FromMinutes(5);
+    _autoSaveTimer.Tick += (s, e) => AutoSave();
+    _autoSaveTimer.Start();
+}
+
+private void AutoSave()
+{
+    try
+    {
+        var autoSavePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "BlackBoxControl", "AutoSave", "project_autosave.kbb");
+        
+        ProjectService.SaveProject(CurrentProject, autoSavePath);
+        Logger.Debug("Auto-save completed");
+    }
+    catch (Exception ex)
+    {
+        Logger.Error(ex, "Auto-save failed");
+    }
+}
+```
+
+---
+
+## 20. Accessibility
+
+### Recommendations:
+
+#### A. Keyboard Navigation
+
+```xaml
+<!-- Ensure all interactive elements have TabIndex -->
+<Button Content="Save" TabIndex="0" />
+<TextBox Text="{Binding PanelName}" TabIndex="1" />
+
+<!-- Add keyboard shortcuts -->
+<MenuItem Header="_File">
+    <MenuItem Header="_New" InputGestureText="Ctrl+N" Command="{Binding NewCommand}" />
+    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="{Binding OpenCommand}" />
+    <MenuItem Header="_Save" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
+</MenuItem>
+```
+
+#### B. High Contrast Theme Support
+
+```csharp
+// Detect high contrast mode
+if (SystemParameters.HighContrast)
+{
+    // Apply high contrast theme
+    Application.Current.Resources.MergedDictionaries.Add(
+        new ResourceDictionary 
+        { 
+            Source = new Uri("Themes/HighContrast.xaml", UriKind.Relative) 
+        });
+}
+```
+
+#### C. Screen Reader Support
+
+```xaml
+<!-- Add AutomationProperties -->
+<Button Content="Add Device" 
+        AutomationProperties.Name="Add Device Button"
+        AutomationProperties.HelpText="Adds a new device to the selected loop" />
+```
+
+---
+
+## Implementation Priority
+
+### Phase 1: Critical (Week 1-2)
+1. ✅ Add testing infrastructure
+2. ✅ Setup CI/CD pipeline
+3. ✅ Add .editorconfig and StyleCop
+4. ✅ Implement logging
+5. ✅ Add CONTRIBUTING.md and CODE_OF_CONDUCT.md
+
+### Phase 2: High Priority (Week 3-4)
+1. ✅ Branch protection rules
+2. ✅ Issue/PR templates
+3. ✅ Security scanning (CodeQL)
+4. ✅ Dependency management (Dependabot)
+5. ✅ Code documentation (XML comments)
+
+### Phase 3: Medium Priority (Week 5-6)
+1. ✅ Comprehensive unit tests (70%+ coverage)
+2. ✅ Performance optimization
+3. ✅ Error handling improvements
+4. ✅ Release automation
+5. ✅ Documentation expansion
+
+### Phase 4: Nice to Have (Ongoing)
+1. ✅ Analytics/telemetry
+2. ✅ Accessibility improvements
+3. ✅ Advanced installer
+4. ✅ Hardware integration
+5. ✅ Mobile app
+
+---
+
+## Conclusion
+
+Your **BlackBoxControl** project has a solid foundation with good structure and comprehensive features. By implementing these recommendations, you will:
+
+✅ **Increase Code Quality** - Through testing, linting, and code reviews
+✅ **Improve Maintainability** - With documentation and consistent patterns
+✅ **Enhance Reliability** - Via CI/CD and automated testing
+✅ **Boost Productivity** - Through automation and tooling
+✅ **Professional Standards** - Meeting industry best practices
+
+### Next Steps
+
+1. **Immediate**: Implement Phase 1 critical items
+2. **This Week**: Setup CI/CD and testing
+3. **This Month**: Complete Phase 2 and 3
+4. **Ongoing**: Maintain code quality and respond to issues
+
+### Resources
+
+- [Microsoft C# Coding Conventions](https://docs.microsoft.com/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
+- [WPF Best Practices](https://docs.microsoft.com/dotnet/desktop/wpf/advanced/wpf-best-practices)
+- [GitHub Flow](https://guides.github.com/introduction/flow/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [SemVer](https://semver.org/)
+
+Good luck with your project! 🚀
+EOF
+cat /tmp/analysis.md
+
+Output
+# BlackBoxControl - Professional Best Practices Analysis & Recommendations
+
+## Executive Summary
+
+Your **BlackBoxControl** project is a WPF-based fire panel simulation and configuration system. Based on the repository structure and README, this analysis provides comprehensive recommendations to elevate the project to professional standards.
+
+**Current Strengths:**
+✅ Good project structure (MVVM pattern)
+✅ Comprehensive README with clear documentation
+✅ MIT License included
+✅ Organized folder structure
+✅ Feature-rich application
+
+**Priority Improvements Needed:**
+⚠️ Missing CI/CD pipeline
+⚠️ No automated testing
+⚠️ No contribution guidelines
+⚠️ Missing code documentation
+⚠️ No dependency management best practices
+⚠️ Limited version control practices
+
+---
+
+## 1. Project Structure & Organization
+
+### Current Status: ⭐⭐⭐ (Good)
+
+**Strengths:**
+- Well-organized MVVM structure
+- Logical separation of concerns (Models, ViewModels, Views, Services)
+- Clean folder hierarchy
+
+**Recommendations:**
+
+#### A. Add Missing Standard Files
+
+Create these files in your root directory:
+
+**CONTRIBUTING.md**
+```markdown
+# Contributing to BlackBoxControl
+
+We welcome contributions! Please follow these guidelines.
+
+## How to Contribute
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Code Standards
+
+- Follow C# naming conventions
+- Use MVVM pattern consistently
+- Add XML documentation to public methods
+- Write unit tests for new features
+- Keep methods under 50 lines
+
+## Commit Message Format
+
+```
+type(scope): subject
+
+body
+
+footer
+```
+
+Types: feat, fix, docs, style, refactor, test, chore
+```
+
+**CODE_OF_CONDUCT.md**
+```markdown
+# Code of Conduct
+
+## Our Pledge
+
+We pledge to make participation in our project a harassment-free experience for everyone.
+
+## Our Standards
+
+Examples of behavior that contributes to a positive environment:
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+
+## Enforcement
+
+Instances of abusive behavior may be reported to baamiis7@gmail.com
+```
+
+**CHANGELOG.md**
+```markdown
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### Added
+- Initial release of BlackBoxControl
+
+## [1.0.0] - 2025-01-20
+
+### Added
+- Fire panel management
+- Loop and device management
+- Bus configuration
+- Cause & Effect programming
+- Project save/load functionality
+```
+
+#### B. Restructure Project Root
+
+Current structure seems to have many files in root. Recommend:
+
+```
+BlackBoxControl/
+├── .github/                    # GitHub specific files
+│   ├── workflows/              # CI/CD workflows
+│   ├── ISSUE_TEMPLATE/         # Issue templates
+│   └── PULL_REQUEST_TEMPLATE.md
+├── docs/                       # Documentation
+│   ├── architecture.md
+│   ├── api-reference.md
+│   └── user-guide.md
+├── src/                        # Source code
+│   ├── BlackBoxControl/        # Main project
+│   │   ├── Models/
+│   │   ├── ViewModels/
+│   │   ├── Views/
+│   │   ├── Services/
+│   │   ├── Helpers/
+│   │   ├── Resources/
+│   │   └── App.xaml
+│   └── BlackBoxControl.Tests/  # Unit tests
+├── assets/                     # Static assets
+│   ├── images/
+│   └── icons/
+├── samples/                    # Sample projects
+├── .gitignore
+├── .editorconfig               # Code style config
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 2. Code Quality & Standards
+
+### Current Status: ⭐⭐ (Needs Improvement)
+
+**Recommendations:**
+
+#### A. Add .editorconfig File
+
+Create `.editorconfig` in root:
+
+```ini
+# EditorConfig is awesome: https://EditorConfig.org
+
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# XML files
+[*.{xml,xaml,csproj,props,targets}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
+
+# C# files
+[*.cs]
+
+# Naming conventions
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = begins_with_i
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# Code style rules
+csharp_prefer_braces = true:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:warning
+
+# Code quality
+dotnet_code_quality_unused_parameters = all:warning
+```
+
+#### B. Add StyleCop Analyzers
+
+Add to your `.csproj` file:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+    <PrivateAssets>all</PrivateAssets>
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
+</ItemGroup>
+```
+
+#### C. XML Documentation
+
+Add XML documentation to all public members:
+
+```csharp
+/// <summary>
+/// Represents a fire panel with multiple loops and buses.
+/// </summary>
+public class FirePanel : ViewModelBase
+{
+    /// <summary>
+    /// Gets or sets the name of the fire panel.
+    /// </summary>
+    /// <value>The panel name as a string.</value>
+    public string PanelName { get; set; }
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FirePanel"/> class.
+    /// </summary>
+    public FirePanel()
+    {
+        // Implementation
+    }
+}
+```
+
+Enable XML documentation generation in `.csproj`:
+
+```xml
+<PropertyGroup>
+  <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+</PropertyGroup>
+```
+
+---
+
+## 3. Testing Infrastructure
+
+### Current Status: ⭐ (Missing)
+
+**Critical Priority:** Add comprehensive testing.
+
+#### A. Create Test Project
+
+```bash
+dotnet new xunit -n BlackBoxControl.Tests
+dotnet add BlackBoxControl.Tests reference BlackBoxControl
+```
+
+#### B. Add Testing Packages
+
+```xml
+<ItemGroup>
+  <PackageReference Include="xunit" Version="2.6.3" />
+  <PackageReference Include="xunit.runner.visualstudio" Version="2.5.5" />
+  <PackageReference Include="Moq" Version="4.20.70" />
+  <PackageReference Include="FluentAssertions" Version="6.12.0" />
+  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+</ItemGroup>
+```
+
+#### C. Example Test Structure
+
+```csharp
+using Xunit;
+using FluentAssertions;
+using Moq;
+
+namespace BlackBoxControl.Tests.ViewModels
+{
+    public class FirePanelViewModelTests
+    {
+        [Fact]
+        public void Constructor_ShouldInitializeWithDefaults()
+        {
+            // Arrange & Act
+            var viewModel = new FirePanelViewModel();
+            
+            // Assert
+            viewModel.Should().NotBeNull();
+            viewModel.Loops.Should().NotBeNull();
+            viewModel.Loops.Should().BeEmpty();
+        }
+        
+        [Theory]
+        [InlineData("Panel 1")]
+        [InlineData("Fire Panel A")]
+        public void PanelName_WhenSet_ShouldRaisePropertyChanged(string name)
+        {
+            // Arrange
+            var viewModel = new FirePanelViewModel();
+            bool propertyChanged = false;
+            viewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(FirePanelViewModel.PanelName))
+                    propertyChanged = true;
+            };
+            
+            // Act
+            viewModel.PanelName = name;
+            
+            // Assert
+            propertyChanged.Should().BeTrue();
+            viewModel.PanelName.Should().Be(name);
+        }
+    }
+}
+```
+
+#### D. Test Coverage Goals
+
+- **Unit Tests:** Aim for 70%+ code coverage
+- **Integration Tests:** Critical workflows
+- **UI Tests:** Consider adding Coded UI tests for WPF
+
+---
+
+## 4. CI/CD Pipeline
+
+### Current Status: ⭐ (Missing)
+
+**High Priority:** Automate build, test, and deployment.
+
+#### A. GitHub Actions Workflow
+
+Create `.github/workflows/ci.yml`:
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.7.2'
+    
+    - name: Restore NuGet packages
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.cobertura.xml
+        flags: unittests
+    
+    - name: Create artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: BlackBoxControl-${{ github.sha }}
+        path: |
+          bin/Release/
+          !bin/Release/**/*.pdb
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+```
+
+#### B. Add Build Badges to README
+
+Add at the top of README.md:
+
+```markdown
+[![Build Status](https://github.com/baamiis7/BlackBoxControl/actions/workflows/ci.yml/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions)
+[![Code Coverage](https://codecov.io/gh/baamiis7/BlackBoxControl/branch/main/graph/badge.svg)](https://codecov.io/gh/baamiis7/BlackBoxControl)
+[![CodeQL](https://github.com/baamiis7/BlackBoxControl/workflows/CodeQL/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions?query=workflow%3ACodeQL)
+```
+
+---
+
+## 5. Dependency Management
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Update packages.config to PackageReference
+
+Modern .NET projects use PackageReference format in `.csproj`:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  <!-- Add other packages here -->
+</ItemGroup>
+```
+
+#### B. Add Dependency Security Scanning
+
+Create `.github/workflows/dependency-review.yml`:
+
+```yaml
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+      
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v3
+```
+
+#### C. Add Dependabot
+
+Create `.github/dependabot.yml`:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "automated"
+```
+
+---
+
+## 6. Version Control Best Practices
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Improve .gitignore
+
+Your current .gitignore is good. Ensure it includes:
+
+```gitignore
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+packages/
+*.nupkg
+*.snupkg
+
+## Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## JetBrains Rider
+.idea/
+*.sln.iml
+
+## User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## VS Code
+.vscode/
+```
+
+#### B. Add .gitattributes
+
+Create `.gitattributes`:
+
+```gitattributes
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Source code
+*.cs text diff=csharp
+*.xaml text
+*.xml text
+*.json text
+*.config text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.ico binary
+*.dll binary
+*.exe binary
+```
+
+#### C. Implement Git Flow or GitHub Flow
+
+**Recommended: GitHub Flow (simpler)**
+
+Branches:
+- `main` - Production-ready code
+- `develop` - Integration branch
+- `feature/*` - Feature branches
+- `hotfix/*` - Emergency fixes
+- `release/*` - Release preparation
+
+#### D. Branch Protection Rules
+
+In GitHub Settings → Branches:
+- ✅ Require pull request reviews (1-2 reviewers)
+- ✅ Require status checks to pass
+- ✅ Require conversation resolution
+- ✅ Require linear history
+- ✅ Do not allow force pushes
+
+#### E. Commit Message Convention
+
+Adopt Conventional Commits:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+Types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting)
+- `refactor`: Code refactoring
+- `test`: Adding tests
+- `chore`: Maintenance tasks
+
+Example:
+```
+feat(loops): add device auto-address assignment
+
+- Automatically assign addresses to new devices
+- Validate address uniqueness within loop
+- Update UI to show assigned addresses
+
+Closes #123
+```
+
+---
+
+## 7. Documentation
+
+### Current Status: ⭐⭐⭐ (Good README, needs more)
+
+**Recommendations:**
+
+#### A. Create docs/ Directory
+
+```
+docs/
+├── architecture.md          # System architecture
+├── api-reference.md         # API documentation
+├── user-guide.md            # End-user guide
+├── developer-guide.md       # Developer setup
+├── deployment.md            # Deployment instructions
+├── troubleshooting.md       # Common issues
+└── images/                  # Documentation images
+    ├── architecture-diagram.png
+    └── ui-screenshots/
+```
+
+#### B. Architecture Documentation
+
+Create `docs/architecture.md`:
+
+```markdown
+# BlackBoxControl Architecture
+
+## Overview
+
+BlackBoxControl follows the MVVM (Model-View-ViewModel) pattern.
+
+## Architecture Diagram
+
+```
+┌─────────────┐     ┌──────────────┐     ┌────────────┐
+│             │     │              │     │            │
+│    View     │────▶│  ViewModel   │────▶│   Model    │
+│   (XAML)    │     │   (Logic)    │     │   (Data)   │
+│             │◀────│              │◀────│            │
+└─────────────┘     └──────────────┘     └────────────┘
+       │                    │                    │
+       │                    │                    │
+       ▼                    ▼                    ▼
+  User Input         Data Binding           Services
+```
+
+## Layer Responsibilities
+
+### View Layer (XAML)
+- User interface
+- Data templates
+- Styling and themes
+- User interactions
+
+### ViewModel Layer
+- Presentation logic
+- Command handling
+- Data transformation
+- State management
+
+### Model Layer
+- Domain objects
+- Business rules
+- Data validation
+- Persistence
+
+### Services Layer
+- File I/O
+- Serial communication
+- API integration
+- External dependencies
+
+## Key Design Patterns
+
+### MVVM Pattern
+- Separation of concerns
+- Testability
+- Data binding
+
+### Command Pattern
+- RelayCommand implementation
+- Decouples UI from logic
+
+### Repository Pattern (Recommended)
+- Abstract data access
+- Enable unit testing
+
+### Observer Pattern
+- INotifyPropertyChanged
+- Event-driven updates
+```
+
+#### C. API Reference
+
+Generate API docs using DocFX or Sandcastle:
+
+```bash
+# Install DocFX
+dotnet tool install -g docfx
+
+# Generate docs
+docfx init -q
+docfx docfx.json --serve
+```
+
+#### D. Add Inline Code Comments
+
+Best practices for comments:
+
+```csharp
+// ❌ BAD: Obvious comment
+// Set the name
+panelName = "Panel 1";
+
+// ✅ GOOD: Explains "why"
+// Initialize with default name to prevent null reference in UI
+panelName = "Panel 1";
+
+// ✅ GOOD: Complex logic explanation
+/// <summary>
+/// Calculates device address based on loop position and sub-address offset.
+/// Address format: [Loop ID][Position][Sub-Address]
+/// Example: Loop 1, Position 5, Sub-Address 2 = 152
+/// </summary>
+private int CalculateDeviceAddress(int loopId, int position, int subAddress)
+{
+    // Implementation
+}
+```
+
+---
+
+## 8. Code Reviews & Quality Gates
+
+### Current Status: ⭐ (Missing)
+
+**Recommendations:**
+
+#### A. Pull Request Template
+
+Create `.github/PULL_REQUEST_TEMPLATE.md`:
+
+```markdown
+## Description
+<!-- Describe your changes in detail -->
+
+## Type of Change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+
+## Testing
+<!-- Describe the tests you ran -->
+- [ ] Unit tests pass locally
+- [ ] Integration tests pass locally
+- [ ] Manual testing performed
+
+## Checklist
+- [ ] My code follows the project's code style
+- [ ] I have performed a self-review
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+
+## Screenshots (if applicable)
+<!-- Add screenshots to help explain your changes -->
+
+## Related Issues
+<!-- Link related issues: Closes #123, Fixes #456 -->
+```
+
+#### B. Issue Templates
+
+Create `.github/ISSUE_TEMPLATE/bug_report.md`:
+
+```markdown
+---
+name: Bug Report
+about: Create a report to help us improve
+title: '[BUG] '
+labels: bug
+assignees: ''
+---
+
+## Bug Description
+A clear and concise description of what the bug is.
+
+## To Reproduce
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '...'
+3. See error
+
+## Expected Behavior
+What you expected to happen.
+
+## Screenshots
+If applicable, add screenshots.
+
+## Environment
+- OS: [e.g., Windows 11]
+- .NET Framework Version: [e.g., 4.7.2]
+- Application Version: [e.g., 1.0.0]
+
+## Additional Context
+Add any other context about the problem.
+```
+
+#### C. Code Review Checklist
+
+Document in `CONTRIBUTING.md`:
+
+```markdown
+## Code Review Checklist
+
+### Functionality
+- [ ] Code works as intended
+- [ ] Edge cases are handled
+- [ ] Error handling is appropriate
+
+### Code Quality
+- [ ] Follows coding standards
+- [ ] No code duplication
+- [ ] Functions are small and focused
+- [ ] Variables and functions have meaningful names
+
+### Testing
+- [ ] Unit tests are present and passing
+- [ ] Test coverage is adequate
+- [ ] Tests are meaningful
+
+### Documentation
+- [ ] XML documentation on public members
+- [ ] README updated if needed
+- [ ] Complex logic is explained
+
+### Performance
+- [ ] No obvious performance issues
+- [ ] Resources are properly disposed
+- [ ] Async/await used appropriately
+```
+
+---
+
+## 9. Security Best Practices
+
+### Current Status: ⭐⭐ (Basic)
+
+**Recommendations:**
+
+#### A. Add CodeQL Security Scanning
+
+Create `.github/workflows/codeql.yml`:
+
+```yaml
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly scan
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: windows-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'csharp' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+```
+
+#### B. Security Checklist
+
+- ✅ Validate all user inputs
+- ✅ Use parameterized queries (if database is added)
+- ✅ Secure API endpoints with authentication
+- ✅ Never hardcode credentials
+- ✅ Use HTTPS for all network communication
+- ✅ Implement proper error handling without exposing sensitive info
+- ✅ Keep dependencies updated
+- ✅ Enable .NET security features
+
+#### C. Add SECURITY.md
+
+Create `SECURITY.md`:
+
+```markdown
+# Security Policy
+
+## Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0.x   | :white_check_mark: |
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability, please email baamiis7@gmail.com with:
+
+- Description of the vulnerability
+- Steps to reproduce
+- Possible impact
+- Suggested fix (if any)
+
+We will respond within 48 hours and provide updates regularly.
+
+## Security Best Practices
+
+When using BlackBoxControl:
+- Keep the application updated
+- Don't share .kbb project files containing sensitive data
+- Use strong authentication for API integrations
+- Review cause & effect rules before enabling
+```
+
+---
+
+## 10. Performance & Optimization
+
+### Recommendations:
+
+#### A. Implement Lazy Loading
+
+```csharp
+// ViewModels
+private ObservableCollection<LoopDevice> _devices;
+public ObservableCollection<LoopDevice> Devices
+{
+    get
+    {
+        if (_devices == null)
+        {
+            _devices = new ObservableCollection<LoopDevice>();
+            LoadDevicesAsync(); // Load on demand
+        }
+        return _devices;
+    }
+}
+```
+
+#### B. Use Async/Await for I/O Operations
+
+```csharp
+// ProjectService
+public async Task<ProjectData> LoadProjectAsync(string filePath)
+{
+    using (var reader = new StreamReader(filePath))
+    {
+        string json = await reader.ReadToEndAsync();
+        return JsonConvert.DeserializeObject<ProjectData>(json);
+    }
+}
+```
+
+#### C. Implement Caching
+
+```csharp
+// Cache device configurations
+private static readonly Dictionary<string, DeviceConfiguration> ConfigCache 
+    = new Dictionary<string, DeviceConfiguration>();
+
+public DeviceConfiguration GetDeviceConfig(string deviceType)
+{
+    if (!ConfigCache.ContainsKey(deviceType))
+    {
+        ConfigCache[deviceType] = LoadDeviceConfig(deviceType);
+    }
+    return ConfigCache[deviceType];
+}
+```
+
+#### D. Optimize XAML Binding
+
+```xaml
+<!-- Use OneTime for static data -->
+<TextBlock Text="{Binding DeviceType, Mode=OneTime}" />
+
+<!-- Use OneWay for read-only data -->
+<TextBlock Text="{Binding DeviceStatus, Mode=OneWay}" />
+
+<!-- Enable virtualization for large lists -->
+<ListBox VirtualizingPanel.IsVirtualizing="True"
+         VirtualizingPanel.VirtualizationMode="Recycling">
+```
+
+---
+
+## 11. Logging & Diagnostics
+
+### Current Status: ⭐ (Missing)
+
+**High Priority:** Add comprehensive logging.
+
+#### A. Add Logging Framework
+
+Install NLog or Serilog:
+
+```bash
+Install-Package NLog
+Install-Package NLog.Config
+```
+
+#### B. Configure NLog
+
+Create `NLog.config`:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <targets>
+    <!-- File target -->
+    <target name="logfile" 
+            xsi:type="File" 
+            fileName="${basedir}/logs/${shortdate}.log"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}${onexception:${newline}${exception:format=tostring}}" />
+    
+    <!-- Console target -->
+    <target name="console" 
+            xsi:type="Console" 
+            layout="${time}|${level:uppercase=true}|${message}" />
+  </targets>
+
+  <rules>
+    <logger name="*" minlevel="Debug" writeTo="logfile" />
+    <logger name="*" minlevel="Info" writeTo="console" />
+  </rules>
+</nlog>
+```
+
+#### C. Use Logging in Code
+
+```csharp
+using NLog;
+
+public class FirePanelViewModel : ViewModelBase
+{
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    
+    public void SavePanel()
+    {
+        try
+        {
+            Logger.Info("Saving fire panel: {0}", PanelName);
+            
+            // Save logic
+            
+            Logger.Info("Fire panel saved successfully");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to save fire panel: {0}", PanelName);
+            throw;
+        }
+    }
+}
+```
+
+---
+
+## 12. Error Handling
+
+### Recommendations:
+
+#### A. Global Exception Handler
+
+```csharp
+// App.xaml.cs
+public partial class App : Application
+{
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+        
+        // Global exception handler
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        DispatcherUnhandledException += OnDispatcherUnhandledException;
+    }
+    
+    private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var exception = e.ExceptionObject as Exception;
+        Logger.Fatal(exception, "Unhandled exception");
+        
+        MessageBox.Show(
+            "A critical error occurred. Please check the log file.",
+            "Error",
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+    }
+    
+    private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        Logger.Error(e.Exception, "Unhandled dispatcher exception");
+        
+        MessageBox.Show(
+            $"An error occurred: {e.Exception.Message}",
+            "Error",
+            MessageBoxButton.OK,
+            MessageBoxImage.Error);
+        
+        e.Handled = true; // Prevent application crash
+    }
+}
+```
+
+#### B. Validation Framework
+
+```csharp
+using System.ComponentModel.DataAnnotations;
+
+public class FirePanel : ViewModelBase, IDataErrorInfo
+{
+    private string _panelName;
+    
+    [Required(ErrorMessage = "Panel name is required")]
+    [StringLength(50, ErrorMessage = "Panel name must be less than 50 characters")]
+    public string PanelName
+    {
+        get => _panelName;
+        set
+        {
+            if (_panelName != value)
+            {
+                _panelName = value;
+                OnPropertyChanged();
+                Validate(nameof(PanelName), value);
+            }
+        }
+    }
+    
+    // IDataErrorInfo implementation
+    public string Error => string.Empty;
+    
+    public string this[string propertyName]
+    {
+        get
+        {
+            var results = new List<ValidationResult>();
+            var property = GetType().GetProperty(propertyName);
+            var value = property.GetValue(this);
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            
+            Validator.TryValidateProperty(value, context, results);
+            
+            return results.FirstOrDefault()?.ErrorMessage;
+        }
+    }
+}
+```
+
+---
+
+## 13. Release Management
+
+### Current Status: ⭐ (Missing)
+
+**Recommendations:**
+
+#### A. Semantic Versioning
+
+Adopt SemVer (MAJOR.MINOR.PATCH):
+- MAJOR: Breaking changes
+- MINOR: New features (backward compatible)
+- PATCH: Bug fixes
+
+Update in `AssemblyInfo.cs`:
+
+```csharp
+[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyFileVersion("1.0.0")]
+[assembly: AssemblyInformationalVersion("1.0.0")]
+```
+
+#### B. Release Checklist
+
+Create `docs/release-checklist.md`:
+
+```markdown
+# Release Checklist
+
+## Pre-Release
+- [ ] All tests passing
+- [ ] Code review completed
+- [ ] CHANGELOG.md updated
+- [ ] Version numbers updated
+- [ ] Documentation updated
+- [ ] Security scan passed
+- [ ] Performance testing completed
+
+## Release
+- [ ] Create release branch
+- [ ] Build release version
+- [ ] Create GitHub release
+- [ ] Tag version in git
+- [ ] Upload binaries
+- [ ] Update release notes
+
+## Post-Release
+- [ ] Merge to main
+- [ ] Announce release
+- [ ] Monitor for issues
+- [ ] Update documentation site
+```
+
+#### C. Automated Releases
+
+Add to `.github/workflows/release.yml`:
+
+```yaml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.7.2'
+    
+    - name: Build Release
+      run: dotnet build --configuration Release
+    
+    - name: Create Installer
+      run: |
+        # Add MSI/installer creation script
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          bin/Release/**/*.exe
+          bin/Release/**/*.msi
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+## 14. Deployment
+
+### Recommendations:
+
+#### A. ClickOnce Deployment
+
+Add to `.csproj`:
+
+```xml
+<PropertyGroup>
+  <IsWebBootstrapper>false</IsWebBootstrapper>
+  <PublishUrl>publish\</PublishUrl>
+  <Install>true</Install>
+  <InstallFrom>Disk</InstallFrom>
+  <UpdateEnabled>true</UpdateEnabled>
+  <UpdateMode>Foreground</UpdateMode>
+  <UpdateInterval>7</UpdateInterval>
+  <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+  <ProductName>BlackBoxControl</ProductName>
+  <PublisherName>baamiis</PublisherName>
+  <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+</PropertyGroup>
+```
+
+#### B. Windows Installer (WiX)
+
+Create installer project using WiX Toolset.
+
+#### C. Portable Version
+
+Create a portable build:
+
+```xml
+<PropertyGroup>
+  <SelfContained>true</SelfContained>
+  <PublishSingleFile>true</PublishSingleFile>
+  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+</PropertyGroup>
+```
+
+---
+
+## 15. Monitoring & Analytics
+
+### Recommendations:
+
+#### A. Application Insights
+
+```bash
+Install-Package Microsoft.ApplicationInsights
+Install-Package Microsoft.ApplicationInsights.WindowsDesktop
+```
+
+#### B. Usage Analytics
+
+```csharp
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+
+public class AnalyticsService
+{
+    private readonly TelemetryClient _telemetry;
+    
+    public AnalyticsService()
+    {
+        _telemetry = new TelemetryClient();
+    }
+    
+    public void TrackEvent(string eventName, Dictionary<string, string> properties = null)
+    {
+        _telemetry.TrackEvent(eventName, properties);
+    }
+    
+    public void TrackException(Exception exception)
+    {
+        _telemetry.TrackException(exception);
+    }
+}
+```
+
+---
+
+## 16. README Improvements
+
+### Current Status: ⭐⭐⭐⭐ (Excellent, minor improvements)
+
+**Recommendations:**
+
+#### A. Add Badges
+
+Add more badges at the top:
+
+```markdown
+[![Build Status](https://github.com/baamiis7/BlackBoxControl/actions/workflows/ci.yml/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions)
+[![Code Coverage](https://codecov.io/gh/baamiis7/BlackBoxControl/branch/main/graph/badge.svg)](https://codecov.io/gh/baamiis7/BlackBoxControl)
+[![CodeQL](https://github.com/baamiis7/BlackBoxControl/workflows/CodeQL/badge.svg)](https://github.com/baamiis7/BlackBoxControl/actions?query=workflow%3ACodeQL)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![.NET](https://img.shields.io/badge/.NET%20Framework-4.7.2-purple.svg)](https://dotnet.microsoft.com/download/dotnet-framework/net472)
+[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://www.microsoft.com/windows)
+[![Downloads](https://img.shields.io/github/downloads/baamiis7/BlackBoxControl/total.svg)](https://github.com/baamiis7/BlackBoxControl/releases)
+[![Issues](https://img.shields.io/github/issues/baamiis7/BlackBoxControl.svg)](https://github.com/baamiis7/BlackBoxControl/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/baamiis7/BlackBoxControl.svg)](https://github.com/baamiis7/BlackBoxControl/pulls)
+```
+
+#### B. Add Table of Contents
+
+```markdown
+## Table of Contents
+
+- [Features](#-features)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [Technologies Used](#-technologies-used)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Support](#-support)
+- [Acknowledgments](#-acknowledgments)
+```
+
+#### C. Add Demo GIF/Video
+
+Consider adding an animated demo:
+
+```markdown
+## Demo
+
+![BlackBoxControl Demo](docs/images/demo.gif)
+
+*Watch a quick demo of key features*
+```
+
+#### D. Add FAQ Section
+
+```markdown
+## Frequently Asked Questions
+
+### Can I use this for commercial projects?
+Yes, this project is MIT licensed and can be used commercially.
+
+### What hardware is supported?
+Currently, the system is a simulation. Hardware integration is planned for v1.3.
+
+### How do I report bugs?
+Please create an issue on GitHub with detailed steps to reproduce.
+```
+
+---
+
+## 17. Professional Git Workflow
+
+### Recommended Workflow:
+
+```bash
+# 1. Create feature branch
+git checkout -b feature/add-device-validation
+
+# 2. Make changes and commit
+git add .
+git commit -m "feat(devices): add input validation for device configuration
+
+- Add validation rules for device addresses
+- Implement error messages for invalid inputs
+- Add unit tests for validation logic
+
+Closes #45"
+
+# 3. Push to remote
+git push origin feature/add-device-validation
+
+# 4. Create pull request on GitHub
+
+# 5. After review and approval, merge
+
+# 6. Delete feature branch
+git branch -d feature/add-device-validation
+git push origin --delete feature/add-device-validation
+```
+
+---
+
+## 18. Code Quality Metrics
+
+### Recommended Tools:
+
+#### A. SonarQube / SonarCloud
+
+Add to CI pipeline for:
+- Code smells detection
+- Security vulnerabilities
+- Code duplication
+- Technical debt calculation
+
+#### B. Code Metrics Power Tool
+
+Use Visual Studio Code Metrics:
+- Maintainability Index
+- Cyclomatic Complexity
+- Depth of Inheritance
+- Lines of Code
+
+Target metrics:
+- Maintainability Index: > 80
+- Cyclomatic Complexity: < 10 per method
+- Class Coupling: < 15
+
+---
+
+## 19. User Experience
+
+### Recommendations:
+
+#### A. Add Application Icon
+
+Create a professional app icon:
+- 16x16, 32x32, 48x48, 256x256 sizes
+- Professional design
+- Matches fire safety theme
+
+#### B. Installer/Setup Experience
+
+- Custom installer wizard
+- License agreement screen
+- Installation location choice
+- Desktop shortcut option
+- Start menu entry
+
+#### C. First-Run Experience
+
+```csharp
+// Show welcome screen on first run
+if (Settings.Default.IsFirstRun)
+{
+    var welcomeWindow = new WelcomeWindow();
+    welcomeWindow.ShowDialog();
+    Settings.Default.IsFirstRun = false;
+    Settings.Default.Save();
+}
+```
+
+#### D. Crash Recovery
+
+```csharp
+// Auto-save feature
+private DispatcherTimer _autoSaveTimer;
+
+private void InitializeAutoSave()
+{
+    _autoSaveTimer = new DispatcherTimer();
+    _autoSaveTimer.Interval = TimeSpan.FromMinutes(5);
+    _autoSaveTimer.Tick += (s, e) => AutoSave();
+    _autoSaveTimer.Start();
+}
+
+private void AutoSave()
+{
+    try
+    {
+        var autoSavePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "BlackBoxControl", "AutoSave", "project_autosave.kbb");
+        
+        ProjectService.SaveProject(CurrentProject, autoSavePath);
+        Logger.Debug("Auto-save completed");
+    }
+    catch (Exception ex)
+    {
+        Logger.Error(ex, "Auto-save failed");
+    }
+}
+```
+
+---
+
+## 20. Accessibility
+
+### Recommendations:
+
+#### A. Keyboard Navigation
+
+```xaml
+<!-- Ensure all interactive elements have TabIndex -->
+<Button Content="Save" TabIndex="0" />
+<TextBox Text="{Binding PanelName}" TabIndex="1" />
+
+<!-- Add keyboard shortcuts -->
+<MenuItem Header="_File">
+    <MenuItem Header="_New" InputGestureText="Ctrl+N" Command="{Binding NewCommand}" />
+    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="{Binding OpenCommand}" />
+    <MenuItem Header="_Save" InputGestureText="Ctrl+S" Command="{Binding SaveCommand}" />
+</MenuItem>
+```
+
+#### B. High Contrast Theme Support
+
+```csharp
+// Detect high contrast mode
+if (SystemParameters.HighContrast)
+{
+    // Apply high contrast theme
+    Application.Current.Resources.MergedDictionaries.Add(
+        new ResourceDictionary 
+        { 
+            Source = new Uri("Themes/HighContrast.xaml", UriKind.Relative) 
+        });
+}
+```
+
+#### C. Screen Reader Support
+
+```xaml
+<!-- Add AutomationProperties -->
+<Button Content="Add Device" 
+        AutomationProperties.Name="Add Device Button"
+        AutomationProperties.HelpText="Adds a new device to the selected loop" />
+```
+
+---
+
+## Implementation Priority
+
+### Phase 1: Critical (Week 1-2)
+1. ✅ Add testing infrastructure
+2. ✅ Setup CI/CD pipeline
+3. ✅ Add .editorconfig and StyleCop
+4. ✅ Implement logging
+5. ✅ Add CONTRIBUTING.md and CODE_OF_CONDUCT.md
+
+### Phase 2: High Priority (Week 3-4)
+1. ✅ Branch protection rules
+2. ✅ Issue/PR templates
+3. ✅ Security scanning (CodeQL)
+4. ✅ Dependency management (Dependabot)
+5. ✅ Code documentation (XML comments)
+
+### Phase 3: Medium Priority (Week 5-6)
+1. ✅ Comprehensive unit tests (70%+ coverage)
+2. ✅ Performance optimization
+3. ✅ Error handling improvements
+4. ✅ Release automation
+5. ✅ Documentation expansion
+
+### Phase 4: Nice to Have (Ongoing)
+1. ✅ Analytics/telemetry
+2. ✅ Accessibility improvements
+3. ✅ Advanced installer
+4. ✅ Hardware integration
+5. ✅ Mobile app
+
+---
+
+## Conclusion
+
+Your **BlackBoxControl** project has a solid foundation with good structure and comprehensive features. By implementing these recommendations, you will:
+
+✅ **Increase Code Quality** - Through testing, linting, and code reviews
+✅ **Improve Maintainability** - With documentation and consistent patterns
+✅ **Enhance Reliability** - Via CI/CD and automated testing
+✅ **Boost Productivity** - Through automation and tooling
+✅ **Professional Standards** - Meeting industry best practices
+
+### Next Steps
+
+1. **Immediate**: Implement Phase 1 critical items
+2. **This Week**: Setup CI/CD and testing
+3. **This Month**: Complete Phase 2 and 3
+4. **Ongoing**: Maintain code quality and respond to issues
+
+### Resources
+
+- [Microsoft C# Coding Conventions](https://docs.microsoft.com/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
+- [WPF Best Practices](https://docs.microsoft.com/dotnet/desktop/wpf/advanced/wpf-best-practices)
+- [GitHub Flow](https://guides.github.com/introduction/flow/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [SemVer](https://semver.org/)
+
+Good luck with your project! 🚀
+
+Perfect! Now let me create this as a professional document for you to download:
+
+bash
+cp /tmp/analysis.md /mnt/user-data/outputs/BlackBoxControl_Best_Practices_Analysis.md
+
+Output
+exit code 0
+Summary
+
+I've completed a comprehensive analysis of your BlackBoxControl project! Here's what I found:
+🎯 Current Status
+
+Your project has a solid foundation with good MVVM structure, comprehensive features, and excellent documentation. However, there are important areas for improvement to reach professional/enterprise standards.
+📊 Key Strengths
+
+    ✅ Well-organized MVVM architecture
+    ✅ Comprehensive README with clear documentation
+    ✅ Clean folder hierarchy and separation of concerns
+    ✅ MIT License included
+    ✅ Feature-rich application
+
+⚠️ Priority Improvements Needed
+
+Critical (Do First):
+
+    Testing Infrastructure - Currently missing, need unit tests
+    CI/CD Pipeline - Add GitHub Actions for automated builds
+    Code Quality Tools - StyleCop, .editorconfig
+    Logging System - Add NLog for diagnostics
+    Standard Files - CONTRIBUTING.md, CODE_OF_CONDUCT.md, CHANGELOG.md
+
+High Priority:
+
+    Branch protection rules
+    Issue/PR templates
+    Security scanning (CodeQL)
+    Dependency management (Dependabot)
+    XML documentation comments
+
+📥 Download the Full Report
+
+I've created a detailed 20-section analysis document covering:
+
+    Project structure recommendations
+    Code quality standards
+    Testing strategies
+    CI/CD setup
+    Security best practices
+    Performance optimization
+    Documentation improvements
+    Release management
+    And much more!
+
+The document includes implementation phases to guide you step-by-step from current state to professional standards.
+
+Would you like me to help you implement any specific section first, or do you have questions about any of the recommendations?
+Blackboxcontrol best practices analysis
+Document · MD 
+
+are you able to edit the files in my repo
+22:31
+
+No, I cannot directly edit files in your GitHub repository. However, I can help you in several ways:
+What I CAN Do:
+1. Create Files for You to Upload
+
+I can create all the recommended files (like .editorconfig, CONTRIBUTING.md, GitHub Actions workflows, etc.) and you can download them and add them to your repo.
+2. Show You Exact Changes
+
+I can show you exactly what to change in specific files with before/after examples.
+3. Generate Complete Code
+
+I can write complete implementations of new features, tests, or improvements.
+4. Provide Step-by-Step Instructions
+
+I can give you detailed git commands and instructions to make the changes yourself.
+What You Need to Do:
+
+To make changes to your repository, you would:
+bash
+
+# 1. Clone your repo locally
+git clone https://github.com/baamiis7/BlackBoxControl.git
+cd BlackBoxControl
+
+# 2. Create a new branch
+git checkout -b improvements/add-best-practices
+
+# 3. Add the files I create for you
+# (download from our conversation and copy to your repo)
+
+# 4. Commit and push
+git add .
+git commit -m "feat: add best practices files and configurations"
+git push origin improvements/add-best-practices
+
+# 5. Create a Pull Request on GitHub
+
+Let's Start! Which Would You Like?
+
+Option A: I'll create a complete package of all the critical files you need (CI/CD workflows, .editorconfig, CONTRIBUTING.md, etc.) - you just download and add them to your repo.
+
+Option B: We can go through one improvement at a time, and I'll create each file individually with detailed explanations.
+
+Option C: I can create a script that automates some of the changes for you.
+
+Which approach would you prefer?
+
+Option B
+22:34
+
+Perfect! Let's start with the most critical improvements one at a time. I'll create each file with detailed explanations so you understand what it does and why it's important.
+Phase 1: Critical Foundation Files
+
+Let's begin with the absolute essentials. I recommend this order:
+
+    .editorconfig - Code style consistency
+    CONTRIBUTING.md - Contribution guidelines
+    CODE_OF_CONDUCT.md - Community standards
+    CHANGELOG.md - Track changes
+    CI/CD Pipeline - Automated testing and builds
+    Testing Infrastructure - Unit test setup
+
+File 1: .editorconfig
+
+This ensures consistent code formatting across all developers and IDEs.
+
+Why it's important:
+
+    Enforces consistent indentation, line endings, and encoding
+    Works automatically in Visual Studio, VS Code, and other editors
+    Prevents "formatting wars" in pull requests
+    Improves code readability
+
+✅ File 1 Complete: .editorconfig
+What This File Does:
+
+    Enforces consistent code formatting across your entire team
+    Automatic formatting when you save files in Visual Studio or VS Code
+    Naming conventions (e.g., private fields start with _, interfaces start with I)
+    Indentation rules (4 spaces for C#, 2 for XML/JSON)
+    Line ending standards (CRLF for Windows)
+
+How to Add It to Your Repo:
+
+    Download the file above (it's named .editorconfig)
+    Place it in your repository root (same level as your .sln file)
+    Commit it:
+
+bash
+
+   git add .editorconfig
+   git commit -m "chore: add .editorconfig for consistent code style"
+   git push
+
+What Happens Next:
+
+    Visual Studio will automatically apply these rules when you edit code
+    You'll see warnings if you violate naming conventions (like naming a private field without _)
+    Your code formatting will be consistent automatically
+
+Ready for File 2?
+
+The next file is CONTRIBUTING.md - this tells contributors how to work on your project properly.
+
+Would you like me to create that now, or do you have any questions about the .editorconfig file first?
+.editorconfig
+EDITORCONFIG 
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+· EDITORCONFIG
+# EditorConfig is awesome: https://EditorConfig.org
+# This file defines coding styles for your project
+# Visual Studio and VS Code automatically apply these rules
+
+# Top-most EditorConfig file
+root = true
+
+###########################################
+# All Files
+###########################################
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = crlf
+
+###########################################
+# XML Project Files
+###########################################
+[*.{xml,xaml,csproj,props,targets,ruleset}]
+indent_size = 2
+
+###########################################
+# JSON Files
+###########################################
+[*.json]
+indent_size = 2
+
+###########################################
+# YAML Files
+###########################################
+[*.{yml,yaml}]
+indent_size = 2
+
+###########################################
+# Markdown Files
+###########################################
+[*.md]
+trim_trailing_whitespace = false
+
+###########################################
+# C# Files
+###########################################
+[*.cs]
+
+# Organize usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# this. preferences
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
+
+# Language keywords vs BCL types preferences
+dotnet_style_predefined_type_for_locals_parameters_members = true:warning
+dotnet_style_predefined_type_for_member_access = true:warning
+
+# Parentheses preferences
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:suggestion
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:suggestion
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggestion
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary:suggestion
+
+# Modifier preferences
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
+dotnet_style_readonly_field = true:warning
+
+# Expression-level preferences
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_explicit_tuple_names = true:warning
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+dotnet_style_prefer_auto_properties = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+dotnet_style_prefer_conditional_expression_over_return = true:silent
+dotnet_style_prefer_compound_assignment = true:suggestion
+
+# Null-checking preferences
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+
+# var preferences
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_operators = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+csharp_style_expression_bodied_indexers = when_on_single_line:suggestion
+csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
+csharp_style_expression_bodied_lambdas = when_on_single_line:suggestion
+csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+
+# Pattern matching preferences
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+# Inlined variable declarations
+csharp_style_inlined_variable_declaration = true:suggestion
+
+# Expression-level preferences
+csharp_prefer_simple_default_expression = true:suggestion
+
+# "Null" checking preferences
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+
+# Code block preferences
+csharp_prefer_braces = true:warning
+
+# Modifier preferences
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:warning
+
+# Using directive preferences
+csharp_using_directive_placement = outside_namespace:warning
+
+# New line preferences
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Indentation preferences
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = no_change
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents_when_block = false
+
+# Space preferences
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_dot = false
+csharp_space_before_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_around_declaration_statements = false
+csharp_space_before_open_square_brackets = false
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_square_brackets = false
+
+# Wrapping preferences
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true
+
+###########################################
+# Naming Conventions
+###########################################
+
+# Interfaces must be PascalCase and start with I
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = begins_with_i
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# Classes, structs, enums, properties, methods, events must be PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, property, method, event
+dotnet_naming_symbols.types.applicable_accessibilities = *
+
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Private fields must be camelCase and start with _
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.style = camel_case_with_underscore
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case_with_underscore.required_prefix = _
+dotnet_naming_style.camel_case_with_underscore.capitalization = camel_case
+
+# Constants must be PascalCase
+dotnet_naming_rule.constants_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
+dotnet_naming_rule.constants_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+
+# Local variables must be camelCase
+dotnet_naming_rule.locals_should_be_camel_case.severity = warning
+dotnet_naming_rule.locals_should_be_camel_case.symbols = locals
+dotnet_naming_rule.locals_should_be_camel_case.style = camel_case
+
+dotnet_naming_symbols.locals.applicable_kinds = local
+
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# Parameters must be camelCase
+dotnet_naming_rule.parameters_should_be_camel_case.severity = warning
+dotnet_naming_rule.parameters_should_be_camel_case.symbols = parameters
+dotnet_naming_rule.parameters_should_be_camel_case.style = camel_case
+
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+
