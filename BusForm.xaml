@@ -1,0 +1,333 @@
+﻿<UserControl x:Class="BlackBoxControl.BusForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#1E1E1E">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="0,0,10,0">
+        <StackPanel Margin="20">
+
+            <!-- Header -->
+            <TextBlock Text="Bus Configuration"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="#E0E0E0"
+                       Margin="0,0,0,10"/>
+
+            <TextBlock Text="Configure communication bus settings and connected devices"
+                       FontSize="14"
+                       Foreground="#858585"
+                       Margin="0,0,0,25"/>
+
+            <!-- Bus Information Section -->
+            <Border Background="#2D2D30"
+                    BorderBrush="#3E3E42"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="20"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Section Header -->
+                    <TextBlock Grid.Row="0"
+                               Text="Bus Information"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#F39C12"
+                               Margin="0,0,0,15"/>
+
+                    <!-- Two Column Fields -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Column -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Bus Name:" 
+                                       Foreground="#CCCCCC" 
+                                       FontSize="12"
+                                       Margin="0,0,0,5"/>
+                            <TextBox Text="{Binding Bus.BusName, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="32"
+                                     Margin="0,0,0,15"
+                                     Background="#1E1E1E"
+                                     Foreground="#CCCCCC"
+                                     BorderBrush="#3E3E42"
+                                     BorderThickness="1"
+                                     Padding="8,6"/>
+                        </StackPanel>
+
+                        <!-- Right Column -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Bus Type:" 
+                                       Foreground="#CCCCCC" 
+                                       FontSize="12"
+                                       Margin="0,0,0,5"/>
+                            <ComboBox SelectedItem="{Binding Bus.BusType}"
+                                      Height="32"
+                                      Background="#1E1E1E"
+                                      Foreground="#CCCCCC"
+                                      BorderBrush="#3E3E42"
+                                      BorderThickness="1">
+                                <ComboBoxItem Content="RS485"/>
+                                <ComboBoxItem Content="RS232"/>
+                                <ComboBoxItem Content="CAN"/>
+                                <ComboBoxItem Content="Ethernet"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Bus Statistics Section -->
+            <Border Background="#2D2D30"
+                    BorderBrush="#3E3E42"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="20"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Section Header -->
+                    <TextBlock Grid.Row="0"
+                               Text="Bus Statistics"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#F39C12"
+                               Margin="0,0,0,15"/>
+
+                    <!-- Stats in Two Columns -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Stats -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Total Devices:" 
+                                       Foreground="#CCCCCC" 
+                                       FontSize="12"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Bus.NumberOfNodes}" 
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="#2ECC71"/>
+                        </StackPanel>
+
+                        <!-- Right Stats -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Bus Type:" 
+                                       Foreground="#CCCCCC" 
+                                       FontSize="12"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Bus.BusType}" 
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="#3498DB"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Devices on this Bus Section -->
+            <Border Background="#2D2D30"
+                    BorderBrush="#3E3E42"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="20"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Devices on this Bus"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#F39C12"
+                               Margin="0,0,0,10"/>
+
+                    <TextBlock Text="To add devices, drag them from the palette below onto a Bus node in the tree."
+                               FontSize="12"
+                               Foreground="#858585"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,15"/>
+
+                    <DataGrid ItemsSource="{Binding Bus.Nodes}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              Background="#1E1E1E"
+                              RowBackground="#1E1E1E"
+                              AlternatingRowBackground="#252526"
+                              BorderBrush="#3E3E42"
+                              BorderThickness="1"
+                              Foreground="#CCCCCC"
+                              MaxHeight="300"
+                              RowHeight="40">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#2D2D30"/>
+                                <Setter Property="Foreground" Value="#E0E0E0"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Padding" Value="10,8"/>
+                                <Setter Property="BorderBrush" Value="#3E3E42"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="#CCCCCC"/>
+                                <Setter Property="Padding" Value="10,5"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Image" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImagePath}" 
+                                               Width="32" 
+                                               Height="32"
+                                               Margin="5"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Type" 
+                                                Binding="{Binding Name}" 
+                                                Width="*"/>
+                            <DataGridTextColumn Header="Address" 
+                                                Binding="{Binding Address}" 
+                                                Width="100"/>
+                            <DataGridTextColumn Header="Location" 
+                                                Binding="{Binding LocationText}" 
+                                                Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        Margin="0,10,0,0">
+                <Button Content="Cancel" 
+                        Width="100" 
+                        Height="35"
+                        Margin="0,0,10,0"
+                        Background="#3E3E42"
+                        Foreground="#E0E0E0"
+                        BorderBrush="#555555"
+                        BorderThickness="1"
+                        FontSize="13"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#4E4E52"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Content="Save Changes" 
+                        Width="120" 
+                        Height="35"
+                        Margin="0,0,10,0"
+                        Background="#2ECC71"
+                        Foreground="White"
+                        BorderBrush="#27AE60"
+                        BorderThickness="1"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#27AE60"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Content="Add RS485 Node" 
+                        Width="130" 
+                        Height="35"
+                        Background="#3498DB"
+                        Foreground="White"
+                        BorderBrush="#2980B9"
+                        BorderThickness="1"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#2980B9"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

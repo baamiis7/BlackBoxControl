@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="BlackBoxControl.DateTimeInputForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource BackgroundBrush}"
+             HorizontalAlignment="Stretch" 
+             VerticalAlignment="Stretch">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
+        <StackPanel MaxWidth="600">
+
+            <!-- Header -->
+            <Border Background="{StaticResource SurfaceBrush}" 
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,0,0,2"
+                    Padding="0,0,0,15"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="📅 Specific Date/Time Trigger" 
+                               FontSize="24" 
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource ForegroundBrush}"
+                               Margin="0,0,0,5"/>
+                    <TextBlock Text="Configure a specific date and time for triggering this cause and effect" 
+                               FontSize="13"
+                               Foreground="{StaticResource ForegroundDimBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Configuration -->
+            <GroupBox Header="Date/Time Configuration" Padding="15" Margin="0,0,0,20">
+                <StackPanel>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Date:" VerticalAlignment="Center"/>
+                        <DatePicker Grid.Column="1" 
+                                    SelectedDate="{Binding Input.TriggerDateTime, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Time:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" 
+                                 Text="{Binding Input.TriggerDateTime, StringFormat='HH:mm', Mode=TwoWay}"
+                                 ToolTip="Format: HH:mm (e.g., 14:30)"/>
+                    </Grid>
+
+                    <Border Background="#1A0078D4"
+                            BorderBrush="{StaticResource PrimaryBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="10">
+                        <TextBlock TextWrapping="Wrap" Foreground="{StaticResource ForegroundBrush}">
+                            <Run Text="This input will trigger on " FontWeight="Bold"/>
+                            <Run Text="{Binding Input.TriggerDateTime, StringFormat='g'}" 
+                                 Foreground="{StaticResource PrimaryBrush}" 
+                                 FontWeight="Bold"/>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Action Buttons -->
+            <Border Background="{StaticResource SurfaceBrush}" 
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Padding="0,20,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Delete" 
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="100"
+                            Margin="0,0,10,0"
+                            Command="{Binding DeleteCommand}"/>
+                    <Button Content="Cancel" 
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="100"
+                            Margin="0,0,10,0"
+                            Command="{Binding CancelCommand}"/>
+                    <Button Content="Save" 
+                            Style="{StaticResource PrimaryButton}"
+                            MinWidth="100"
+                            Command="{Binding SaveCommand}"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

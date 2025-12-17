@@ -1,0 +1,18 @@
+﻿<Application x:Class="BlackBoxControl.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BlackBoxControl" 
+             xmlns:converters="clr-namespace:BlackBoxControl.Converters"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Load the default theme (GreenTheme) -->
+                <ResourceDictionary Source="Themes/GreenTheme.xaml" />
+                <ResourceDictionary Source="Resources/LogicGateIcons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:EnumToBoolConverter x:Key="EnumToBoolConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

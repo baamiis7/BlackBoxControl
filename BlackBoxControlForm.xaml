@@ -1,0 +1,274 @@
+﻿<UserControl x:Class="BlackBoxControl.BlackBoxControlForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BlackBoxControl"
+             x:Name="BlackBoxControlPanelConfig"
+             Background="{StaticResource BackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="20">
+        <StackPanel Orientation="Vertical">
+
+            <!-- Header -->
+            <Border Background="{StaticResource SurfaceBrush}" 
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,0,0,2"
+                    Padding="0,0,0,15"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Fire Panel Configuration" 
+                               FontSize="24" 
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource ForegroundBrush}"
+                               Margin="0,0,0,5"/>
+                    <TextBlock Text="Configure your fire panel settings and properties" 
+                               FontSize="13"
+                               Foreground="{StaticResource ForegroundDimBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Two Column Layout for Better Space Usage -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column -->
+                <StackPanel Grid.Column="0">
+
+                    <!-- Panel Information -->
+                    <GroupBox Header="Panel Information" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Panel Name:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.PanelName, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Location:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.Location, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Panel Address:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.PanelAddress, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Number of Loops:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumberOfLoops, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="4" Grid.Column="0" Content="Number of Zones:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumberOfZones, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="5" Grid.Column="0" Content="Config Good:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BlackBoxControlPanel.ConfigGood, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="6" Grid.Column="0" Content="Firmware Version:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding BlackBoxControlPanel.FirmwareVersion, ElementName=BlackBoxControlPanelConfig}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Loop Settings -->
+                    <GroupBox Header="Loop Settings" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Default Volume:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.LPSDefVol, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Default Tone:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.LPSDefTone, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Loop Offset:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.LoopOffset, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="IS Devices Fitted:" VerticalAlignment="Center"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding BlackBoxControlPanel.ISDevices, ElementName=BlackBoxControlPanelConfig}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Time and Date Settings -->
+                    <GroupBox Header="Time and Date Settings" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Year:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.TSYear, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Month:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.TSMonth, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Day:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.TSDay, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Hour:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding BlackBoxControlPanel.TSHour, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="4" Grid.Column="0" Content="Minute:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding BlackBoxControlPanel.TSMinute, ElementName=BlackBoxControlPanelConfig}"/>
+                        </Grid>
+                    </GroupBox>
+
+                </StackPanel>
+
+                <!-- Right Column -->
+                <StackPanel Grid.Column="2">
+
+                    <!-- Network Configuration -->
+                    <GroupBox Header="Network Configuration" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Node Address:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NodeAddress, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Network Card:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NetCardAddress, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="WiFi SSID:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.WiFiSSID, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="WiFi Password:" VerticalAlignment="Center"/>
+                            <PasswordBox Grid.Row="3" Grid.Column="1" PasswordChanged="PasswordBox_PasswordChanged"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Cause and Effect Settings -->
+                    <GroupBox Header="Cause and Effect Settings" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Total C and E:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumberOfCauseAndEffects, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Number of Causes:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumCECauses, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Number of Effects:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumCEEffects, ElementName=BlackBoxControlPanelConfig}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Panel Power Settings -->
+                    <GroupBox Header="Panel Power Settings" Padding="15" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="Battery Capacity:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding BlackBoxControlPanel.BatteryCapacity, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Battery Count:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumberOfBatteries, ElementName=BlackBoxControlPanelConfig}" Margin="0,0,0,10"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Power Supplies:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BlackBoxControlPanel.NumberOfPowerSupplies, ElementName=BlackBoxControlPanelConfig}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Panel Image Configuration -->
+                    <GroupBox Header="Panel Image" Padding="15" Margin="0,0,0,20">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Content="Image Path:" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" Text="{Binding BlackBoxControlPanel.ImagePath, ElementName=BlackBoxControlPanelConfig}"/>
+                            </Grid>
+
+                            <Border BorderBrush="{StaticResource BorderBrush}" 
+                                    BorderThickness="1" 
+                                    CornerRadius="4"
+                                    Background="{StaticResource SurfaceBrush}"
+                                    Padding="10"
+                                    HorizontalAlignment="Center">
+                                <Image Source="{Binding BlackBoxControlPanel.ImagePath, ElementName=BlackBoxControlPanelConfig}" 
+                                       Height="180" 
+                                       Width="180"
+                                       Stretch="Uniform"/>
+                            </Border>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </Grid>
+
+            <!-- Action Buttons -->
+            <Border Background="{StaticResource SurfaceBrush}" 
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Padding="0,20,0,0"
+                    Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Cancel" 
+                            Style="{StaticResource SecondaryButton}"
+                            MinWidth="100"
+                            Margin="0,0,10,0"
+                            Command="{Binding CancelCommand}"/>
+                    <Button Content="Save Changes" 
+                            Style="{StaticResource PrimaryButton}"
+                            MinWidth="120"
+                            Command="{Binding SaveCommand}"/>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

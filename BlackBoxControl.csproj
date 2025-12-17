@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{99DC1E4A-2FE0-40FA-B9F5-2A1514E34435}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>FirePanelSimulation</RootNamespace>
+    <AssemblyName>FirePanelSimulation</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <LangVersion>8.0</LangVersion>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BusForm.xaml.cs">
+      <DependentUpon>BusForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BusNodeForm.xaml.cs">
+      <DependentUpon>BusNodeForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CauseAndEffectForm.xaml.cs">
+      <DependentUpon>CauseAndEffectForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CauseAndEffectsListForm.xaml.cs">
+      <DependentUpon>CauseAndEffectsListForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BusNodeOnlyConverter.cs" />
+    <Compile Include="Converters\BusOnlyConverter.cs" />
+    <Compile Include="Converters\EnumToBoolConverter.cs" />
+    <Compile Include="Converters\PercentageToWidthConverter.cs" />
+    <Compile Include="DateTimeInputForm.xaml.cs">
+      <DependentUpon>DateTimeInputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceInputForm.xaml.cs">
+      <DependentUpon>DeviceInputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceOutputForm.xaml.cs">
+      <DependentUpon>DeviceOutputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DragAdorner.cs" />
+    <Compile Include="BlackBoxControlForm.xaml.cs">
+      <DependentUpon>BlackBoxControlForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoopDeviceForm.xaml.cs">
+      <DependentUpon>LoopDeviceForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bus.cs" />
+    <Compile Include="Models\BussNode.cs" />
+    <Compile Include="Models\CauseAndEffectItem.cs" />
+    <Compile Include="Models\CEContants.cs" />
+    <Compile Include="Models\CEData.cs" />
+    <Compile Include="Models\CEFixed.cs" />
+    <Compile Include="Models\Constants.cs" />
+    <Compile Include="Models\DeviceTypes.cs" />
+    <Compile Include="Models\GroupDevices.cs" />
+    <Compile Include="Models\InputOutputModule.cs" />
+    <Compile Include="Models\IOModuleConstants.cs" />
+    <Compile Include="Models\PanelInput.cs" />
+    <Compile Include="Models\PanelOutput.cs" />
+    <Compile Include="Models\ProjectDataModel.cs" />
+    <Compile Include="Models\SerialComm.cs" />
+    <Compile Include="Models\SerialCommModel.cs" />
+    <Compile Include="Models\SerialConstants.cs" />
+    <Compile Include="Models\SubAddress.cs" />
+    <Compile Include="LoopForm.xaml.cs">
+      <DependentUpon>LoopForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiveApiInputForm.xaml.cs">
+      <DependentUpon>ReceiveApiInputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SendApiOutputForm.xaml.cs">
+      <DependentUpon>SendApiOutputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SendEmailOutputForm.xaml.cs">
+      <DependentUpon>SendEmailOutputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SendTextOutputForm.xaml.cs">
+      <DependentUpon>SendTextOutputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SerialCommView.xaml.cs">
+      <DependentUpon>SerialCommView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\RecentProjectsManager.cs" />
+    <Compile Include="Settings.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Helpers\ThemeManager.cs" />
+    <Compile Include="TimeOfDayInputForm.xaml.cs">
+      <DependentUpon>TimeOfDayInputForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\BusNodeViewModel .cs" />
+    <Compile Include="ViewModels\BusViewModel.cs" />
+    <Compile Include="ViewModels\CauseAndEffectsListViewModel.cs" />
+    <Compile Include="ViewModels\CauseAndEffectViewModel.cs" />
+    <Compile Include="ViewModels\DateTimeInputViewModel.cs" />
+    <Compile Include="ViewModels\DeviceInputViewModel.cs" />
+    <Compile Include="ViewModels\DeviceItemViewModel.cs" />
+    <Compile Include="ViewModels\DeviceOutputViewModel.cs" />
+    <Compile Include="ViewModels\BlackBoxControlPanelViewModel.cs" />
+    <Compile Include="ViewModels\InputNodeViewModel.cs" />
+    <Compile Include="ViewModels\InputsContainerViewModel.cs" />
+    <Compile Include="ViewModels\LoopDeviceViewModel.cs" />
+    <Compile Include="ViewModels\LoopViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\OutputNodeViewModel.cs" />
+    <Compile Include="ViewModels\OutputsContainerViewModel.cs" />
+    <Compile Include="ViewModels\ReceiveApiInput.cs" />
+    <Compile Include="ViewModels\ReceiveApiInputViewModel.cs" />
+    <Compile Include="ViewModels\SelectableDeviceNodeViewModel.cs" />
+    <Compile Include="ViewModels\SendApiOutputViewModel.cs" />
+    <Compile Include="ViewModels\SendEmailOutputViewModel.cs" />
+    <Compile Include="ViewModels\SendTextOutputViewModel.cs" />
+    <Compile Include="ViewModels\SerialCommViewModel.cs" />
+    <Compile Include="ViewModels\TimeOfDayInputViewModel.cs" />
+    <Compile Include="ViewModels\TreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="BusForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BusNodeForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CauseAndEffectForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CauseAndEffectsListForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimeInputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeviceInputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeviceOutputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BlackBoxControlForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoopDeviceForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="LoopForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReceiveApiInputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\LogicGateIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SendApiOutputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SendEmailOutputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SendTextOutputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SerialCommView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DarkTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\GreenTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\BlueTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="TimeOfDayInputForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\BlackBoxControlPanel.cs" />
+    <Compile Include="Models\Loop.cs" />
+    <Compile Include="Models\LoopDevice.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="DeviceConfigurations\Call_Point.json" />
+    <None Include="DeviceConfigurations\Expander_Module.json" />
+    <None Include="DeviceConfigurations\Red_Sounder.json" />
+    <None Include="DeviceConfigurations\Smoke_Detector.json" />
+    <None Include="DeviceConfigurations\Beacon.json" />
+    <None Include="DeviceConfigurations\Heat_Detector.json" />
+    <None Include="DeviceConfigurations\Optical_Detector.json" />
+    <None Include="DeviceConfigurations\Remote_Indicator.json" />
+    <None Include="DeviceConfigurations\Single_Channel_Battery_Powered_Output.json" />
+    <None Include="DeviceConfigurations\Sounder_Beacon.json" />
+    <None Include="DeviceConfigurations\Wireless_Translator_Module.json" />
+    <None Include="DeviceConfigurations\Wireless_Callpoint.json" />
+    <None Include="DeviceConfigurations\WhiteSounder.json" />
+    <None Include="DeviceConfigurations\Wireless_Base_Sounder.json" />
+    <None Include="DeviceConfigurations\Wireless_Base_With_LED.json" />
+    <None Include="DeviceConfigurations\Wireless_Expander_Module.json" />
+    <None Include="DeviceConfigurations\Wireless_Heat_Detector.json" />
+    <None Include="DeviceConfigurations\Wireless_Multi_Detector.json" />
+    <None Include="DeviceConfigurations\Wireless_Optical_Detector.json" />
+    <None Include="DeviceConfigurations\Wireless_single_Channel_Input_Module.json" />
+    <None Include="DeviceConfigurations\Wireless_Translator.json" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IOModuleImages\" />
+    <Folder Include="PanelImages\" />
+    <Folder Include="PanelInputImages\" />
+    <Folder Include="PanelOutputImages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Base_Sounder.PNG" />
+    <Resource Include="Images\Beacon.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Call_Point.PNG" />
+    <Resource Include="Images\Expander_Module.PNG" />
+    <Resource Include="Images\Heat_Detector.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Optical_Detector.PNG" />
+    <Resource Include="Images\Red_Sounder.PNG" />
+    <Resource Include="Images\Remote_Indicator.PNG" />
+    <Resource Include="Images\Single_Channel_Battery_Powered_Output.PNG" />
+    <Resource Include="Images\Smoke_Detector.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\WhiteSounder.PNG" />
+    <Resource Include="Images\Sounder_Beacon.PNG" />
+    <Resource Include="Images\Wireless_Base_Sounder.PNG" />
+    <Resource Include="Images\Wireless_Base_With_LED.PNG" />
+    <Resource Include="Images\Wireless_Callpoint.PNG" />
+    <Resource Include="Images\Wireless_Expander_Module.PNG" />
+    <Resource Include="Images\Wireless_Heat_Detector.PNG" />
+    <Resource Include="Images\Wireless_Multi_Detector.PNG" />
+    <Resource Include="Images\Wireless_Optical_Detector.PNG" />
+    <Resource Include="Images\Wireless_single_Channel_Input_Module.PNG" />
+    <Resource Include="Images\Wireless_Translator.PNG" />
+    <Resource Include="Images\Wireless_Translator_Module.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BusImages\230VAC_Solnoid.PNG" />
+    <Resource Include="BusImages\Capture_2.PNG" />
+    <Resource Include="BusImages\Capture_8.PNG" />
+    <Resource Include="BusImages\DC_Motor_Linear_actuator.PNG" />
+    <Resource Include="BusImages\Emergency_call.PNG" />
+    <Resource Include="BusImages\Light_Indicator.PNG" />
+    <Resource Include="BusImages\Linear_Actuator.PNG" />
+    <Resource Include="BusImages\Mains_Power_Switcher_2.PNG" />
+    <Resource Include="BusImages\Proportional_Solnoid.PNG" />
+    <Resource Include="BusImages\Relay_4.PNG" />
+    <Resource Include="BusImages\ShutDownValves.PNG" />
+    <Resource Include="BusImages\Sound_indicators.PNG" />
+    <Resource Include="BusImages\Voice_Alarm_Control.PNG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
