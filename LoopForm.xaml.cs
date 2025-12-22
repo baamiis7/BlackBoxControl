@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace BlackBoxControl
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for UploadConfigurationDialog.xaml
     /// </summary>
     public partial class LoopForm : UserControl
     {

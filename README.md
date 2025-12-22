@@ -77,13 +77,13 @@ A professional WPF-based fire alarm panel simulation and configuration system wi
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/baamiis/FirePanelSimulation.git
+   git clone https://github.com/baamiis/BlackBoxControlPanelSimulation.git
    ```
 
 2. **Open the solution**
    ```
    Navigate to the cloned directory
-   Double-click FirePanelSimulation.sln
+   Double-click BlackBoxControlPanelSimulation.sln
    ```
 
 3. **Restore NuGet packages**
@@ -107,9 +107,9 @@ A professional WPF-based fire alarm panel simulation and configuration system wi
 ## 📁 Project Structure
 
 ```
-FirePanelSimulation/
+BlackBoxControlPanelSimulation/
 ├── Models/                      # Data models
-│   ├── FirePanel.cs            # Fire panel model
+│   ├── BlackBoxControlPanel.cs            # Fire panel model
 │   ├── Loop.cs                 # Loop model
 │   ├── LoopDevice.cs          # Device model
 │   ├── Bus.cs                  # Bus model
@@ -118,14 +118,14 @@ FirePanelSimulation/
 │   └── ProjectData.cs         # Save/load models
 ├── ViewModels/                 # MVVM ViewModels
 │   ├── MainViewModel.cs       # Main window VM
-│   ├── FirePanelViewModel.cs  # Panel VM
+│   ├── BlackBoxControlPanelViewModel.cs  # Panel VM
 │   ├── LoopViewModel.cs       # Loop VM
 │   ├── BusViewModel.cs        # Bus VM
 │   ├── CauseAndEffectViewModel.cs
 │   └── MenuViewModel.cs       # Menu VM
 ├── Views/                      # XAML Views
 │   ├── MainWindow.xaml        # Main window
-│   ├── FirePanelForm.xaml     # Panel form
+│   ├── BlackBoxControlPanelForm.xaml     # Panel form
 │   ├── LoopForm.xaml          # Loop form
 │   ├── BusForm.xaml           # Bus form
 │   └── CauseAndEffectForm.xaml
@@ -245,7 +245,7 @@ Projects are saved in `.kbb` format (JSON):
   "ProjectVersion": "1.0",
   "CreatedDate": "2025-01-20T10:30:00",
   "LastModifiedDate": "2025-01-20T15:45:00",
-  "FirePanels": [
+  "BlackBoxControlPanels": [
     {
       "PanelName": "Main Panel",
       "Location": "Building A",
@@ -301,7 +301,7 @@ Contributions are welcome! Please follow these guidelines:
 
 For support, please:
 - **Email:** baamiis7@gmail.com
-- **GitHub Issues:** [Report a bug](https://github.com/baamiis/FirePanelSimulation/issues)
+- **GitHub Issues:** [Report a bug](https://github.com/baamiis/BlackBoxControlPanelSimulation/issues)
 
 ## 👨‍💻 Author
 

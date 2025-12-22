@@ -1,7 +1,3 @@
-﻿using BlackBoxControl.Helpers;
-using BlackBoxControl.Models;
-using BlackBoxControl.Services;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using BlackBoxControl.Helpers;
+using BlackBoxControl.Models;
+using BlackBoxControl.Services;
+using BlackBoxControl.Views;
+using Microsoft.Win32;
 
 namespace BlackBoxControl.ViewModels
 {
@@ -20,7 +21,6 @@ namespace BlackBoxControl.ViewModels
         private readonly MainViewModel _mainViewModel;
         private ObservableCollection<RecentProjectViewModel> _recentProjects;
 
-        // Add this property
         public ObservableCollection<RecentProjectViewModel> RecentProjects
         {
             get => _recentProjects;
@@ -34,7 +34,7 @@ namespace BlackBoxControl.ViewModels
         public ICommand NewProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
         public ICommand OpenRecentProjectCommand { get; }
-        public ICommand ClearRecentProjectsCommand { get; } // ADD THIS
+        public ICommand ClearRecentProjectsCommand { get; }
         public ICommand CloseProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
         public ICommand SaveProjectAsCommand { get; }
@@ -50,6 +50,8 @@ namespace BlackBoxControl.ViewModels
         public ICommand DarkThemeCommand { get; }
         public ICommand DocumentationCommand { get; }
         public ICommand AboutCommand { get; }
+        public ICommand UploadConfigurationCommand { get; }
+        public ICommand DownloadFromPanelCommand { get; }
 
         public MenuViewModel(MainViewModel mainViewModel)
         {
@@ -59,8 +61,8 @@ namespace BlackBoxControl.ViewModels
 
             NewProjectCommand = new RelayCommand(NewProject);
             OpenProjectCommand = new RelayCommand(OpenProject);
-            OpenRecentProjectCommand = new RelayCommand<string>(OpenRecentProject); // FIXED: Added <string>
-            ClearRecentProjectsCommand = new RelayCommand(ClearRecentProjects); // ADD THIS
+            OpenRecentProjectCommand = new RelayCommand<string>(OpenRecentProject);
+            ClearRecentProjectsCommand = new RelayCommand(ClearRecentProjects);
             CloseProjectCommand = new RelayCommand(CloseProject);
             SaveProjectCommand = new RelayCommand(SaveProject, CanSaveProject);
             SaveProjectAsCommand = new RelayCommand(SaveProjectAs);
@@ -76,6 +78,8 @@ namespace BlackBoxControl.ViewModels
             DarkThemeCommand = new RelayCommand(() => ThemeManager.ChangeTheme(ThemeManager.Theme.Dark));
             DocumentationCommand = new RelayCommand(Documentation);
             AboutCommand = new RelayCommand(About);
+            UploadConfigurationCommand = new RelayCommand(ShowUploadDialog);
+            DownloadFromPanelCommand = new RelayCommand(ShowDownloadDialog);
         }
 
         private void NewProject()
@@ -106,11 +110,10 @@ namespace BlackBoxControl.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                OpenProjectFile(openFileDialog.FileName); // FIXED: Use OpenProjectFile method
+                OpenProjectFile(openFileDialog.FileName);
             }
         }
 
-        // FIXED: Added string parameter
         private void OpenRecentProject(string projectPath)
         {
             if (string.IsNullOrEmpty(projectPath))
@@ -135,7 +138,6 @@ namespace BlackBoxControl.ViewModels
             OpenProjectFile(projectPath);
         }
 
-        // ADD THIS NEW METHOD
         private void OpenProjectFile(string filePath)
         {
             try
@@ -151,7 +153,6 @@ namespace BlackBoxControl.ViewModels
 
                 _mainViewModel.CurrentProjectPath = filePath;
 
-                // Add to recent projects
                 RecentProjectsManager.AddRecentProject(filePath);
                 LoadRecentProjects();
 
@@ -244,7 +245,6 @@ namespace BlackBoxControl.ViewModels
                 {
                     ProjectService.SaveProject(_mainViewModel.CurrentProjectPath, _mainViewModel);
 
-                    // Add to recent projects
                     RecentProjectsManager.AddRecentProject(_mainViewModel.CurrentProjectPath);
                     LoadRecentProjects();
 
@@ -282,7 +282,6 @@ namespace BlackBoxControl.ViewModels
                     ProjectService.SaveProject(saveFileDialog.FileName, _mainViewModel);
                     _mainViewModel.CurrentProjectPath = saveFileDialog.FileName;
 
-                    // Add to recent projects
                     RecentProjectsManager.AddRecentProject(saveFileDialog.FileName);
                     LoadRecentProjects();
 
@@ -355,6 +354,141 @@ namespace BlackBoxControl.ViewModels
                 MessageBoxImage.Information);
         }
 
+        private void ShowUploadDialog()
+        {
+            if (_mainViewModel.BlackBoxControlPanels == null || _mainViewModel.BlackBoxControlPanels.Count == 0)
+            {
+                MessageBox.Show("Please open or create a project first.", "No Project",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var projectData = new ProjectData
+            {
+                ProjectName = "Current Project",
+                BlackBoxControlPanels = new List<BlackBoxControlPanelData>()
+            };
+
+            foreach (var panelViewModel in _mainViewModel.BlackBoxControlPanels)
+            {
+                var panelData = new BlackBoxControlPanelData
+                {
+                    PanelName = panelViewModel.Panel.PanelName,
+                    Location = panelViewModel.Panel.Location,
+                    PanelAddress = panelViewModel.Panel.PanelAddress,
+                    NumberOfLoops = panelViewModel.Panel.NumberOfLoops,
+                    NumberOfZones = panelViewModel.Panel.NumberOfZones,
+                    FirmwareVersion = panelViewModel.Panel.FirmwareVersion,
+                    Loops = new List<LoopData>(),
+                    Busses = new List<BusData>()
+                };
+
+                if (panelViewModel.Panel.Loops != null)
+                {
+                    foreach (var loop in panelViewModel.Panel.Loops)
+                    {
+                        var loopData = new LoopData
+                        {
+                            LoopNumber = loop.LoopNumber,
+                            LoopName = loop.LoopName,
+                            Devices = new List<LoopDeviceData>()
+                        };
+
+                        if (loop.Devices != null)
+                        {
+                            foreach (var device in loop.Devices)
+                            {
+                                loopData.Devices.Add(new LoopDeviceData
+                                {
+                                    Address = device.Address,
+                                    Type = device.Type,
+                                    LocationText = device.LocationText,
+                                    Zone = device.Zone,
+                                    ImagePath = device.ImagePath
+                                });
+                            }
+                        }
+
+                        panelData.Loops.Add(loopData);
+                    }
+                }
+
+                projectData.BlackBoxControlPanels.Add(panelData);
+            }
+
+            var viewModel = new UploadConfigurationViewModel(projectData);
+            var dialog = new UploadConfigurationDialog(viewModel);
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
+
+        private void ShowDownloadDialog()
+        {
+            var viewModel = new DownloadConfigurationViewModel();
+
+            viewModel.DownloadCompleted += (projectData) =>
+            {
+                _mainViewModel.BlackBoxControlPanels.Clear();
+
+                foreach (var panelData in projectData.BlackBoxControlPanels)
+                {
+                    var panel = ConvertDataToPanel(panelData);
+                    var panelViewModel = new BlackBoxControlPanelViewModel(panel);
+                    _mainViewModel.BlackBoxControlPanels.Add(panelViewModel);
+                }
+
+                MessageBox.Show(
+                    $"Configuration loaded successfully!\n\nPanels: {projectData.BlackBoxControlPanels.Count}",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            };
+
+            var dialog = new DownloadConfigurationDialog(viewModel);
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
+
+        private BlackBoxControlPanel ConvertDataToPanel(BlackBoxControlPanelData data)
+        {
+            var panel = new BlackBoxControlPanel
+            {
+                PanelName = data.PanelName,
+                Location = data.Location,
+                PanelAddress = data.PanelAddress,
+                NumberOfLoops = data.NumberOfLoops,
+                NumberOfZones = data.NumberOfZones,
+                FirmwareVersion = data.FirmwareVersion,
+                Loops = new ObservableCollection<Loop>()
+            };
+
+            foreach (var loopData in data.Loops)
+            {
+                var loop = new Loop
+                {
+                    LoopNumber = loopData.LoopNumber,
+                    LoopName = loopData.LoopName,
+                    Devices = new ObservableCollection<LoopDevice>()
+                };
+
+                foreach (var deviceData in loopData.Devices)
+                {
+                    loop.Devices.Add(new LoopDevice
+                    {
+                        Address = (byte)deviceData.Address,
+                        Type = deviceData.Type,
+                        LocationText = deviceData.LocationText,
+                        Zone = deviceData.Zone,
+                        ImagePath = deviceData.ImagePath
+                    });
+                }
+
+                panel.Loops.Add(loop);
+            }
+
+            return panel;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -362,7 +496,6 @@ namespace BlackBoxControl.ViewModels
         }
     }
 
-    // Add this helper class
     public class RecentProjectViewModel
     {
         public string FilePath { get; set; }

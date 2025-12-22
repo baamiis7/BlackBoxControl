@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -90,5 +90,6 @@ namespace BlackBoxControl.Models
         public ObservableCollection<PanelInput> PanelInputs { get; set; }
         public ObservableCollection<PanelOutput> PanelOutputs { get; set; }
         public ObservableCollection<InputOutputModule> InputOutputModules { get; set; }
+        public string IPAddress { get; internal set; }
     }
 }

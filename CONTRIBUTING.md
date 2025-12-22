@@ -169,7 +169,7 @@ We follow the [Microsoft C# Coding Conventions](https://docs.microsoft.com/en-us
 
 ```csharp
 // Classes, Interfaces, Methods, Properties - PascalCase
-public class FirePanel { }
+public class BlackBoxControlPanel { }
 public interface IDeviceService { }
 public void SaveConfiguration() { }
 public string PanelName { get; set; }
@@ -200,14 +200,14 @@ public event EventHandler DeviceAdded;
 // 5. Methods (public first, then private)
 // 6. Nested types
 
-public class FirePanel : ViewModelBase
+public class BlackBoxControlPanel : ViewModelBase
 {
     // Fields
     private string _panelName;
     private ObservableCollection<Loop> _loops;
     
     // Constructors
-    public FirePanel()
+    public BlackBoxControlPanel()
     {
         _loops = new ObservableCollection<Loop>();
     }
@@ -299,7 +299,7 @@ public void AddDeviceAndSaveAndNotify(LoopDevice device)
 /// <summary>
 /// Represents a fire alarm panel with multiple loops and buses.
 /// </summary>
-public class FirePanel : ViewModelBase
+public class BlackBoxControlPanel : ViewModelBase
 {
     /// <summary>
     /// Gets or sets the name of the fire panel.
@@ -480,13 +480,13 @@ using FluentAssertions;
 
 namespace BlackBoxControl.Tests.ViewModels
 {
-    public class FirePanelViewModelTests
+    public class BlackBoxControlPanelViewModelTests
     {
         [Fact]
         public void AddLoop_WithValidLoop_ShouldAddToCollection()
         {
             // Arrange
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             var loop = new Loop { Name = "Loop 1" };
             
             // Act
@@ -503,7 +503,7 @@ namespace BlackBoxControl.Tests.ViewModels
         public void PanelName_WithInvalidValue_ShouldThrowException(string invalidName)
         {
             // Arrange
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             
             // Act & Assert
             Action act = () => viewModel.PanelName = invalidName;
@@ -530,7 +530,7 @@ dotnet test
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 
 # Run specific test class
-dotnet test --filter FirePanelViewModelTests
+dotnet test --filter BlackBoxControlPanelViewModelTests
 ```
 
 ## Documentation
@@ -578,9 +578,9 @@ BlackBoxControl/
 - One class per file (generally)
 
 Examples:
-- `FirePanel.cs`
-- `FirePanelViewModel.cs`
-- `FirePanelView.xaml`
+- `BlackBoxControlPanel.cs`
+- `BlackBoxControlPanelViewModel.cs`
+- `BlackBoxControlPanelView.xaml`
 
 ## Questions?
 

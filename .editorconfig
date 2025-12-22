@@ -386,7 +386,7 @@ Add XML documentation to all public members:
 /// <summary>
 /// Represents a fire panel with multiple loops and buses.
 /// </summary>
-public class FirePanel : ViewModelBase
+public class BlackBoxControlPanel : ViewModelBase
 {
     /// <summary>
     /// Gets or sets the name of the fire panel.
@@ -395,9 +395,9 @@ public class FirePanel : ViewModelBase
     public string PanelName { get; set; }
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="FirePanel"/> class.
+    /// Initializes a new instance of the <see cref="BlackBoxControlPanel"/> class.
     /// </summary>
-    public FirePanel()
+    public BlackBoxControlPanel()
     {
         // Implementation
     }
@@ -449,13 +449,13 @@ using Moq;
 
 namespace BlackBoxControl.Tests.ViewModels
 {
-    public class FirePanelViewModelTests
+    public class BlackBoxControlPanelViewModelTests
     {
         [Fact]
         public void Constructor_ShouldInitializeWithDefaults()
         {
             // Arrange & Act
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             
             // Assert
             viewModel.Should().NotBeNull();
@@ -469,11 +469,11 @@ namespace BlackBoxControl.Tests.ViewModels
         public void PanelName_WhenSet_ShouldRaisePropertyChanged(string name)
         {
             // Arrange
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             bool propertyChanged = false;
             viewModel.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(FirePanelViewModel.PanelName))
+                if (e.PropertyName == nameof(BlackBoxControlPanelViewModel.PanelName))
                     propertyChanged = true;
             };
             
@@ -1242,7 +1242,7 @@ Create `NLog.config`:
 ```csharp
 using NLog;
 
-public class FirePanelViewModel : ViewModelBase
+public class BlackBoxControlPanelViewModel : ViewModelBase
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     
@@ -1318,7 +1318,7 @@ public partial class App : Application
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-public class FirePanel : ViewModelBase, IDataErrorInfo
+public class BlackBoxControlPanel : ViewModelBase, IDataErrorInfo
 {
     private string _panelName;
     
@@ -2066,7 +2066,7 @@ Add XML documentation to all public members:
 /// <summary>
 /// Represents a fire panel with multiple loops and buses.
 /// </summary>
-public class FirePanel : ViewModelBase
+public class BlackBoxControlPanel : ViewModelBase
 {
     /// <summary>
     /// Gets or sets the name of the fire panel.
@@ -2075,9 +2075,9 @@ public class FirePanel : ViewModelBase
     public string PanelName { get; set; }
     
     /// <summary>
-    /// Initializes a new instance of the <see cref="FirePanel"/> class.
+    /// Initializes a new instance of the <see cref="BlackBoxControlPanel"/> class.
     /// </summary>
-    public FirePanel()
+    public BlackBoxControlPanel()
     {
         // Implementation
     }
@@ -2129,13 +2129,13 @@ using Moq;
 
 namespace BlackBoxControl.Tests.ViewModels
 {
-    public class FirePanelViewModelTests
+    public class BlackBoxControlPanelViewModelTests
     {
         [Fact]
         public void Constructor_ShouldInitializeWithDefaults()
         {
             // Arrange & Act
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             
             // Assert
             viewModel.Should().NotBeNull();
@@ -2149,11 +2149,11 @@ namespace BlackBoxControl.Tests.ViewModels
         public void PanelName_WhenSet_ShouldRaisePropertyChanged(string name)
         {
             // Arrange
-            var viewModel = new FirePanelViewModel();
+            var viewModel = new BlackBoxControlPanelViewModel();
             bool propertyChanged = false;
             viewModel.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(FirePanelViewModel.PanelName))
+                if (e.PropertyName == nameof(BlackBoxControlPanelViewModel.PanelName))
                     propertyChanged = true;
             };
             
@@ -2922,7 +2922,7 @@ Create `NLog.config`:
 ```csharp
 using NLog;
 
-public class FirePanelViewModel : ViewModelBase
+public class BlackBoxControlPanelViewModel : ViewModelBase
 {
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     
@@ -2998,7 +2998,7 @@ public partial class App : Application
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-public class FirePanel : ViewModelBase, IDataErrorInfo
+public class BlackBoxControlPanel : ViewModelBase, IDataErrorInfo
 {
     private string _panelName;
     
