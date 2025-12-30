@@ -1,40 +1,40 @@
-﻿<UserControl x:Class="BlackBoxControl.LoopDeviceForm"
+<UserControl x:Class="BlackBoxControl.LoopDeviceForm"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="{StaticResource BackgroundBrush}"
              HorizontalAlignment="Stretch" 
              VerticalAlignment="Stretch">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+  <ScrollViewer VerticalScrollBarVisibility="Auto" 
                   HorizontalScrollBarVisibility="Disabled"
                   Padding="20">
-        <StackPanel Orientation="Vertical" MaxWidth="900">
+    <StackPanel Orientation="Vertical" MaxWidth="900">
 
-            <!-- Header -->
-            <Border Background="{StaticResource SurfaceBrush}" 
+      <!-- Header -->
+      <Border Background="{StaticResource SurfaceBrush}" 
                     BorderBrush="{StaticResource BorderBrush}"
                     BorderThickness="0,0,0,2"
                     Padding="0,0,0,15"
                     Margin="0,0,0,20">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Device Configuration" 
+          <StackPanel Grid.Column="0">
+            <TextBlock Text="Device Configuration" 
                                    FontSize="24" 
                                    FontWeight="SemiBold"
                                    Foreground="{StaticResource ForegroundBrush}"
                                    Margin="0,0,0,5"/>
-                        <TextBlock Text="Configure device properties and behavior settings" 
+            <TextBlock Text="Configure device properties and behavior settings" 
                                    FontSize="13"
                                    Foreground="{StaticResource ForegroundDimBrush}"/>
-                    </StackPanel>
+          </StackPanel>
 
-                    <!-- Device Icon/Image (if available) -->
-                    <Border Grid.Column="1" 
+          <!-- Device Icon/Image (if available) -->
+          <Border Grid.Column="1" 
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Background="{StaticResource SurfaceBrush}"
@@ -42,112 +42,112 @@
                             BorderThickness="1"
                             CornerRadius="4"
                             Padding="8">
-                        <Image Source="{Binding Device.ImagePath}" 
+            <Image Source="{Binding Device.ImagePath}" 
                                Width="48" 
                                Height="48"
                                Stretch="Uniform"/>
-                    </Border>
-                </Grid>
-            </Border>
+          </Border>
+        </Grid>
+      </Border>
 
-            <!-- Main Content Grid -->
+      <!-- Main Content Grid -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Column -->
+        <StackPanel Grid.Column="0">
+
+          <!-- Basic Information -->
+          <GroupBox Header="Basic Information" Padding="15" Margin="0,0,0,20">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
 
-                <!-- Left Column -->
-                <StackPanel Grid.Column="0">
-
-                    <!-- Basic Information -->
-                    <GroupBox Header="Basic Information" Padding="15" Margin="0,0,0,20">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="130"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Label Grid.Row="0" Grid.Column="0" Content="Device Type:" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" 
+              <Label Grid.Row="0" Grid.Column="0" Content="Device Type:" VerticalAlignment="Center"/>
+              <TextBox Grid.Row="0" Grid.Column="1" 
                                      Text="{Binding Device.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,10"
                                      IsReadOnly="True"
                                      Background="{StaticResource SurfaceBrush}"
                                      ToolTip="Device type is determined by the device selected"/>
 
-                            <Label Grid.Row="1" Grid.Column="0" Content="Location:" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" 
+              <Label Grid.Row="1" Grid.Column="0" Content="Location:" VerticalAlignment="Center"/>
+              <TextBox Grid.Row="1" Grid.Column="1" 
                                      Text="{Binding Device.LocationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,10"
                                      ToolTip="Physical location of the device"/>
 
-                            <Label Grid.Row="2" Grid.Column="0" Content="Address:" VerticalAlignment="Center"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" 
+              <Label Grid.Row="2" Grid.Column="0" Content="Address:" VerticalAlignment="Center"/>
+              <TextBox Grid.Row="2" Grid.Column="1" 
                                      Text="{Binding Device.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      ToolTip="Device address on the loop"/>
-                        </Grid>
-                    </GroupBox>
+            </Grid>
+          </GroupBox>
 
-                    <!-- Detection Settings -->
-                    <GroupBox Header="Detection Settings" Padding="15" Margin="0,0,0,20">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="130"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+          <!-- Detection Settings -->
+          <GroupBox Header="Detection Settings" Padding="15" Margin="0,0,0,20">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Content="Analog Value:" VerticalAlignment="Center"/>
-                            <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" 
+              <Label Grid.Row="0" Grid.Column="0" Content="Analog Value:" VerticalAlignment="Center"/>
+              <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" 
                                          Text="{Binding Device.AnalogValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          ToolTip="Current analog reading from the device"/>
-                                <TextBlock Grid.Column="1" 
+                <TextBlock Grid.Column="1" 
                                            Text="%" 
                                            VerticalAlignment="Center"
                                            Foreground="{StaticResource ForegroundDimBrush}"
                                            Margin="8,0,0,0"/>
-                            </Grid>
+              </Grid>
 
-                            <Label Grid.Row="1" Grid.Column="0" Content="Threshold:" VerticalAlignment="Center"/>
-                            <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" 
+              <Label Grid.Row="1" Grid.Column="0" Content="Threshold:" VerticalAlignment="Center"/>
+              <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" 
                                          Text="{Binding Device.DeviceThreshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          ToolTip="Alarm threshold value"/>
-                                <TextBlock Grid.Column="1" 
+                <TextBlock Grid.Column="1" 
                                            Text="%" 
                                            VerticalAlignment="Center"
                                            Foreground="{StaticResource ForegroundDimBrush}"
                                            Margin="8,0,0,0"/>
-                            </Grid>
+              </Grid>
 
-                            <Label Grid.Row="2" Grid.Column="0" Content="Day Sensitivity:" VerticalAlignment="Center"/>
-                            <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Slider Grid.Column="0" 
+              <Label Grid.Row="2" Grid.Column="0" Content="Day Sensitivity:" VerticalAlignment="Center"/>
+              <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Slider Grid.Column="0" 
                                         Minimum="0" 
                                         Maximum="100" 
                                         TickFrequency="10"
@@ -155,20 +155,20 @@
                                         Value="{Binding Device.DeviceDaySensitivity, Mode=TwoWay}"
                                         VerticalAlignment="Center"
                                         Margin="0,0,10,0"/>
-                                <TextBlock Grid.Column="1" 
+                <TextBlock Grid.Column="1" 
                                            Text="{Binding Device.DeviceDaySensitivity, StringFormat={}{0:0}}" 
                                            VerticalAlignment="Center"
                                            MinWidth="30"
                                            Foreground="{StaticResource ForegroundBrush}"/>
-                            </Grid>
+              </Grid>
 
-                            <Label Grid.Row="3" Grid.Column="0" Content="Night Sensitivity:" VerticalAlignment="Center"/>
-                            <Grid Grid.Row="3" Grid.Column="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Slider Grid.Column="0" 
+              <Label Grid.Row="3" Grid.Column="0" Content="Night Sensitivity:" VerticalAlignment="Center"/>
+              <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Slider Grid.Column="0" 
                                         Minimum="0" 
                                         Maximum="100" 
                                         TickFrequency="10"
@@ -176,44 +176,45 @@
                                         Value="{Binding Device.DeviceNightSensitivity, Mode=TwoWay}"
                                         VerticalAlignment="Center"
                                         Margin="0,0,10,0"/>
-                                <TextBlock Grid.Column="1" 
+                <TextBlock Grid.Column="1" 
                                            Text="{Binding Device.DeviceNightSensitivity, StringFormat={}{0:0}}" 
                                            VerticalAlignment="Center"
                                            MinWidth="30"
                                            Foreground="{StaticResource ForegroundBrush}"/>
-                            </Grid>
-                        </Grid>
-                    </GroupBox>
+              </Grid>
+            </Grid>
+          </GroupBox>
 
-                </StackPanel>
+        </StackPanel>
 
-                <!-- Right Column -->
-                <StackPanel Grid.Column="2">
+        <!-- Right Column -->
+        <StackPanel Grid.Column="2">
 
-                    <!-- Action Configuration -->
-                    <GroupBox Header="Action Configuration" Padding="15" Margin="0,0,0,20">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+          <!-- Action Configuration -->
+          <GroupBox Header="Action Configuration" Padding="15" Margin="0,0,0,20">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Content="Input Action:" VerticalAlignment="Center"/>
-                            <ComboBox Grid.Row="0" Grid.Column="1" 
+              <Label Grid.Row="0" Grid.Column="0" Content="Input Action:" VerticalAlignment="Center"/>
+              <ComboBox Grid.Row="0" Grid.Column="1" 
+                                      Style="{StaticResource ModernDarkComboBox}"
                                       ItemsSource="{Binding InputActions}" 
                                       SelectedItem="{Binding Device.DeviceInputAction, Mode=TwoWay}"
                                       Margin="0,0,0,10"
                                       ToolTip="Action to perform when device activates"/>
 
-                            <Label Grid.Row="1" Grid.Column="0" 
+              <Label Grid.Row="1" Grid.Column="0" 
                                    Content="Action Message:" 
                                    VerticalAlignment="Top"
                                    Margin="0,8,0,0"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" 
+              <TextBox Grid.Row="1" Grid.Column="1" 
                                      Text="{Binding Device.DeviceActionMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
@@ -221,174 +222,174 @@
                                      MaxHeight="120"
                                      VerticalScrollBarVisibility="Auto"
                                      ToolTip="Custom message to display when device triggers"/>
-                        </Grid>
-                    </GroupBox>
+            </Grid>
+          </GroupBox>
 
-                    <!-- Device Status -->
-                    <GroupBox Header="Device Status" Padding="15" Margin="0,0,0,20">
-                        <StackPanel>
-                            <!-- Status Indicators -->
-                            <Grid Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+          <!-- Device Status -->
+          <GroupBox Header="Device Status" Padding="15" Margin="0,0,0,20">
+            <StackPanel>
+              <!-- Status Indicators -->
+              <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                                <!-- Online Status -->
-                                <Border Grid.Column="0" 
+                <!-- Online Status -->
+                <Border Grid.Column="0" 
                                         Background="{StaticResource SurfaceBrush}"
                                         BorderBrush="{StaticResource SuccessBrush}"
                                         BorderThickness="1"
                                         CornerRadius="4"
                                         Padding="10"
                                         Margin="0,0,5,0">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                            <Ellipse Width="8" Height="8" 
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                      <Ellipse Width="8" Height="8" 
                                                      Fill="{StaticResource SuccessBrush}"
                                                      Margin="0,0,8,0"/>
-                                            <TextBlock Text="Status" 
+                      <TextBlock Text="Status" 
                                                        FontSize="11"
                                                        Foreground="{StaticResource ForegroundDimBrush}"/>
-                                        </StackPanel>
-                                        <TextBlock Text="Online" 
+                    </StackPanel>
+                    <TextBlock Text="Online" 
                                                    FontSize="14"
                                                    FontWeight="Medium"
                                                    Foreground="{StaticResource ForegroundBrush}"/>
-                                    </StackPanel>
-                                </Border>
+                  </StackPanel>
+                </Border>
 
-                                <!-- Device Health -->
-                                <Border Grid.Column="1" 
+                <!-- Device Health -->
+                <Border Grid.Column="1" 
                                         Background="{StaticResource SurfaceBrush}"
                                         BorderBrush="{StaticResource BorderBrush}"
                                         BorderThickness="1"
                                         CornerRadius="4"
                                         Padding="10"
                                         Margin="5,0,0,0">
-                                    <StackPanel>
-                                        <TextBlock Text="Health" 
+                  <StackPanel>
+                    <TextBlock Text="Health" 
                                                    FontSize="11"
                                                    Foreground="{StaticResource ForegroundDimBrush}"
                                                    Margin="0,0,0,5"/>
-                                        <TextBlock Text="Good" 
+                    <TextBlock Text="Good" 
                                                    FontSize="14"
                                                    FontWeight="Medium"
                                                    Foreground="{StaticResource ForegroundBrush}"/>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
+                  </StackPanel>
+                </Border>
+              </Grid>
 
-                            <!-- Analog Value Bar -->
-                            <StackPanel Margin="0,10,0,0">
-                                <Grid Margin="0,0,0,5">
-                                    <TextBlock Text="Current Analog Value" 
+              <!-- Analog Value Bar -->
+              <StackPanel Margin="0,10,0,0">
+                <Grid Margin="0,0,0,5">
+                  <TextBlock Text="Current Analog Value" 
                                                FontSize="11"
                                                Foreground="{StaticResource ForegroundDimBrush}"
                                                HorizontalAlignment="Left"/>
-                                    <TextBlock Text="{Binding Device.AnalogValue, StringFormat={}{0}%}" 
+                  <TextBlock Text="{Binding Device.AnalogValue, StringFormat={}{0}%}" 
                                                FontSize="11"
                                                Foreground="{StaticResource ForegroundBrush}"
                                                FontWeight="SemiBold"
                                                HorizontalAlignment="Right"/>
-                                </Grid>
-                                <Border Background="{StaticResource SurfaceBrush}"
+                </Grid>
+                <Border Background="{StaticResource SurfaceBrush}"
                                         BorderBrush="{StaticResource BorderBrush}"
                                         BorderThickness="1"
                                         CornerRadius="3"
                                         Height="8">
-                                    <Border HorizontalAlignment="Left"
+                  <Border HorizontalAlignment="Left"
                                             Background="{StaticResource PrimaryBrush}"
                                             CornerRadius="2"
                                             Width="{Binding Device.AnalogValue, Converter={StaticResource PercentageToWidthConverter}}"/>
-                                </Border>
-                            </StackPanel>
-                        </StackPanel>
-                    </GroupBox>
+                </Border>
+              </StackPanel>
+            </StackPanel>
+          </GroupBox>
 
-                    <!-- Configuration Notes -->
-                    <GroupBox Header="Configuration Notes" Padding="15" Margin="0,0,0,20">
-                        <StackPanel>
-                            <Border Background="#1A2ECC71"
+          <!-- Configuration Notes -->
+          <GroupBox Header="Configuration Notes" Padding="15" Margin="0,0,0,20">
+            <StackPanel>
+              <Border Background="#1A2ECC71"
                                     BorderBrush="{StaticResource SuccessBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4"
                                     Padding="10"
                                     Margin="0,0,0,8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✓" 
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="✓" 
                                                Foreground="{StaticResource SuccessBrush}"
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,8,0"/>
-                                    <TextBlock Text="Day sensitivity: Lower values = more sensitive"
+                  <TextBlock Text="Day sensitivity: Lower values = more sensitive"
                                                FontSize="11"
                                                Foreground="{StaticResource ForegroundBrush}"
                                                TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
+                </StackPanel>
+              </Border>
 
-                            <Border Background="#1A2ECC71"
+              <Border Background="#1A2ECC71"
                                     BorderBrush="{StaticResource SuccessBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4"
                                     Padding="10"
                                     Margin="0,0,0,8">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="✓" 
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="✓" 
                                                Foreground="{StaticResource SuccessBrush}"
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,8,0"/>
-                                    <TextBlock Text="Night sensitivity: Adjust for ambient lighting"
+                  <TextBlock Text="Night sensitivity: Adjust for ambient lighting"
                                                FontSize="11"
                                                Foreground="{StaticResource ForegroundBrush}"
                                                TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
+                </StackPanel>
+              </Border>
 
-                            <Border Background="#1AF39C12"
+              <Border Background="#1AF39C12"
                                     BorderBrush="{StaticResource WarningBrush}"
                                     BorderThickness="1"
                                     CornerRadius="4"
                                     Padding="10">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="⚠" 
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="⚠" 
                                                Foreground="{StaticResource WarningBrush}"
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,8,0"/>
-                                    <TextBlock Text="Threshold must be higher than analog value"
+                  <TextBlock Text="Threshold must be higher than analog value"
                                                FontSize="11"
                                                Foreground="{StaticResource ForegroundBrush}"
                                                TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </GroupBox>
-
                 </StackPanel>
-            </Grid>
+              </Border>
+            </StackPanel>
+          </GroupBox>
 
-            <!-- Action Buttons -->
-            <Border Background="{StaticResource SurfaceBrush}" 
+        </StackPanel>
+      </Grid>
+
+      <!-- Action Buttons -->
+      <Border Background="{StaticResource SurfaceBrush}" 
                     BorderBrush="{StaticResource BorderBrush}"
                     BorderThickness="0,1,0,0"
                     Padding="0,20,0,0"
                     Margin="0,20,0,0">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Cancel" 
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button Content="Cancel" 
                             Style="{StaticResource SecondaryButton}"
                             MinWidth="100"
                             Margin="0,0,10,0"
                             Command="{Binding CancelCommand}"/>
-                    <Button Content="Save Changes" 
+          <Button Content="Save Changes" 
                             Style="{StaticResource PrimaryButton}"
                             MinWidth="120"
                             Command="{Binding SaveCommand}"/>
-                </StackPanel>
-            </Border>
-
         </StackPanel>
-    </ScrollViewer>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>
