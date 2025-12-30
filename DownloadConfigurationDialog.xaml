@@ -1,26 +1,22 @@
 <Window x:Class="BlackBoxControl.Views.DownloadConfigurationDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:BlackBoxControl.Converters"
         Title="Download Configuration from ESP32"
-        Width="700" Height="600"
+        Width="700" Height="650"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+        Background="{DynamicResource BackgroundBrush}">
 
   <Window.Resources>
-    <Style TargetType="Button">
-      <Setter Property="MinWidth" Value="100"/>
-      <Setter Property="Margin" Value="5"/>
-      <Setter Property="Padding" Value="10,5"/>
-    </Style>
-
-    <Style TargetType="TextBlock">
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="Margin" Value="5"/>
-    </Style>
+    <converters:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
+    <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
   </Window.Resources>
 
   <Grid Margin="10">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -31,12 +27,36 @@
 
     <!-- Title -->
     <TextBlock Grid.Row="0" Text="Download Configuration from ESP32 Panel"
-                   FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+               FontSize="18" FontWeight="Bold" 
+               Foreground="{DynamicResource ForegroundBrush}"
+               Margin="0,0,0,15"/>
+
+    <!-- Simulator Mode Warning Banner -->
+    <Border Grid.Row="1" 
+            Background="{DynamicResource WarningBrush}" 
+            Padding="10" 
+            Margin="0,0,0,10" 
+            CornerRadius="4"
+            Visibility="{Binding IsSimulatorMode, Converter={StaticResource BoolToVisibilityConverter}}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="⚠️ SIMULATOR MODE ACTIVE" 
+                   FontWeight="Bold" 
+                   Foreground="White" 
+                   FontSize="13"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text=" - Using virtual ESP32 (no hardware required)" 
+                   Foreground="White" 
+                   FontSize="12"
+                   Margin="8,0,0,0"
+                   VerticalAlignment="Center"/>
+      </StackPanel>
+    </Border>
 
     <!-- Connection Section -->
-    <GroupBox Grid.Row="1" Header="Connection" Padding="10" Margin="0,0,0,10">
+    <GroupBox Grid.Row="2" Header="Connection" Padding="10" Margin="0,0,0,10">
       <Grid>
         <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -47,31 +67,47 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!-- COM Port Selection -->
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="COM Port:"/>
-        <ComboBox Grid.Row="0" Grid.Column="1"
-                          ItemsSource="{Binding AvailablePorts}"
-                          SelectedItem="{Binding SelectedPort}"
-                          DisplayMemberPath="PortName"
-                          Margin="5"/>
+        <!-- Simulator Checkbox -->
+        <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                  Content="🖥️ Use Virtual ESP32 Simulator (for testing without hardware)"
+                  IsChecked="{Binding UseSimulator}"
+                  Foreground="{DynamicResource ForegroundBrush}"
+                  FontSize="12"
+                  FontWeight="Medium"
+                  Margin="0,0,0,10"
+                  ToolTip="Enable this to test upload/download without physical ESP32 hardware"/>
 
-        <Button Grid.Row="0" Grid.Column="2"
-                        Content="🔄 Refresh"
-                        Command="{Binding RefreshPortsCommand}"
-                        ToolTip="Refresh COM port list"/>
+        <!-- COM Port Selection -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="COM Port:"
+                   Foreground="{DynamicResource ForegroundBrush}"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+        <ComboBox Grid.Row="1" Grid.Column="1"
+                  ItemsSource="{Binding AvailablePorts}"
+                  SelectedItem="{Binding SelectedPort}"
+                  DisplayMemberPath="PortName"
+                  IsEnabled="{Binding CanSelectPort}"
+                  Margin="5"/>
+
+        <Button Grid.Row="1" Grid.Column="2"
+                Content="🔄 Refresh"
+                Command="{Binding RefreshPortsCommand}"
+                IsEnabled="{Binding CanSelectPort}"
+                Style="{StaticResource SecondaryButton}"
+                ToolTip="Refresh COM port list"/>
 
         <!-- Connect/Disconnect Button -->
-        <Button Grid.Row="0" Grid.Column="3">
+        <Button Grid.Row="1" Grid.Column="3">
           <Button.Style>
-            <Style TargetType="Button">
+            <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
               <Setter Property="Content" Value="Connect"/>
               <Setter Property="Command" Value="{Binding ConnectCommand}"/>
-              <Setter Property="Background" Value="#4CAF50"/>
+              <Setter Property="Background" Value="{DynamicResource SuccessBrush}"/>
               <Style.Triggers>
                 <DataTrigger Binding="{Binding IsConnected}" Value="True">
                   <Setter Property="Content" Value="Disconnect"/>
                   <Setter Property="Command" Value="{Binding DisconnectCommand}"/>
-                  <Setter Property="Background" Value="#F44336"/>
+                  <Setter Property="Background" Value="{DynamicResource DangerBrush}"/>
                 </DataTrigger>
               </Style.Triggers>
             </Style>
@@ -79,87 +115,87 @@
         </Button>
 
         <!-- Connection Status -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
-                            Orientation="Horizontal" Margin="0,10,0,0">
-          <Ellipse Width="12" Height="12" Margin="0,0,10,0">
-            <Ellipse.Style>
-              <Style TargetType="Ellipse">
-                <Setter Property="Fill" Value="Red"/>
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding IsConnected}" Value="True">
-                    <Setter Property="Fill" Value="Green"/>
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </Ellipse.Style>
-          </Ellipse>
-          <TextBlock Text="{Binding StatusMessage}" FontWeight="SemiBold"/>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                    Orientation="Horizontal" Margin="0,10,0,0">
+          <Ellipse Width="12" Height="12" Margin="0,0,10,0"
+                   Fill="{Binding IsConnected, Converter={StaticResource BooleanToBrushConverter}}"/>
+          <TextBlock Text="{Binding StatusMessage}" FontWeight="SemiBold"
+                     Foreground="{DynamicResource ForegroundBrush}"/>
         </StackPanel>
       </Grid>
     </GroupBox>
 
     <!-- Download Progress Section -->
-    <GroupBox Grid.Row="2" Header="Download Progress" Padding="10" Margin="0,0,0,10">
+    <GroupBox Grid.Row="3" Header="Download Progress" Padding="10" Margin="0,0,0,10">
       <StackPanel>
-        <ProgressBar Height="25" Value="{Binding DownloadProgress}" Maximum="100"/>
+        <ProgressBar Height="25" Value="{Binding DownloadProgress}" Maximum="100"
+                     Foreground="{DynamicResource PrimaryBrush}"/>
         <TextBlock Text="{Binding DownloadProgress, StringFormat={}{0}%}"
-                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                   HorizontalAlignment="Center" Margin="0,5,0,0"
+                   Foreground="{DynamicResource ForegroundBrush}"/>
       </StackPanel>
     </GroupBox>
 
     <!-- Log Section -->
-    <GroupBox Grid.Row="3" Header="Log" Padding="10">
+    <GroupBox Grid.Row="4" Header="Log" Padding="10">
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <TextBox Text="{Binding LogMessages, Mode=OneWay}"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         FontFamily="Consolas"
-                         FontSize="11"
-                         Background="#F5F5F5"
-                         BorderThickness="0"
-                         VerticalScrollBarVisibility="Auto"/>
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 FontFamily="Consolas"
+                 FontSize="11"
+                 Background="{DynamicResource SurfaceBrush}"
+                 Foreground="{DynamicResource ForegroundBrush}"
+                 BorderThickness="0"
+                 VerticalScrollBarVisibility="Auto"/>
       </ScrollViewer>
     </GroupBox>
 
     <!-- Action Buttons -->
-    <StackPanel Grid.Row="4" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Margin="0,10,0,0">
+    <StackPanel Grid.Row="5" Orientation="Horizontal"
+                HorizontalAlignment="Right" Margin="0,10,0,0">
       <Button Content="📥 Download Configuration"
-                    Command="{Binding DownloadCommand}"
-                    IsEnabled="{Binding CanDownload}"
-                    Background="#2196F3"
-                    Foreground="White"
-                    FontWeight="Bold"/>
+              Command="{Binding DownloadCommand}"
+              IsEnabled="{Binding CanDownload}"
+              Style="{StaticResource PrimaryButton}"
+              FontWeight="Bold"/>
 
       <Button Content="⏹ Cancel Download"
-                    Command="{Binding CancelCommand}"
-                    IsEnabled="{Binding CanCancel}"
-                    Background="#FF5722"
-                    Foreground="White"/>
+              Command="{Binding CancelCommand}"
+              IsEnabled="{Binding CanCancel}"
+              Style="{StaticResource PrimaryButton}"
+              Background="{DynamicResource DangerBrush}"/>
 
       <Button Content="Close"
-                    Command="{Binding CloseCommand}"
-                    IsDefault="True"/>
+              Command="{Binding CloseCommand}"
+              Style="{StaticResource SecondaryButton}"
+              IsDefault="True"/>
     </StackPanel>
 
     <!-- Info Section -->
-    <Border Grid.Row="5" Background="#E8F5E9" Padding="10" Margin="0,10,0,0"
-                BorderBrush="#4CAF50" BorderThickness="1" CornerRadius="3">
+    <Border Grid.Row="6" Background="{DynamicResource SurfaceBrush}" 
+            Padding="10" Margin="0,10,0,0"
+            BorderBrush="{DynamicResource SuccessBrush}" 
+            BorderThickness="1" CornerRadius="3">
       <StackPanel>
-        <TextBlock FontWeight="Bold" Foreground="#2E7D32">
-                    ℹ️ Instructions:
+        <TextBlock FontWeight="Bold" Foreground="{DynamicResource SuccessBrush}">
+          ℹ️ Instructions:
         </TextBlock>
-        <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
-                    1. Connect ESP32 to your computer via USB
+        <TextBlock TextWrapping="Wrap" Margin="0,5,0,0"
+                   Foreground="{DynamicResource ForegroundBrush}">
+          1. Check "Use Simulator" for testing, or connect ESP32 via USB for real hardware
         </TextBlock>
-        <TextBlock TextWrapping="Wrap">
-                    2. Select the correct COM port and click Connect
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{DynamicResource ForegroundBrush}">
+          2. Select the correct COM port and click Connect
         </TextBlock>
-        <TextBlock TextWrapping="Wrap">
-                    3. Click 'Download Configuration' to retrieve data from ESP32
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{DynamicResource ForegroundBrush}">
+          3. Click 'Download Configuration' to retrieve data from ESP32
         </TextBlock>
-        <TextBlock TextWrapping="Wrap">
-                    4. The downloaded configuration will be loaded into the application
+        <TextBlock TextWrapping="Wrap"
+                   Foreground="{DynamicResource ForegroundBrush}">
+          4. The downloaded configuration will be loaded into the application
         </TextBlock>
       </StackPanel>
     </Border>

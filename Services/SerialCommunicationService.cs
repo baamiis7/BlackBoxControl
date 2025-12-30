@@ -32,6 +32,18 @@ namespace BlackBoxControl.Services
     }
 
     /// <summary>
+    /// Download progress information
+    /// </summary>
+    public class DownloadProgress
+    {
+        public int TotalPackets { get; set; }
+        public int ReceivedPackets { get; set; }
+        public int PercentComplete => TotalPackets > 0 ? (ReceivedPackets * 100) / TotalPackets : 0;
+        public string CurrentOperation { get; set; }
+        public bool IsComplete => ReceivedPackets >= TotalPackets;
+    }
+
+    /// <summary>
     /// Service for serial communication with ESP32
     /// </summary>
     public class SerialCommunicationService : IDisposable
@@ -43,8 +55,13 @@ namespace BlackBoxControl.Services
         public event EventHandler<string> MessageReceived;
         public event EventHandler<Exception> ErrorOccurred;
         public event EventHandler<UploadProgress> UploadProgressChanged;
+        public event EventHandler<DownloadProgress> DownloadProgressChanged;
 
-        public bool IsConnected => _isConnected && _serialPort?.IsOpen == true;
+        public virtual bool IsConnected
+        {
+            get => _isConnected && _serialPort?.IsOpen == true;
+            protected set => _isConnected = value;
+        }
 
         /// <summary>
         /// Get list of available COM ports
@@ -68,7 +85,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Connect to ESP32 on specified port
         /// </summary>
-        public async Task<bool> ConnectAsync(string portName, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> ConnectAsync(string portName, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -118,7 +135,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Disconnect from ESP32
         /// </summary>
-        public void Disconnect()
+        public virtual void Disconnect()
         {
             lock (_lock)
             {
@@ -150,7 +167,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Perform handshake with ESP32
         /// </summary>
-        private async Task<bool> PerformHandshakeAsync(CancellationToken cancellationToken)
+        protected virtual async Task<bool> PerformHandshakeAsync(CancellationToken cancellationToken)
         {
             try
             {
@@ -184,7 +201,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Send binary packet to ESP32
         /// </summary>
-        public async Task SendPacketAsync(BinaryPacket packet, CancellationToken cancellationToken)
+        public virtual async Task SendPacketAsync(BinaryPacket packet, CancellationToken cancellationToken)
         {
             if (!IsConnected)
                 throw new InvalidOperationException("Not connected to ESP32");
@@ -214,7 +231,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Wait for ACK from ESP32
         /// </summary>
-        private async Task<bool> WaitForAckAsync(int timeoutMs, CancellationToken cancellationToken)
+        protected virtual async Task<bool> WaitForAckAsync(int timeoutMs, CancellationToken cancellationToken)
         {
             var startTime = DateTime.Now;
             var buffer = new List<byte>();
@@ -240,7 +257,7 @@ namespace BlackBoxControl.Services
                         }
                     }
                 }
-                catch (TimeoutException)
+                catch
                 {
                     // Continue waiting
                 }
@@ -248,13 +265,13 @@ namespace BlackBoxControl.Services
                 await Task.Delay(10, cancellationToken);
             }
 
-            return false; // Timeout
+            return false;
         }
 
         /// <summary>
         /// Try to parse ACK/NACK packet from buffer
         /// </summary>
-        private bool TryParseAckPacket(byte[] buffer, out bool isAck)
+        protected virtual bool TryParseAckPacket(byte[] buffer, out bool isAck)
         {
             isAck = false;
 
@@ -287,16 +304,25 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Send packet and wait for acknowledgment
         /// </summary>
-        public async Task<bool> SendPacketWithAckAsync(BinaryPacket packet, CancellationToken cancellationToken)
+        public virtual async Task<bool> SendPacketWithAckAsync(BinaryPacket packet, CancellationToken cancellationToken)
         {
             await SendPacketAsync(packet, cancellationToken);
             return await WaitForAckAsync(ProtocolConstants.ACK_TIMEOUT_MS, cancellationToken);
         }
 
         /// <summary>
+        /// Receive packet from ESP32 (for download)
+        /// </summary>
+        public virtual async Task<BinaryPacket> ReceivePacketAsync(CancellationToken cancellationToken)
+        {
+            // Base implementation - to be overridden in derived classes
+            throw new NotImplementedException("ReceivePacketAsync must be implemented in derived class");
+        }
+
+        /// <summary>
         /// Handle received data
         /// </summary>
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        protected virtual void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
@@ -321,17 +347,17 @@ namespace BlackBoxControl.Services
         }
 
         /// <summary>
-        /// Raise message event
+        /// Raise message event (protected so derived classes can use it)
         /// </summary>
-        private void OnMessage(string message)
+        protected void OnMessage(string message)
         {
             MessageReceived?.Invoke(this, message);
         }
 
         /// <summary>
-        /// Raise error event
+        /// Raise error event (protected so derived classes can use it)
         /// </summary>
-        private void OnError(Exception ex)
+        protected void OnError(Exception ex)
         {
             ErrorOccurred?.Invoke(this, ex);
         }
@@ -345,11 +371,28 @@ namespace BlackBoxControl.Services
         }
 
         /// <summary>
+        /// Raise download progress event
+        /// </summary>
+        public void OnDownloadProgress(DownloadProgress progress)
+        {
+            DownloadProgressChanged?.Invoke(this, progress);
+        }
+
+        /// <summary>
         /// Dispose resources
         /// </summary>
         public void Dispose()
         {
-            Disconnect();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Disconnect();
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class CauseAndEffectViewModel : TreeNodeViewModel, INotifyPropertyChanged
     {
-            // --- BACKING FIELDS ---
+        // --- BACKING FIELDS ---
         private CauseAndEffect _causeEffect;
         private string _inputSearchText;
         private string _outputSearchText;
@@ -33,7 +33,8 @@ namespace BlackBoxControl.ViewModels
             get => CauseEffect?.Name ?? "Cause & Effect";
             set
             {
-                if (CauseEffect == null) return;
+                if (CauseEffect == null)
+                    return;
                 CauseEffect.Name = value;
                 OnPropertyChanged(nameof(DisplayName));
             }
@@ -83,72 +84,72 @@ namespace BlackBoxControl.ViewModels
         public ICommand RemoveReceiveApiInputCommand { get; }
 
         // =====================================================================
-        // Constructor — this ViewModel is also a TreeNodeViewModel
+        // CORRECTED Constructor — accepts CauseAndEffect, loops, and busses
         // =====================================================================
-        public CauseAndEffectViewModel(IEnumerable<Loop> loops, IEnumerable<Bus> busses)
-            {
-                NodeType = TreeNodeType.CauseEffect;
+        public CauseAndEffectViewModel(CauseAndEffect causeEffect, IEnumerable<Loop> loops, IEnumerable<Bus> busses)
+        {
+            NodeType = TreeNodeType.CauseEffect;
 
-                // Tree children for this C&E node
-                Children = new ObservableCollection<TreeNodeViewModel>();
+            // Tree children for this C&E node
+            Children = new ObservableCollection<TreeNodeViewModel>();
 
-                // Core model (caller often overwrites this with an existing instance)
-                CauseEffect = new CauseAndEffect();
+            // Use the provided CauseAndEffect instance
+            CauseEffect = causeEffect ?? new CauseAndEffect();
 
-                // Base collections
-                InputDevices = new ObservableCollection<SelectableDevice>();
-                OutputDevices = new ObservableCollection<SelectableDevice>();
+            // Base collections
+            InputDevices = new ObservableCollection<SelectableDevice>();
+            OutputDevices = new ObservableCollection<SelectableDevice>();
 
-                GroupedInputDevices = new ObservableCollection<GroupedDevice>();
-                GroupedOutputDevices = new ObservableCollection<GroupedDevice>();
+            GroupedInputDevices = new ObservableCollection<GroupedDevice>();
+            GroupedOutputDevices = new ObservableCollection<GroupedDevice>();
 
-                // Advanced items
-                TimeOfDayInputs = new ObservableCollection<TimeOfDayInput>();
-                DateTimeInputs = new ObservableCollection<DateTimeInput>();
-                SendTextOutputs = new ObservableCollection<SendTextOutput>();
-                SendEmailOutputs = new ObservableCollection<SendEmailOutput>();
-                SendApiOutputs = new ObservableCollection<SendApiOutput>();
-                ReceiveApiInputs = new ObservableCollection<ReceiveApiInput>();
+            // Advanced items
+            TimeOfDayInputs = new ObservableCollection<TimeOfDayInput>();
+            DateTimeInputs = new ObservableCollection<DateTimeInput>();
+            SendTextOutputs = new ObservableCollection<SendTextOutput>();
+            SendEmailOutputs = new ObservableCollection<SendEmailOutput>();
+            SendApiOutputs = new ObservableCollection<SendApiOutput>();
+            ReceiveApiInputs = new ObservableCollection<ReceiveApiInput>();
 
-                // Commands
-                SaveCommand = new RelayCommand(Save, CanSave);
-                CancelCommand = new RelayCommand(Cancel);
-                TestConfigCommand = new RelayCommand(TestConfiguration);
+            // Commands
+            SaveCommand = new RelayCommand(Save, CanSave);
+            CancelCommand = new RelayCommand(Cancel);
+            TestConfigCommand = new RelayCommand(TestConfiguration);
 
-                SelectAllInputsCommand = new RelayCommand(SelectAllInputs);
-                ClearAllInputsCommand = new RelayCommand(ClearAllInputs);
+            SelectAllInputsCommand = new RelayCommand(SelectAllInputs);
+            ClearAllInputsCommand = new RelayCommand(ClearAllInputs);
 
-                SelectAllOutputsCommand = new RelayCommand(SelectAllOutputs);
-                ClearAllOutputsCommand = new RelayCommand(ClearAllOutputs);
+            SelectAllOutputsCommand = new RelayCommand(SelectAllOutputs);
+            ClearAllOutputsCommand = new RelayCommand(ClearAllOutputs);
 
-                AddTimeOfDayInputCommand = new RelayCommand(AddTimeOfDayInput);
-                RemoveTimeOfDayInputCommand = new RelayCommand<TimeOfDayInput>(RemoveTimeOfDayInput);
+            AddTimeOfDayInputCommand = new RelayCommand(AddTimeOfDayInput);
+            RemoveTimeOfDayInputCommand = new RelayCommand<TimeOfDayInput>(RemoveTimeOfDayInput);
 
-                AddDateTimeInputCommand = new RelayCommand(AddDateTimeInput);
-                RemoveDateTimeInputCommand = new RelayCommand<DateTimeInput>(RemoveDateTimeInput);
+            AddDateTimeInputCommand = new RelayCommand(AddDateTimeInput);
+            RemoveDateTimeInputCommand = new RelayCommand<DateTimeInput>(RemoveDateTimeInput);
 
-                AddSendTextOutputCommand = new RelayCommand(AddSendTextOutput);
-                RemoveSendTextOutputCommand = new RelayCommand<SendTextOutput>(RemoveSendTextOutput);
+            AddSendTextOutputCommand = new RelayCommand(AddSendTextOutput);
+            RemoveSendTextOutputCommand = new RelayCommand<SendTextOutput>(RemoveSendTextOutput);
 
-                AddSendEmailOutputCommand = new RelayCommand(AddSendEmailOutput);
-                RemoveSendEmailOutputCommand = new RelayCommand<SendEmailOutput>(RemoveSendEmailOutput);
+            AddSendEmailOutputCommand = new RelayCommand(AddSendEmailOutput);
+            RemoveSendEmailOutputCommand = new RelayCommand<SendEmailOutput>(RemoveSendEmailOutput);
 
-                AddSendApiOutputCommand = new RelayCommand(AddSendApiOutput);
-                RemoveSendApiOutputCommand = new RelayCommand<SendApiOutput>(RemoveSendApiOutput);
+            AddSendApiOutputCommand = new RelayCommand(AddSendApiOutput);
+            RemoveSendApiOutputCommand = new RelayCommand<SendApiOutput>(RemoveSendApiOutput);
+
             AddReceiveApiInputCommand = new RelayCommand(AddReceiveApiInput);
             RemoveReceiveApiInputCommand = new RelayCommand<ReceiveApiInput>(RemoveReceiveApiInput);
 
-
             // Store loops and buses for device loading
             _loops = loops;
-                _busses = busses;
+            _busses = busses;
 
-                // Load devices for the form (grouped lists)
-                LoadDevices();
+            // Load devices for the form (grouped lists)
+            LoadDevices();
 
-                // Initially the tree has empty Inputs/Outputs children
-                RebuildTreeChildren();
-            }
+            // Rebuild tree with the actual inputs/outputs from the loaded CauseEffect
+            RebuildTreeChildren();
+        }
 
         #region Properties
 
@@ -183,234 +184,237 @@ namespace BlackBoxControl.ViewModels
         }
 
         public ObservableCollection<SelectableDevice> InputDevices
+        {
+            get => _inputDevices;
+            set
             {
-                get => _inputDevices;
-                set
-                {
-                    _inputDevices = value ?? new ObservableCollection<SelectableDevice>();
-                    OnPropertyChanged();
-                }
+                _inputDevices = value ?? new ObservableCollection<SelectableDevice>();
+                OnPropertyChanged();
             }
+        }
 
-            public ObservableCollection<SelectableDevice> OutputDevices
+        public ObservableCollection<SelectableDevice> OutputDevices
+        {
+            get => _outputDevices;
+            set
             {
-                get => _outputDevices;
-                set
-                {
-                    _outputDevices = value ?? new ObservableCollection<SelectableDevice>();
-                    OnPropertyChanged();
-                }
+                _outputDevices = value ?? new ObservableCollection<SelectableDevice>();
+                OnPropertyChanged();
             }
+        }
 
-            public string InputSearchText
-            {
-                get => _inputSearchText;
-                set { _inputSearchText = value; OnPropertyChanged(); FilterInputDevices(); }
-            }
+        public string InputSearchText
+        {
+            get => _inputSearchText;
+            set { _inputSearchText = value; OnPropertyChanged(); FilterInputDevices(); }
+        }
 
-            public string OutputSearchText
-            {
-                get => _outputSearchText;
-                set { _outputSearchText = value; OnPropertyChanged(); FilterOutputDevices(); }
-            }
+        public string OutputSearchText
+        {
+            get => _outputSearchText;
+            set { _outputSearchText = value; OnPropertyChanged(); FilterOutputDevices(); }
+        }
 
-        public int SelectedInputsCount =>(InputDevices?.Count(d => d.IsSelected) ?? 0) + (TimeOfDayInputs?.Count ?? 0) + 
+        public int SelectedInputsCount => (InputDevices?.Count(d => d.IsSelected) ?? 0) + (TimeOfDayInputs?.Count ?? 0) +
             (DateTimeInputs?.Count ?? 0) + (ReceiveApiInputs?.Count ?? 0);
-        public int SelectedOutputsCount => (OutputDevices?.Count(d => d.IsSelected) ?? 0) + (SendTextOutputs?.Count ?? 0) + 
+        public int SelectedOutputsCount => (OutputDevices?.Count(d => d.IsSelected) ?? 0) + (SendTextOutputs?.Count ?? 0) +
             (SendEmailOutputs?.Count ?? 0) + (SendApiOutputs?.Count ?? 0);
 
         // For the list summary cards / Tree text
         public int InputCount => SelectedInputsCount;
-            public int OutputCount => SelectedOutputsCount;
+        public int OutputCount => SelectedOutputsCount;
 
-            #endregion
+        #endregion
 
-            #region Commands
+        #region Commands
 
-            public ICommand SaveCommand { get; }
-            public ICommand CancelCommand { get; }
-            public ICommand TestConfigCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand TestConfigCommand { get; }
 
-            public ICommand SelectAllInputsCommand { get; }
-            public ICommand ClearAllInputsCommand { get; }
+        public ICommand SelectAllInputsCommand { get; }
+        public ICommand ClearAllInputsCommand { get; }
 
-            public ICommand SelectAllOutputsCommand { get; }
-            public ICommand ClearAllOutputsCommand { get; }
+        public ICommand SelectAllOutputsCommand { get; }
+        public ICommand ClearAllOutputsCommand { get; }
 
-            #endregion
+        #endregion
 
-            #region Device Loading
+        #region Device Loading
 
-            private void LoadDevices()
+        private void LoadDevices()
+        {
+            LoadInputDevices();
+            LoadOutputDevices();
+        }
+
+        private void LoadInputDevices()
+        {
+            if (GroupedInputDevices == null)
+                GroupedInputDevices = new ObservableCollection<GroupedDevice>();
+            if (InputDevices == null)
+                InputDevices = new ObservableCollection<SelectableDevice>();
+
+            GroupedInputDevices.Clear();
+            InputDevices.Clear(); // still used for selection counters
+
+            string fallbackImage = "/Assets/Nodes/default.png";
+
+            // GROUP BY LOOPS
+            if (_loops != null)
             {
-                LoadInputDevices();
-                LoadOutputDevices();
-            }
-
-            private void LoadInputDevices()
-            {
-                if (GroupedInputDevices == null)
-                    GroupedInputDevices = new ObservableCollection<GroupedDevice>();
-                if (InputDevices == null)
-                    InputDevices = new ObservableCollection<SelectableDevice>();
-
-                GroupedInputDevices.Clear();
-                InputDevices.Clear(); // still used for selection counters
-
-                string fallbackImage = "/Assets/Nodes/default.png";
-
-                // GROUP BY LOOPS
-                if (_loops != null)
+                foreach (var loop in _loops)
                 {
-                    foreach (var loop in _loops)
+                    var group = new GroupedDevice(loop.LoopName ?? $"Loop {loop.LoopNumber}");
+
+                    foreach (var device in loop.Devices)
                     {
-                        var group = new GroupedDevice(loop.LoopName ?? $"Loop {loop.LoopNumber}");
-
-                        foreach (var device in loop.Devices)
+                        var selectable = new SelectableDevice
                         {
-                            var selectable = new SelectableDevice
-                            {
-                                DeviceId = $"{device.Type}_{device.Address}",
-                                Type = device.Type,
-                                Address = device.Address.ToString(),
-                                LocationText = device.LocationText,
-                                ImagePath = string.IsNullOrWhiteSpace(device.ImagePath)
-                                            ? fallbackImage
-                                            : device.ImagePath,
-                                SelectedChanged = NotifySelectionChanged
-                            };
+                            DeviceId = $"{device.Type}_{device.Address}",
+                            Type = device.Type,
+                            Address = device.Address.ToString(),
+                            LocationText = device.LocationText,
+                            ImagePath = string.IsNullOrWhiteSpace(device.ImagePath)
+                                        ? fallbackImage
+                                        : device.ImagePath,
+                            SelectedChanged = NotifySelectionChanged
+                        };
 
-                            group.Devices.Add(selectable);
-                            InputDevices.Add(selectable);
-                        }
-
-                        GroupedInputDevices.Add(group);
+                        group.Devices.Add(selectable);
+                        InputDevices.Add(selectable);
                     }
-                }
 
-                // GROUP BY BUSSES (Nodes)
-                if (_busses != null)
-                {
-                    foreach (var bus in _busses)
-                    {
-                        var group = new GroupedDevice(bus.BusName);
-
-                        foreach (var node in bus.Nodes)
-                        {
-                            var selectable = new SelectableDevice
-                            {
-                                DeviceId = $"BusNode_{node.Address}",
-                                Type = "RS485 Node",
-                                Address = node.Address.ToString(),
-                                LocationText = node.LocationText,
-                                ImagePath = string.IsNullOrWhiteSpace(node.ImagePath)
-                                            ? fallbackImage
-                                            : node.ImagePath,
-                                SelectedChanged = NotifySelectionChanged
-                            };
-
-                            group.Devices.Add(selectable);
-                            InputDevices.Add(selectable);
-                        }
-
-                        GroupedInputDevices.Add(group);
-                    }
+                    GroupedInputDevices.Add(group);
                 }
             }
 
-            private void LoadOutputDevices()
+            // GROUP BY BUSSES (Nodes)
+            if (_busses != null)
             {
-                if (GroupedOutputDevices == null)
-                    GroupedOutputDevices = new ObservableCollection<GroupedDevice>();
-                if (OutputDevices == null)
-                    OutputDevices = new ObservableCollection<SelectableDevice>();
-
-                GroupedOutputDevices.Clear();
-                OutputDevices.Clear();
-
-                string fallbackImage = "/Assets/Nodes/default.png";
-
-                // LOOP DEVICES
-                if (_loops != null)
+                foreach (var bus in _busses)
                 {
-                    foreach (var loop in _loops)
+                    var group = new GroupedDevice(bus.BusName);
+
+                    foreach (var node in bus.Nodes)
                     {
-                        var group = new GroupedDevice(loop.LoopName ?? $"Loop {loop.LoopNumber}");
-
-                        foreach (var device in loop.Devices)
+                        var selectable = new SelectableDevice
                         {
-                            var selectable = new SelectableDevice
-                            {
-                                DeviceId = $"{device.Type}_{device.Address}",
-                                Type = device.Type,
-                                Address = device.Address.ToString(),
-                                LocationText = device.LocationText,
-                                ImagePath = string.IsNullOrWhiteSpace(device.ImagePath)
-                                            ? fallbackImage
-                                            : device.ImagePath,
-                                SelectedChanged = NotifySelectionChanged
-                            };
+                            DeviceId = $"BusNode_{node.Address}",
+                            Type = "RS485 Node",
+                            Address = node.Address.ToString(),
+                            LocationText = node.LocationText,
+                            ImagePath = string.IsNullOrWhiteSpace(node.ImagePath)
+                                        ? fallbackImage
+                                        : node.ImagePath,
+                            SelectedChanged = NotifySelectionChanged
+                        };
 
-                            group.Devices.Add(selectable);
-                            OutputDevices.Add(selectable);
-                        }
-
-                        GroupedOutputDevices.Add(group);
+                        group.Devices.Add(selectable);
+                        InputDevices.Add(selectable);
                     }
-                }
 
-                // BUS NODES
-                if (_busses != null)
-                {
-                    foreach (var bus in _busses)
-                    {
-                        var group = new GroupedDevice(bus.BusName);
-
-                        foreach (var node in bus.Nodes)
-                        {
-                            var selectable = new SelectableDevice
-                            {
-                                DeviceId = $"BusNode_{node.Address}",
-                                Type = "RS485 Node",
-                                Address = node.Address.ToString(),
-                                LocationText = node.LocationText,
-                                ImagePath = string.IsNullOrWhiteSpace(node.ImagePath)
-                                            ? fallbackImage
-                                            : node.ImagePath,
-                                SelectedChanged = NotifySelectionChanged
-                            };
-
-                            group.Devices.Add(selectable);
-                            OutputDevices.Add(selectable);
-                        }
-
-                        GroupedOutputDevices.Add(group);
-                    }
+                    GroupedInputDevices.Add(group);
                 }
             }
+        }
 
-            #endregion
+        private void LoadOutputDevices()
+        {
+            if (GroupedOutputDevices == null)
+                GroupedOutputDevices = new ObservableCollection<GroupedDevice>();
+            if (OutputDevices == null)
+                OutputDevices = new ObservableCollection<SelectableDevice>();
 
-            #region Save / Test / Filters / Selection
+            GroupedOutputDevices.Clear();
+            OutputDevices.Clear();
 
-            public void NotifySelectionChanged()
+            string fallbackImage = "/Assets/Nodes/default.png";
+
+            // LOOP DEVICES
+            if (_loops != null)
             {
-                OnPropertyChanged(nameof(SelectedInputsCount));
-                OnPropertyChanged(nameof(SelectedOutputsCount));
-                OnPropertyChanged(nameof(InputCount));
-                OnPropertyChanged(nameof(OutputCount));
+                foreach (var loop in _loops)
+                {
+                    var group = new GroupedDevice(loop.LoopName ?? $"Loop {loop.LoopNumber}");
 
-                // Re-evaluate SaveCommand.CanExecute
-                CommandManager.InvalidateRequerySuggested();
+                    foreach (var device in loop.Devices)
+                    {
+                        var selectable = new SelectableDevice
+                        {
+                            DeviceId = $"{device.Type}_{device.Address}",
+                            Type = device.Type,
+                            Address = device.Address.ToString(),
+                            LocationText = device.LocationText,
+                            ImagePath = string.IsNullOrWhiteSpace(device.ImagePath)
+                                        ? fallbackImage
+                                        : device.ImagePath,
+                            SelectedChanged = NotifySelectionChanged
+                        };
+
+                        group.Devices.Add(selectable);
+                        OutputDevices.Add(selectable);
+                    }
+
+                    GroupedOutputDevices.Add(group);
+                }
             }
 
-            private bool CanSave()
+            // BUS NODES
+            if (_busses != null)
             {
-                if (string.IsNullOrWhiteSpace(CauseEffect?.Name)) return false;
-                if (SelectedInputsCount == 0) return false;
-                if (SelectedOutputsCount == 0) return false;
-                return true;
+                foreach (var bus in _busses)
+                {
+                    var group = new GroupedDevice(bus.BusName);
+
+                    foreach (var node in bus.Nodes)
+                    {
+                        var selectable = new SelectableDevice
+                        {
+                            DeviceId = $"BusNode_{node.Address}",
+                            Type = "RS485 Node",
+                            Address = node.Address.ToString(),
+                            LocationText = node.LocationText,
+                            ImagePath = string.IsNullOrWhiteSpace(node.ImagePath)
+                                        ? fallbackImage
+                                        : node.ImagePath,
+                            SelectedChanged = NotifySelectionChanged
+                        };
+
+                        group.Devices.Add(selectable);
+                        OutputDevices.Add(selectable);
+                    }
+
+                    GroupedOutputDevices.Add(group);
+                }
             }
+        }
+
+        #endregion
+
+        #region Save / Test / Filters / Selection
+
+        public void NotifySelectionChanged()
+        {
+            OnPropertyChanged(nameof(SelectedInputsCount));
+            OnPropertyChanged(nameof(SelectedOutputsCount));
+            OnPropertyChanged(nameof(InputCount));
+            OnPropertyChanged(nameof(OutputCount));
+
+            // Re-evaluate SaveCommand.CanExecute
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private bool CanSave()
+        {
+            if (string.IsNullOrWhiteSpace(CauseEffect?.Name))
+                return false;
+            if (SelectedInputsCount == 0)
+                return false;
+            if (SelectedOutputsCount == 0)
+                return false;
+            return true;
+        }
 
         private void Save()
         {
@@ -459,7 +463,7 @@ namespace BlackBoxControl.ViewModels
             foreach (var output in SendApiOutputs)
                 CauseEffect.Outputs.Add(output);
 
-            foreach (var input in ReceiveApiInputs)  
+            foreach (var input in ReceiveApiInputs)
                 CauseEffect.Inputs.Add(input);
 
             // Update counters
@@ -536,7 +540,8 @@ namespace BlackBoxControl.ViewModels
         }
         private void RemoveTimeOfDayInput(TimeOfDayInput input)
         {
-            if (input == null) return;
+            if (input == null)
+                return;
 
             TimeOfDayInputs.Remove(input);
             CauseEffect.Inputs.Remove(input);
@@ -557,7 +562,8 @@ namespace BlackBoxControl.ViewModels
         }
         private void RemoveDateTimeInput(DateTimeInput input)
         {
-            if (input == null) return;
+            if (input == null)
+                return;
 
             DateTimeInputs.Remove(input);
             CauseEffect.Inputs.Remove(input);
@@ -579,7 +585,8 @@ namespace BlackBoxControl.ViewModels
         }
         private void RemoveSendTextOutput(SendTextOutput output)
         {
-            if (output == null) return;
+            if (output == null)
+                return;
 
             SendTextOutputs.Remove(output);
             CauseEffect.Outputs.Remove(output);
@@ -602,7 +609,8 @@ namespace BlackBoxControl.ViewModels
         }
         private void RemoveSendEmailOutput(SendEmailOutput output)
         {
-            if (output == null) return;
+            if (output == null)
+                return;
 
             SendEmailOutputs.Remove(output);
             CauseEffect.Outputs.Remove(output);
@@ -628,7 +636,8 @@ namespace BlackBoxControl.ViewModels
 
         private void RemoveSendApiOutput(SendApiOutput output)
         {
-            if (output == null) return;
+            if (output == null)
+                return;
 
             SendApiOutputs.Remove(output);
             CauseEffect.Outputs.Remove(output);
@@ -653,7 +662,8 @@ namespace BlackBoxControl.ViewModels
 
         private void RemoveReceiveApiInput(ReceiveApiInput input)
         {
-            if (input == null) return;
+            if (input == null)
+                return;
 
             ReceiveApiInputs.Remove(input);
             CauseEffect.Inputs.Remove(input);
@@ -802,12 +812,12 @@ namespace BlackBoxControl.ViewModels
 
         // INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-            protected void OnPropertyChanged([CallerMemberName] string name = null)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-    
+    }
+
 
 
 

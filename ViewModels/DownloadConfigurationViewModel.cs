@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using BlackBoxControl.Helpers;
 using BlackBoxControl.Models;
 using BlackBoxControl.Services;
 
@@ -24,6 +25,7 @@ namespace BlackBoxControl.ViewModels
         private int _downloadProgress;
         private string _statusMessage;
         private string _logMessages;
+        private bool _useSimulator;
 
         public ObservableCollection<SerialPortInfo> AvailablePorts
         {
@@ -34,19 +36,43 @@ namespace BlackBoxControl.ViewModels
         public SerialPortInfo SelectedPort
         {
             get => _selectedPort;
-            set { _selectedPort = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedPort = value;
+                OnPropertyChanged();
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public bool IsConnected
         {
             get => _isConnected;
-            set { _isConnected = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanConnect)); OnPropertyChanged(nameof(CanDownload)); }
+            set
+            {
+                _isConnected = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanConnect));
+                OnPropertyChanged(nameof(CanDownload));
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (DisconnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (DownloadCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public bool IsDownloading
         {
             get => _isDownloading;
-            set { _isDownloading = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanConnect)); OnPropertyChanged(nameof(CanDownload)); OnPropertyChanged(nameof(CanCancel)); }
+            set
+            {
+                _isDownloading = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanConnect));
+                OnPropertyChanged(nameof(CanDownload));
+                OnPropertyChanged(nameof(CanCancel));
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (DownloadCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (CancelCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public int DownloadProgress
@@ -67,7 +93,42 @@ namespace BlackBoxControl.ViewModels
             set { _logMessages = value; OnPropertyChanged(); }
         }
 
-        public bool CanConnect => !IsConnected && !IsDownloading && SelectedPort != null;
+        public bool UseSimulator
+        {
+            get => _useSimulator;
+            set
+            {
+                _useSimulator = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSimulatorMode));
+                OnPropertyChanged(nameof(CanSelectPort));
+
+                // Enable/disable simulator in service
+                if (_serialService is MockSerialCommunicationService mockService)
+                {
+                    mockService.EnableSimulator(value);
+                    if (value)
+                    {
+                        StatusMessage = "Simulator mode enabled - no hardware required";
+                        AddLog("Virtual ESP32 Simulator activated");
+                    }
+                    else
+                    {
+                        StatusMessage = "Simulator mode disabled - using real hardware";
+                        AddLog("Switched to real hardware mode");
+                    }
+                }
+
+                // Refresh command states
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+
+        public bool IsSimulatorMode => UseSimulator;
+        public bool CanSelectPort => !IsConnected && !IsDownloading && !UseSimulator;
+
+        // Fixed: Allow connection when simulator is enabled OR when a port is selected
+        public bool CanConnect => !IsConnected && !IsDownloading && (UseSimulator || SelectedPort != null);
         public bool CanDownload => IsConnected && !IsDownloading;
         public bool CanCancel => IsDownloading;
 
@@ -83,18 +144,19 @@ namespace BlackBoxControl.ViewModels
 
         public DownloadConfigurationViewModel()
         {
-            _serialService = new SerialCommunicationService();
+            // Use MockSerialCommunicationService
+            _serialService = new MockSerialCommunicationService();
             _downloadService = new ConfigurationDownloadService(_serialService);
 
             // Subscribe to events
             _serialService.MessageReceived += OnSerialMessage;
             _serialService.ErrorOccurred += OnSerialError;
-            _serialService.UploadProgressChanged += OnDownloadProgress;
+            _serialService.DownloadProgressChanged += OnDownloadProgress;
 
             // Commands
             RefreshPortsCommand = new RelayCommand(RefreshPorts);
             ConnectCommand = new RelayCommand(async () => await ConnectAsync(), () => CanConnect);
-            DisconnectCommand = new RelayCommand(Disconnect);
+            DisconnectCommand = new RelayCommand(Disconnect, () => IsConnected);
             DownloadCommand = new RelayCommand(async () => await DownloadAsync(), () => CanDownload);
             CancelCommand = new RelayCommand(CancelDownload, () => CanCancel);
             CloseCommand = new RelayCommand(Close);
@@ -126,7 +188,7 @@ namespace BlackBoxControl.ViewModels
                 }
                 else
                 {
-                    StatusMessage = "No COM ports found. Is ESP32 connected?";
+                    StatusMessage = "No COM ports found. Enable simulator or connect ESP32.";
                 }
             }
             catch (Exception ex)
@@ -137,29 +199,34 @@ namespace BlackBoxControl.ViewModels
 
         private async Task ConnectAsync()
         {
-            if (SelectedPort == null)
-            {
-                StatusMessage = "Please select a COM port";
-                return;
-            }
-
             try
             {
-                StatusMessage = $"Connecting to {SelectedPort.PortName}...";
+                string portName = UseSimulator ? "COM_SIMULATOR" : SelectedPort?.PortName;
+
+                if (!UseSimulator && SelectedPort == null)
+                {
+                    StatusMessage = "Please select a COM port";
+                    return;
+                }
+
+                StatusMessage = UseSimulator ? "Connecting to simulator..." : $"Connecting to {portName}...";
+                AddLog($"Connecting to {portName}...");
 
                 _cancellationTokenSource = new CancellationTokenSource();
-                bool connected = await _serialService.ConnectAsync(SelectedPort.PortName, _cancellationTokenSource.Token);
+                bool connected = await _serialService.ConnectAsync(portName, _cancellationTokenSource.Token);
 
                 if (connected)
                 {
                     IsConnected = true;
-                    StatusMessage = $"Connected to {SelectedPort.PortName}";
-                    AddLog($"Successfully connected to {SelectedPort.PortName}");
+                    StatusMessage = UseSimulator
+                        ? "Connected to Virtual ESP32 Simulator"
+                        : $"Connected to {portName}";
+                    AddLog("Connection successful!");
                 }
                 else
                 {
                     StatusMessage = "Connection failed";
-                    AddLog("Connection failed - check if ESP32 is running");
+                    AddLog("Connection failed - check if ESP32 is available");
                 }
             }
             catch (Exception ex)
@@ -207,25 +274,22 @@ namespace BlackBoxControl.ViewModels
                 {
                     StatusMessage = "Download complete!";
                     AddLog("=== Download Successful ===");
-                    AddLog($"Received {projectData.BlackBoxControlPanels.Count} panel(s)");
 
-                    MessageBox.Show(
-                        $"Configuration downloaded successfully!\n\n" +
-                        $"Panels: {projectData.BlackBoxControlPanels.Count}",
-                        "Download Complete",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-
-                    // Notify that download is complete
+                    // Raise event to notify MainViewModel
                     DownloadCompleted?.Invoke(projectData);
 
-                    // Close dialog
+                    // Close the dialog
                     RequestClose?.Invoke();
                 }
                 else
                 {
-                    StatusMessage = "Download failed - no data received";
+                    StatusMessage = "Download failed";
                     AddLog("=== Download Failed ===");
+                    MessageBox.Show(
+                        "Configuration download failed. Check the log for details.",
+                        "Download Failed",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch (OperationCanceledException)
@@ -292,7 +356,7 @@ namespace BlackBoxControl.ViewModels
             });
         }
 
-        private void OnDownloadProgress(object sender, UploadProgress progress)
+        private void OnDownloadProgress(object sender, DownloadProgress progress)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {

@@ -25,31 +25,13 @@ namespace BlackBoxControl.ViewModels
         }
 
         // WHAT THE TREEVIEW DISPLAYS
+        // WHAT THE TREEVIEW DISPLAYS
         public string NodeName
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(Device?.ImagePath))
-                    return Device?.Type ?? "Device";
-
-                try
-                {
-                    // Extract file name without extension
-                    string fileName = System.IO.Path.GetFileNameWithoutExtension(Device.ImagePath);
-
-                    // Optional: Replace underscores with spaces
-                    fileName = fileName.Replace("_", " ");
-
-                    // Optional: Split CamelCase → "Optical Smoke"
-                    fileName = System.Text.RegularExpressions.Regex
-                                .Replace(fileName, "([a-z])([A-Z])", "$1 $2");
-
-                    return fileName;
-                }
-                catch
-                {
-                    return Device?.Type ?? "Device";
-                }
+                // Simply return the device type
+                return Device?.Type ?? "Unknown Device";
             }
         }
 

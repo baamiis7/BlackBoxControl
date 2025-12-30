@@ -52,6 +52,7 @@ namespace BlackBoxControl.ViewModels
         public ICommand AboutCommand { get; }
         public ICommand UploadConfigurationCommand { get; }
         public ICommand DownloadFromPanelCommand { get; }
+        public ICommand ResetSimulatorCommand { get; }
 
         public MenuViewModel(MainViewModel mainViewModel)
         {
@@ -80,6 +81,7 @@ namespace BlackBoxControl.ViewModels
             AboutCommand = new RelayCommand(About);
             UploadConfigurationCommand = new RelayCommand(ShowUploadDialog);
             DownloadFromPanelCommand = new RelayCommand(ShowDownloadDialog);
+            ResetSimulatorCommand = new RelayCommand(ResetSimulator);
         }
 
         private void NewProject()
@@ -380,9 +382,11 @@ namespace BlackBoxControl.ViewModels
                     NumberOfZones = panelViewModel.Panel.NumberOfZones,
                     FirmwareVersion = panelViewModel.Panel.FirmwareVersion,
                     Loops = new List<LoopData>(),
-                    Busses = new List<BusData>()
+                    Busses = new List<BusData>(),
+                    CauseAndEffects = new List<CauseAndEffectData>()
                 };
 
+                // CONVERT LOOPS
                 if (panelViewModel.Panel.Loops != null)
                 {
                     foreach (var loop in panelViewModel.Panel.Loops)
@@ -413,6 +417,94 @@ namespace BlackBoxControl.ViewModels
                     }
                 }
 
+                // CONVERT BUSES
+                var bussesContainer = panelViewModel.Children
+                    .OfType<TreeNodeViewModel>()
+                    .FirstOrDefault(n => n.NodeType == TreeNodeType.BussesContainer);
+
+                if (bussesContainer != null)
+                {
+                    foreach (var busVM in bussesContainer.Children.OfType<BusViewModel>())
+                    {
+                        var busData = new BusData
+                        {
+                            BusNumber = busVM.Bus.BusNumber,
+                            BusName = busVM.Bus.BusName,
+                            BusType = busVM.Bus.BusType,
+                            Nodes = new List<BusNodeData>()
+                        };
+
+                        if (busVM.Bus.Nodes != null)
+                        {
+                            foreach (var node in busVM.Bus.Nodes)
+                            {
+                                busData.Nodes.Add(new BusNodeData
+                                {
+                                    Address = node.Address,
+                                    Name = node.Name,
+                                    LocationText = node.LocationText,
+                                    ImagePath = node.ImagePath
+                                });
+                            }
+                        }
+
+                        panelData.Busses.Add(busData);
+                    }
+                }
+
+                // 🔥 CONVERT CAUSE & EFFECTS
+                var ceContainer = panelViewModel.Children
+                    .OfType<TreeNodeViewModel>()
+                    .FirstOrDefault(n => n.NodeType == TreeNodeType.CauseEffectsContainer);
+
+                if (ceContainer != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[MenuViewModel] Found C&E container with {ceContainer.Children.Count} children");
+
+                    foreach (var ceVM in ceContainer.Children.OfType<CauseAndEffectViewModel>())
+                    {
+                        var ceData = new CauseAndEffectData
+                        {
+                            Name = ceVM.CauseEffect.Name,
+                            LogicGate = ceVM.CauseEffect.LogicGate.ToString(),
+                            IsEnabled = ceVM.CauseEffect.IsEnabled,
+                            Inputs = new List<CauseInputData>(),
+                            Outputs = new List<EffectOutputData>()
+                        };
+
+                        // Convert Inputs
+                        if (ceVM.CauseEffect.Inputs != null)
+                        {
+                            foreach (var input in ceVM.CauseEffect.Inputs)
+                            {
+                                var inputData = ConvertCauseInput(input);
+                                if (inputData != null)
+                                {
+                                    ceData.Inputs.Add(inputData);
+                                }
+                            }
+                        }
+
+                        // Convert Outputs
+                        if (ceVM.CauseEffect.Outputs != null)
+                        {
+                            foreach (var output in ceVM.CauseEffect.Outputs)
+                            {
+                                var outputData = ConvertEffectOutput(output);
+                                if (outputData != null)
+                                {
+                                    ceData.Outputs.Add(outputData);
+                                }
+                            }
+                        }
+
+                        panelData.CauseAndEffects.Add(ceData);
+
+                        System.Diagnostics.Debug.WriteLine(
+                            $"[MenuViewModel] Converted C&E: {ceData.Name}, Inputs={ceData.Inputs.Count}, Outputs={ceData.Outputs.Count}");
+                    }
+                }
+
                 projectData.BlackBoxControlPanels.Add(panelData);
             }
 
@@ -422,31 +514,138 @@ namespace BlackBoxControl.ViewModels
             dialog.ShowDialog();
         }
 
+        // 🔥 NEW: Helper method to convert CauseInput to CauseInputData
+        private CauseInputData ConvertCauseInput(CauseInput input)
+        {
+            if (input == null)
+                return null;
+
+            var inputData = new CauseInputData();
+
+            if (input is DeviceInput deviceInput)
+            {
+                inputData.InputType = "Device";
+                inputData.DeviceId = deviceInput.DeviceId;
+                inputData.Type = deviceInput.Type;
+                inputData.LocationText = deviceInput.LocationText;
+                inputData.ImagePath = deviceInput.ImagePath;
+            }
+            else if (input is TimeOfDayInput timeInput)
+            {
+                inputData.InputType = "TimeOfDay";
+                inputData.StartTime = timeInput.StartTime.ToString(@"hh\:mm");
+                inputData.EndTime = timeInput.EndTime.ToString(@"hh\:mm");
+            }
+            else if (input is DateTimeInput dateTimeInput)
+            {
+                inputData.InputType = "DateTime";
+                inputData.TriggerDateTime = dateTimeInput.TriggerDateTime;
+            }
+            else if (input is ReceiveApiInput apiInput)
+            {
+                inputData.InputType = "ReceiveApi";
+                inputData.ListenUrl = apiInput.ListenUrl;
+                inputData.HttpMethod = apiInput.HttpMethod;
+                inputData.ExpectedPath = apiInput.ExpectedPath;
+                inputData.AuthToken = apiInput.AuthToken;
+            }
+
+            return inputData;
+        }
+
+        // 🔥 NEW: Helper method to convert EffectOutput to EffectOutputData
+        private EffectOutputData ConvertEffectOutput(EffectOutput output)
+        {
+            if (output == null)
+                return null;
+
+            var outputData = new EffectOutputData();
+
+            if (output is DeviceOutput deviceOutput)
+            {
+                outputData.OutputType = "Device";
+                outputData.DeviceId = deviceOutput.DeviceId;
+                outputData.Type = deviceOutput.Type;
+                outputData.LocationText = deviceOutput.LocationText;
+                outputData.ImagePath = deviceOutput.ImagePath;
+            }
+            else if (output is SendTextOutput textOutput)
+            {
+                outputData.OutputType = "SendText";
+                outputData.PhoneNumber = textOutput.PhoneNumber;
+                outputData.Message = textOutput.Message;
+            }
+            else if (output is SendEmailOutput emailOutput)
+            {
+                outputData.OutputType = "SendEmail";
+                outputData.EmailAddress = emailOutput.EmailAddress;
+                outputData.Subject = emailOutput.Subject;
+                outputData.Body = emailOutput.Body;
+            }
+            else if (output is SendApiOutput apiOutput)
+            {
+                outputData.OutputType = "SendApi";
+                outputData.ApiUrl = apiOutput.ApiUrl;
+                outputData.HttpMethod = apiOutput.HttpMethod;
+                outputData.ContentType = apiOutput.ContentType;
+                outputData.RequestBody = apiOutput.RequestBody;
+            }
+
+            return outputData;
+        }
+
         private void ShowDownloadDialog()
         {
             var viewModel = new DownloadConfigurationViewModel();
 
+            // Subscribe to download completed event
             viewModel.DownloadCompleted += (projectData) =>
             {
-                _mainViewModel.BlackBoxControlPanels.Clear();
-
-                foreach (var panelData in projectData.BlackBoxControlPanels)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var panel = ConvertDataToPanel(panelData);
-                    var panelViewModel = new BlackBoxControlPanelViewModel(panel);
-                    _mainViewModel.BlackBoxControlPanels.Add(panelViewModel);
-                }
+                    // Clear existing panels
+                    _mainViewModel.BlackBoxControlPanels.Clear();
 
-                MessageBox.Show(
-                    $"Configuration loaded successfully!\n\nPanels: {projectData.BlackBoxControlPanels.Count}",
-                    "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                    // Convert downloaded data to ViewModels and add to tree
+                    foreach (var panelData in projectData.BlackBoxControlPanels)
+                    {
+                        var panel = ConvertDataToPanel(panelData);
+                        var panelViewModel = new BlackBoxControlPanelViewModel(panel);
+                        panelViewModel.RebuildTree();
+                        _mainViewModel.BlackBoxControlPanels.Add(panelViewModel);
+                    }
+
+                    MessageBox.Show(
+                        $"Configuration downloaded successfully!\n\nPanels: {projectData.BlackBoxControlPanels.Count}\nLoops: {projectData.BlackBoxControlPanels.Sum(p => p.Loops.Count)}\nDevices: {projectData.BlackBoxControlPanels.Sum(p => p.Loops.Sum(l => l.Devices.Count))}\nBuses: {projectData.BlackBoxControlPanels.Sum(p => p.Busses.Count)}\nBus Nodes: {projectData.BlackBoxControlPanels.Sum(p => p.Busses.Sum(b => b.Nodes.Count))}",
+                        "Download Complete",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                });
             };
+
+            viewModel.RequestClose += () => Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Dialog will close itself
+            });
 
             var dialog = new DownloadConfigurationDialog(viewModel);
             dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
+        }
+
+        private void ResetSimulator()
+        {
+            var result = MessageBox.Show(
+                "Reset the virtual ESP32 simulator?\n\nThis will clear all stored configuration data.",
+                "Reset Simulator",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                ESP32SimulatorManager.Reset();
+                MessageBox.Show("Simulator reset successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private BlackBoxControlPanel ConvertDataToPanel(BlackBoxControlPanelData data)
@@ -458,35 +657,234 @@ namespace BlackBoxControl.ViewModels
                 PanelAddress = data.PanelAddress,
                 NumberOfLoops = data.NumberOfLoops,
                 NumberOfZones = data.NumberOfZones,
-                FirmwareVersion = data.FirmwareVersion,
-                Loops = new ObservableCollection<Loop>()
+                FirmwareVersion = data.FirmwareVersion ?? "1.0.0",
+                Loops = new ObservableCollection<Loop>(),
+                Busses = new ObservableCollection<Bus>()
             };
 
-            foreach (var loopData in data.Loops)
+            // Convert loops
+            if (data.Loops != null)
             {
-                var loop = new Loop
+                foreach (var loopData in data.Loops)
                 {
-                    LoopNumber = loopData.LoopNumber,
-                    LoopName = loopData.LoopName,
-                    Devices = new ObservableCollection<LoopDevice>()
-                };
-
-                foreach (var deviceData in loopData.Devices)
-                {
-                    loop.Devices.Add(new LoopDevice
+                    var loop = new Loop
                     {
-                        Address = (byte)deviceData.Address,
-                        Type = deviceData.Type,
-                        LocationText = deviceData.LocationText,
-                        Zone = deviceData.Zone,
-                        ImagePath = deviceData.ImagePath
-                    });
-                }
+                        LoopNumber = loopData.LoopNumber,
+                        LoopName = loopData.LoopName,
+                        NumberOfDevices = loopData.Devices?.Count ?? 0,
+                        Devices = new ObservableCollection<LoopDevice>()
+                    };
 
-                panel.Loops.Add(loop);
+                    // Convert devices
+                    if (loopData.Devices != null)
+                    {
+                        foreach (var deviceData in loopData.Devices)
+                        {
+                            var device = new LoopDevice
+                            {
+                                Address = (byte)deviceData.Address,
+                                Type = deviceData.Type,
+                                LocationText = deviceData.LocationText,
+                                Zone = deviceData.Zone,
+                                ImagePath = deviceData.ImagePath ?? $"/Images/{deviceData.Type.Replace(" ", "_")}.png",
+                                SubAddresses = new ObservableCollection<SubAddress>()
+                            };
+
+                            loop.Devices.Add(device);
+                        }
+                    }
+
+                    panel.Loops.Add(loop);
+                }
+            }
+
+            // Convert buses
+            if (data.Busses != null)
+            {
+                foreach (var busData in data.Busses)
+                {
+                    var bus = new Bus
+                    {
+                        BusNumber = busData.BusNumber,
+                        BusName = busData.BusName,
+                        BusType = busData.BusType ?? "RS485",
+                        NumberOfNodes = busData.Nodes?.Count ?? 0,
+                        Nodes = new ObservableCollection<BusNode>()
+                    };
+
+                    // Convert bus nodes
+                    if (busData.Nodes != null)
+                    {
+                        foreach (var nodeData in busData.Nodes)
+                        {
+                            var node = new BusNode
+                            {
+                                Address = (byte)nodeData.Address,
+                                Name = nodeData.Name,
+                                LocationText = nodeData.LocationText ?? "",
+                                ImagePath = nodeData.ImagePath ?? $"/BusImages/{nodeData.Name.Replace(" ", "_")}.png",
+                                Inputs = new ObservableCollection<BusNodeIO>(),
+                                Outputs = new ObservableCollection<BusNodeIO>()
+                            };
+
+                            bus.Nodes.Add(node);
+                        }
+                    }
+
+                    panel.Busses.Add(bus);
+                }
+            }
+
+            // Convert cause and effects
+            // Convert cause and effects
+            System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] CauseAndEffects data count: {data.CauseAndEffects?.Count ?? 0}");
+
+            if (data.CauseAndEffects != null && data.CauseAndEffects.Count > 0)
+            {
+                panel.CauseAndEffects = new ObservableCollection<CauseAndEffect>();
+
+                System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] Converting {data.CauseAndEffects.Count} C&Es");
+
+                foreach (var ceData in data.CauseAndEffects)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] Converting C&E: {ceData.Name}");
+
+                    var causeEffect = new CauseAndEffect
+                    {
+                        Name = ceData.Name,
+                        IsEnabled = ceData.IsEnabled,
+                        LogicGate = Enum.Parse<LogicGate>(ceData.LogicGate),
+                        Inputs = new ObservableCollection<CauseInput>(),
+                        Outputs = new ObservableCollection<EffectOutput>()
+                    };
+
+                    // Convert inputs
+                    if (ceData.Inputs != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] Converting {ceData.Inputs.Count} inputs");
+                        foreach (var inputData in ceData.Inputs)
+                        {
+                            var input = ConvertDataToCauseInput(inputData);
+                            if (input != null)
+                            {
+                                causeEffect.Inputs.Add(input);
+                            }
+                        }
+                    }
+
+                    // Convert outputs
+                    if (ceData.Outputs != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] Converting {ceData.Outputs.Count} outputs");
+                        foreach (var outputData in ceData.Outputs)
+                        {
+                            var output = ConvertDataToEffectOutput(outputData);
+                            if (output != null)
+                            {
+                                causeEffect.Outputs.Add(output);
+                            }
+                        }
+                    }
+
+                    panel.CauseAndEffects.Add(causeEffect);
+                    System.Diagnostics.Debug.WriteLine($"[ConvertDataToPanel] Added C&E to panel, panel now has {panel.CauseAndEffects.Count} C&Es");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("[ConvertDataToPanel] No C&E data to convert");
             }
 
             return panel;
+
+            return panel;
+        }
+        private CauseInput ConvertDataToCauseInput(CauseInputData data)
+        {
+            if (data == null)
+                return null;
+
+            switch (data.InputType)
+            {
+                case "Device":
+                    return new DeviceInput
+                    {
+                        DeviceId = data.DeviceId,
+                        Type = data.Type,
+                        LocationText = data.LocationText,
+                        ImagePath = data.ImagePath
+                    };
+
+                case "TimeOfDay":
+                    return new TimeOfDayInput
+                    {
+                        StartTime = TimeSpan.Parse(data.StartTime ?? "00:00"),
+                        EndTime = TimeSpan.Parse(data.EndTime ?? "00:00")
+                    };
+
+                case "DateTime":
+                    return new DateTimeInput
+                    {
+                        TriggerDateTime = data.TriggerDateTime ?? DateTime.Now
+                    };
+
+                case "ReceiveApi":
+                    return new ReceiveApiInput
+                    {
+                        ListenUrl = data.ListenUrl,
+                        HttpMethod = data.HttpMethod,
+                        ExpectedPath = data.ExpectedPath,
+                        AuthToken = data.AuthToken
+                    };
+
+                default:
+                    return null;
+            }
+        }
+
+        private EffectOutput ConvertDataToEffectOutput(EffectOutputData data)
+        {
+            if (data == null)
+                return null;
+
+            switch (data.OutputType)
+            {
+                case "Device":
+                    return new DeviceOutput
+                    {
+                        DeviceId = data.DeviceId,
+                        Type = data.Type,
+                        LocationText = data.LocationText,
+                        ImagePath = data.ImagePath
+                    };
+
+                case "SendText":
+                    return new SendTextOutput
+                    {
+                        PhoneNumber = data.PhoneNumber,
+                        Message = data.Message
+                    };
+
+                case "SendEmail":
+                    return new SendEmailOutput
+                    {
+                        EmailAddress = data.EmailAddress,
+                        Subject = data.Subject,
+                        Body = data.Body
+                    };
+
+                case "SendApi":
+                    return new SendApiOutput
+                    {
+                        ApiUrl = data.ApiUrl,
+                        HttpMethod = data.HttpMethod,
+                        ContentType = data.ContentType,
+                        RequestBody = data.RequestBody
+                    };
+
+                default:
+                    return null;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -502,4 +900,7 @@ namespace BlackBoxControl.ViewModels
         public string FileName { get; set; }
         public ICommand OpenCommand { get; set; }
     }
-}
+    // 🔥 NEW: Helper methods to convert downloaded data back to ViewModels
+
+
+    }

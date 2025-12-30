@@ -22,6 +22,7 @@ namespace BlackBoxControl.Protocol
         public const byte PACKET_LOOP_CONFIG = 0x02;
         public const byte PACKET_DEVICE_CONFIG = 0x03;
         public const byte PACKET_BUS_CONFIG = 0x04;
+        public const byte PACKET_BUS_NODE_CONFIG = 0x06;  // ← NEW! Bus node configuration
         public const byte PACKET_CAUSE_EFFECT = 0x05;
         public const byte PACKET_END_TRANSMISSION = 0xFF;
 
@@ -34,6 +35,11 @@ namespace BlackBoxControl.Protocol
 
         // Max packet size (ESP32 has limited RAM)
         public const int MAX_PACKET_SIZE = 512;
+
+        // Add these three lines to your existing ProtocolConstants class
+        public const byte PACKET_CE_HEADER = 0x07;
+        public const byte PACKET_CE_INPUT = 0x08;
+        public const byte PACKET_CE_OUTPUT = 0x09;
     }
 
     /// <summary>

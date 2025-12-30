@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -137,11 +137,13 @@ namespace BlackBoxControl.ViewModels
         /// </summary>
         public void AddNewCauseEffect()
         {
-            if (_containerNode == null) return;
+            if (_containerNode == null)
+                return;
 
             // Find parent panel so we can get loops and busses
             var parentPanel = FindParentPanelViewModel(_containerNode);
-            if (parentPanel == null) return;
+            if (parentPanel == null)
+                return;
 
             // Get loops from the fire panel
             var loops = parentPanel.Panel?.Loops
@@ -150,16 +152,16 @@ namespace BlackBoxControl.ViewModels
             // Get busses from the fire panel
             var busses = GetBussesFromPanel(parentPanel);
 
-            // Create new Cause & Effect VM with proper parameters
-            var newCE = new CauseAndEffectViewModel(loops, busses)
+            // Create new Cause & Effect model first
+            var newCauseEffect = new CauseAndEffect
             {
-                CauseEffect = new CauseAndEffect()   // new model instance
-                {
-                    Name = "New Cause & Effect",
-                    IsEnabled = true,
-                    LogicGate = LogicGate.AND
-                }
+                Name = "New Cause & Effect",
+                IsEnabled = true,
+                LogicGate = LogicGate.AND
             };
+
+            // Create new Cause & Effect VM with proper parameters
+            var newCE = new CauseAndEffectViewModel(newCauseEffect, loops, busses);
 
             // Add to the C&E container in the panel tree
             _containerNode.Children.Add(newCE);
@@ -177,7 +179,8 @@ namespace BlackBoxControl.ViewModels
 
         private void EditCauseEffect(CauseAndEffectViewModel ceViewModel)
         {
-            if (ceViewModel == null) return;
+            if (ceViewModel == null)
+                return;
 
             // --- CORRECTED SECTION ---
             // Get the parent panel to pass its loops and buses
@@ -186,10 +189,7 @@ namespace BlackBoxControl.ViewModels
             var busses = GetBussesFromPanel(parentPanel);
 
             // Create a new, fully-populated ViewModel for editing
-            var editViewModel = new CauseAndEffectViewModel(loops, busses) // This line should now work
-            {
-                CauseEffect = ceViewModel.CauseEffect
-            };
+            var editViewModel = new CauseAndEffectViewModel(ceViewModel.CauseEffect, loops, busses);
 
             // Raise the event with the fully-populated view model
             RequestEditForm?.Invoke(this, editViewModel);
@@ -197,7 +197,8 @@ namespace BlackBoxControl.ViewModels
 
         private void DeleteCauseEffect(CauseAndEffectViewModel ceViewModel)
         {
-            if (ceViewModel == null) return;
+            if (ceViewModel == null)
+                return;
 
             var result = MessageBox.Show(
                 $"Are you sure you want to delete '{ceViewModel.CauseEffect.Name}'?",
@@ -218,7 +219,8 @@ namespace BlackBoxControl.ViewModels
 
         private void TestCauseEffect(CauseAndEffectViewModel ceViewModel)
         {
-            if (ceViewModel == null) return;
+            if (ceViewModel == null)
+                return;
 
             // CORRECTED: Use the new collection-based properties from the ViewModel
             int inputCount = ceViewModel.CauseEffect?.Inputs?.Count ?? 0;
@@ -255,7 +257,8 @@ namespace BlackBoxControl.ViewModels
         /// </summary>
         private ObservableCollection<Bus> GetBussesFromPanel(BlackBoxControlPanelViewModel parentPanel)
         {
-            if (parentPanel == null) return new ObservableCollection<Bus>();
+            if (parentPanel == null)
+                return new ObservableCollection<Bus>();
 
             var bussesContainer = parentPanel.Children
                 .OfType<TreeNodeViewModel>()

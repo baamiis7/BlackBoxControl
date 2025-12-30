@@ -1,7 +1,8 @@
-﻿using global::BlackBoxControl.Models;
+using global::BlackBoxControl.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -93,22 +94,42 @@ namespace BlackBoxControl.ViewModels
                 Children = new ObservableCollection<TreeNodeViewModel>()
             };
 
-            // Add default busses (Bus 1 and Bus 2)
-            for (int i = 1; i <= 2; i++)
+            // Use buses from Panel.Busses instead of creating new ones
+            if (Panel.Busses != null && Panel.Busses.Count > 0)
             {
-                var bus = new Bus
+                // Use existing buses from the panel
+                foreach (var bus in Panel.Busses)
                 {
-                    BusNumber = i,
-                    BusName = "Bus " + i,
-                    BusType = "RS485",
-                    Nodes = new ObservableCollection<BusNode>()
-                };
-                var busVM = new BusViewModel(bus);
-                bussesContainer.Children.Add(busVM);
+                    var busVM = new BusViewModel(bus);
+                    bussesContainer.Children.Add(busVM);
+                }
+            }
+            else
+            {
+                // Only create default buses if none exist
+                if (Panel.Busses == null)
+                {
+                    Panel.Busses = new ObservableCollection<Bus>();
+                }
+
+                for (int i = 1; i <= 2; i++)
+                {
+                    var bus = new Bus
+                    {
+                        BusNumber = i,
+                        BusName = "Bus " + i,
+                        BusType = "RS485",
+                        Nodes = new ObservableCollection<BusNode>()
+                    };
+                    Panel.Busses.Add(bus);
+                    var busVM = new BusViewModel(bus);
+                    bussesContainer.Children.Add(busVM);
+                }
             }
 
             Children.Add(bussesContainer);
 
+            // Add Cause and Effects container
             // Add Cause and Effects container
             var ceContainer = new TreeNodeViewModel
             {
@@ -118,7 +139,24 @@ namespace BlackBoxControl.ViewModels
                 Children = new ObservableCollection<TreeNodeViewModel>()
             };
 
+            // Add each C&E from the panel
+            if (Panel.CauseAndEffects != null)
+            {
+                foreach (var ce in Panel.CauseAndEffects)
+                {
+                    var ceVM = new CauseAndEffectViewModel(ce, Panel.Loops, Panel.Busses);
+                    ceContainer.Children.Add(ceVM);
+                }
+            }
+
             Children.Add(ceContainer);
+        }
+
+        // 🔥 ADD THIS METHOD for rebuilding tree after download
+        public void RebuildTree()
+        {
+            Children.Clear();
+            BuildTreeStructure();
         }
 
         // Save logic

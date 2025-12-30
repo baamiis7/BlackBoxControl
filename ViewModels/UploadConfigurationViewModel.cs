@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using BlackBoxControl.Helpers;
 using BlackBoxControl.Models;
 using BlackBoxControl.Services;
 
@@ -25,6 +26,7 @@ namespace BlackBoxControl.ViewModels
         private int _uploadProgress;
         private string _statusMessage;
         private string _logMessages;
+        private bool _useSimulator;
 
         public ObservableCollection<SerialPortInfo> AvailablePorts
         {
@@ -35,19 +37,43 @@ namespace BlackBoxControl.ViewModels
         public SerialPortInfo SelectedPort
         {
             get => _selectedPort;
-            set { _selectedPort = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedPort = value;
+                OnPropertyChanged();
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public bool IsConnected
         {
             get => _isConnected;
-            set { _isConnected = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanConnect)); OnPropertyChanged(nameof(CanUpload)); }
+            set
+            {
+                _isConnected = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanConnect));
+                OnPropertyChanged(nameof(CanUpload));
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (DisconnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (UploadCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public bool IsUploading
         {
             get => _isUploading;
-            set { _isUploading = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanConnect)); OnPropertyChanged(nameof(CanUpload)); OnPropertyChanged(nameof(CanCancel)); }
+            set
+            {
+                _isUploading = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanConnect));
+                OnPropertyChanged(nameof(CanUpload));
+                OnPropertyChanged(nameof(CanCancel));
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (UploadCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                (CancelCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
         public int UploadProgress
@@ -68,7 +94,42 @@ namespace BlackBoxControl.ViewModels
             set { _logMessages = value; OnPropertyChanged(); }
         }
 
-        public bool CanConnect => !IsConnected && !IsUploading && SelectedPort != null;
+        public bool UseSimulator
+        {
+            get => _useSimulator;
+            set
+            {
+                _useSimulator = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSimulatorMode));
+                OnPropertyChanged(nameof(CanSelectPort));
+
+                // Enable/disable simulator in service
+                if (_serialService is MockSerialCommunicationService mockService)
+                {
+                    mockService.EnableSimulator(value);
+                    if (value)
+                    {
+                        StatusMessage = "Simulator mode enabled - no hardware required";
+                        AddLog("Virtual ESP32 Simulator activated");
+                    }
+                    else
+                    {
+                        StatusMessage = "Simulator mode disabled - using real hardware";
+                        AddLog("Switched to real hardware mode");
+                    }
+                }
+
+                // Refresh command states
+                (ConnectCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+
+        public bool IsSimulatorMode => UseSimulator;
+        public bool CanSelectPort => !IsConnected && !IsUploading && !UseSimulator;
+
+        // Fixed: Allow connection when simulator is enabled OR when a port is selected
+        public bool CanConnect => !IsConnected && !IsUploading && (UseSimulator || SelectedPort != null);
         public bool CanUpload => IsConnected && !IsUploading;
         public bool CanCancel => IsUploading;
 
@@ -85,7 +146,8 @@ namespace BlackBoxControl.ViewModels
         {
             _projectData = projectData ?? throw new ArgumentNullException(nameof(projectData));
 
-            _serialService = new SerialCommunicationService();
+            // Use MockSerialCommunicationService
+            _serialService = new MockSerialCommunicationService();
             _uploadService = new ConfigurationUploadService(_serialService);
 
             // Subscribe to events
@@ -96,7 +158,7 @@ namespace BlackBoxControl.ViewModels
             // Commands
             RefreshPortsCommand = new RelayCommand(RefreshPorts);
             ConnectCommand = new RelayCommand(async () => await ConnectAsync(), () => CanConnect);
-            DisconnectCommand = new RelayCommand(Disconnect);
+            DisconnectCommand = new RelayCommand(Disconnect, () => IsConnected);
             UploadCommand = new RelayCommand(async () => await UploadAsync(), () => CanUpload);
             CancelCommand = new RelayCommand(CancelUpload, () => CanCancel);
             CloseCommand = new RelayCommand(Close);
@@ -128,7 +190,7 @@ namespace BlackBoxControl.ViewModels
                 }
                 else
                 {
-                    StatusMessage = "No COM ports found. Is ESP32 connected?";
+                    StatusMessage = "No COM ports found. Enable simulator or connect ESP32.";
                 }
             }
             catch (Exception ex)
@@ -139,24 +201,29 @@ namespace BlackBoxControl.ViewModels
 
         private async Task ConnectAsync()
         {
-            if (SelectedPort == null)
-            {
-                StatusMessage = "Please select a COM port";
-                return;
-            }
-
             try
             {
-                StatusMessage = $"Connecting to {SelectedPort.PortName}...";
+                string portName = UseSimulator ? "COM_SIMULATOR" : SelectedPort?.PortName;
+
+                if (!UseSimulator && SelectedPort == null)
+                {
+                    StatusMessage = "Please select a COM port";
+                    return;
+                }
+
+                StatusMessage = UseSimulator ? "Connecting to simulator..." : $"Connecting to {portName}...";
+                AddLog($"Connecting to {portName}...");
 
                 _cancellationTokenSource = new CancellationTokenSource();
-                bool connected = await _serialService.ConnectAsync(SelectedPort.PortName, _cancellationTokenSource.Token);
+                bool connected = await _serialService.ConnectAsync(portName, _cancellationTokenSource.Token);
 
                 if (connected)
                 {
                     IsConnected = true;
-                    StatusMessage = $"Connected to {SelectedPort.PortName}";
-                    AddLog($"Successfully connected to {SelectedPort.PortName}");
+                    StatusMessage = UseSimulator
+                        ? "Connected to Virtual ESP32 Simulator"
+                        : $"Connected to {portName}";
+                    AddLog("Connection successful!");
                 }
                 else
                 {

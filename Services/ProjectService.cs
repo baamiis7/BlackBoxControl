@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -333,16 +333,14 @@ namespace BlackBoxControl.Services
                     {
                         System.Diagnostics.Debug.WriteLine($"Loading C&E: {ceData.Name}, Inputs: {ceData.Inputs.Count}, Outputs: {ceData.Outputs.Count}");
 
-                        var ceVM = new CauseAndEffectViewModel(panel.Loops, GetBussesFromPanel(panelVM))
+                        // Create the CauseAndEffect model first
+                        var causeEffect = new CauseAndEffect
                         {
-                            CauseEffect = new CauseAndEffect
-                            {
-                                Name = ceData.Name,
-                                LogicGate = (LogicGate)Enum.Parse(typeof(LogicGate), ceData.LogicGate),
-                                IsEnabled = ceData.IsEnabled,
-                                Inputs = new ObservableCollection<CauseInput>(),
-                                Outputs = new ObservableCollection<EffectOutput>()
-                            }
+                            Name = ceData.Name,
+                            LogicGate = (LogicGate)Enum.Parse(typeof(LogicGate), ceData.LogicGate),
+                            IsEnabled = ceData.IsEnabled,
+                            Inputs = new ObservableCollection<CauseInput>(),
+                            Outputs = new ObservableCollection<EffectOutput>()
                         };
 
                         // Load Inputs
@@ -367,14 +365,12 @@ namespace BlackBoxControl.Services
                                         StartTime = TimeSpan.Parse(inputData.StartTime),
                                         EndTime = TimeSpan.Parse(inputData.EndTime)
                                     };
-                                    ceVM.TimeOfDayInputs.Add((TimeOfDayInput)input);
                                     break;
                                 case "DateTime":
                                     input = new DateTimeInput
                                     {
                                         TriggerDateTime = inputData.TriggerDateTime ?? DateTime.Now
                                     };
-                                    ceVM.DateTimeInputs.Add((DateTimeInput)input);
                                     break;
                                 case "ReceiveApi":
                                     input = new ReceiveApiInput
@@ -384,12 +380,11 @@ namespace BlackBoxControl.Services
                                         ExpectedPath = inputData.ExpectedPath,
                                         AuthToken = inputData.AuthToken
                                     };
-                                    ceVM.ReceiveApiInputs.Add((ReceiveApiInput)input);
                                     break;
                             }
 
                             if (input != null)
-                                ceVM.CauseEffect.Inputs.Add(input);
+                                causeEffect.Inputs.Add(input);
                         }
 
                         // Load Outputs
@@ -414,7 +409,6 @@ namespace BlackBoxControl.Services
                                         PhoneNumber = outputData.PhoneNumber,
                                         Message = outputData.Message
                                     };
-                                    ceVM.SendTextOutputs.Add((SendTextOutput)output);
                                     break;
                                 case "SendEmail":
                                     output = new SendEmailOutput
@@ -423,7 +417,6 @@ namespace BlackBoxControl.Services
                                         Subject = outputData.Subject,
                                         Body = outputData.Body
                                     };
-                                    ceVM.SendEmailOutputs.Add((SendEmailOutput)output);
                                     break;
                                 case "SendApi":
                                     output = new SendApiOutput
@@ -433,13 +426,15 @@ namespace BlackBoxControl.Services
                                         ContentType = outputData.ContentType,
                                         RequestBody = outputData.RequestBody
                                     };
-                                    ceVM.SendApiOutputs.Add((SendApiOutput)output);
                                     break;
                             }
 
                             if (output != null)
-                                ceVM.CauseEffect.Outputs.Add(output);
+                                causeEffect.Outputs.Add(output);
                         }
+
+                        // NOW create the ViewModel with the fully-populated CauseAndEffect
+                        var ceVM = new CauseAndEffectViewModel(causeEffect, panel.Loops, GetBussesFromPanel(panelVM));
 
                         // Build the tree structure for inputs/outputs
                         ceVM.RebuildTreeChildren();

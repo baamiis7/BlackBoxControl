@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using BlackBoxControl.Models;
@@ -300,28 +300,36 @@ namespace BlackBoxControl.ViewModels
 
         private void UpdateAvailableDevices()
         {
+            System.Diagnostics.Debug.WriteLine($"UpdateAvailableDevices called. SelectedNode type: {SelectedNode?.GetType().Name}");
+            System.Diagnostics.Debug.WriteLine($"AvailableDevices count: {AvailableDevices.Count}");
+            System.Diagnostics.Debug.WriteLine($"AvailableBusNodes count: {AvailableBusNodes.Count}");
+
             // Update the AllowedDevices based on the SelectedNode
             if (SelectedNode is LoopViewModel || SelectedNode is Loop)
             {
+                System.Diagnostics.Debug.WriteLine("Loop selected - showing loop devices");
                 // Show loop devices
                 AllowedDevices = new ObservableCollection<LoopDevice>(AvailableDevices);
             }
             else if (SelectedNode is BusViewModel || SelectedNode is Bus)
             {
-                // For bus selection, we'll handle it differently in the view
-                // Clear loop devices when bus is selected
+                System.Diagnostics.Debug.WriteLine("Bus selected - clearing loop devices");
+                // For bus selection, clear loop devices
                 AllowedDevices.Clear();
             }
             else if (SelectedNode is BlackBoxControlPanelViewModel || SelectedNode is BlackBoxControlPanel)
             {
-                // You can filter devices for panel level if needed
+                System.Diagnostics.Debug.WriteLine("Panel selected - showing all devices");
+                // Show all devices at panel level
                 AllowedDevices = new ObservableCollection<LoopDevice>(AvailableDevices);
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("Other node selected - clearing devices");
                 AllowedDevices.Clear();
             }
 
+            System.Diagnostics.Debug.WriteLine($"AllowedDevices count after update: {AllowedDevices.Count}");
             OnPropertyChanged(nameof(AllowedDevices));
         }
 
@@ -420,25 +428,23 @@ namespace BlackBoxControl.ViewModels
                 switch (nodeVM.NodeType)
                 {
                     case TreeNodeType.CauseEffectsContainer:
+                    {
+                        var parentPanel = FindParentPanelViewModel(nodeVM);
+                        if (parentPanel != null)
                         {
-                            var parentPanel = FindParentPanelViewModel(nodeVM);
-                            if (parentPanel != null)
+                            var ceListVM = new CauseAndEffectsListViewModel(nodeVM);
+                            ceListVM.RequestEditForm += (sender, ceToEdit) =>
                             {
-                                var ceListVM = new CauseAndEffectsListViewModel(nodeVM);
-                                ceListVM.RequestEditForm += (sender, ceToEdit) =>
-                                {
-                                    var editVM = new CauseAndEffectViewModel(
-                                        parentPanel.Panel.Loops,
-                                        GetBussesFromPanel(parentPanel))
-                                    {
-                                        CauseEffect = ceToEdit.CauseEffect
-                                    };
-                                    SelectedForm = editVM;
-                                };
-                                SelectedForm = ceListVM;
-                            }
-                            return;
+                                var editVM = new CauseAndEffectViewModel(
+                                    ceToEdit.CauseEffect,
+                                    parentPanel.Panel.Loops,
+                                    GetBussesFromPanel(parentPanel));
+                                SelectedForm = editVM;
+                            };
+                            SelectedForm = ceListVM;
                         }
+                        return;
+                    }
                     case TreeNodeType.BussesContainer:
                         SelectedForm = null;
                         return;
@@ -508,20 +514,28 @@ namespace BlackBoxControl.ViewModels
         public void AddDeviceToSelectedItem(LoopDevice device)
         {
             Loop targetLoop = null;
+            LoopViewModel targetLoopVM = null;
 
             // Determine the target loop based on selected node
             if (SelectedNode is Loop loop)
             {
                 targetLoop = loop;
+                // Find the corresponding LoopViewModel
+                targetLoopVM = FindLoopViewModel(loop);
             }
             else if (SelectedNode is LoopViewModel loopVM)
             {
                 targetLoop = loopVM.Loop;
+                targetLoopVM = loopVM;
             }
             else if (SelectedNode is LoopDevice existingDevice)
             {
                 // Find the loop that contains this device
                 targetLoop = FindLoopContainingDevice(existingDevice);
+                if (targetLoop != null)
+                {
+                    targetLoopVM = FindLoopViewModel(targetLoop);
+                }
             }
 
             if (targetLoop != null)
@@ -555,12 +569,41 @@ namespace BlackBoxControl.ViewModels
                     ImagePath = device.ImagePath
                 };
 
+                // Add to model
                 targetLoop.Devices.Add(newDevice);
                 targetLoop.NumberOfDevices = targetLoop.Devices.Count;
+
+                // 🔥 ADD TO TREEVIEW HIERARCHY
+                if (targetLoopVM != null)
+                {
+                    targetLoopVM.Children.Add(new LoopDeviceViewModel(newDevice));
+                }
 
                 // Refresh the display
                 DisplayDetails();
             }
+        }
+
+        // Add this helper method
+        private LoopViewModel FindLoopViewModel(Loop loop)
+        {
+            foreach (var panel in BlackBoxControlPanels)
+            {
+                var loopsContainer = panel.Children
+                    .OfType<TreeNodeViewModel>()
+                    .FirstOrDefault(n => n.NodeType == TreeNodeType.LoopsContainer);
+
+                if (loopsContainer != null)
+                {
+                    var loopVM = loopsContainer.Children
+                        .OfType<LoopViewModel>()
+                        .FirstOrDefault(lvm => lvm.Loop == loop);
+
+                    if (loopVM != null)
+                        return loopVM;
+                }
+            }
+            return null;
         }
 
         // ADDED: Add bus node to selected bus
@@ -670,7 +713,8 @@ namespace BlackBoxControl.ViewModels
         public void AddLoop()
         {
             var panel = BlackBoxControlPanels.FirstOrDefault();
-            if (panel == null) return;
+            if (panel == null)
+                return;
 
             // Find the Loops container
             var loopsContainer = panel.Children
@@ -705,7 +749,8 @@ namespace BlackBoxControl.ViewModels
         public void AddBus()
         {
             var panel = BlackBoxControlPanels.FirstOrDefault();
-            if (panel == null) return;
+            if (panel == null)
+                return;
 
             var bussesContainer = panel.Children
                 .OfType<TreeNodeViewModel>()
@@ -738,7 +783,8 @@ namespace BlackBoxControl.ViewModels
         public void AddCauseEffect()
         {
             var panel = BlackBoxControlPanels.FirstOrDefault();
-            if (panel == null) return;
+            if (panel == null)
+                return;
 
             var ceContainer = panel.Children
                 .OfType<TreeNodeViewModel>()
@@ -759,8 +805,16 @@ namespace BlackBoxControl.ViewModels
                     .Select(bvm => bvm.Bus)
                     .ToList() ?? new List<Bus>();
 
+                // CORRECTED: Create the CauseAndEffect model first
+                var newCauseEffect = new CauseAndEffect
+                {
+                    Name = "New Cause & Effect",
+                    IsEnabled = true,
+                    LogicGate = LogicGate.AND
+                };
+
                 // Create new C&E with required parameters
-                var newCE = new CauseAndEffectViewModel(loops, busses);
+                var newCE = new CauseAndEffectViewModel(newCauseEffect, loops, busses);
                 ceContainer.Children.Add(newCE);
             }
         }

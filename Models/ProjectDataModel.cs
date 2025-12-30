@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BlackBoxControl.Models
@@ -41,6 +41,7 @@ namespace BlackBoxControl.Models
             Loops = new List<LoopData>();
             Busses = new List<BusData>();
             CauseAndEffects = new List<CauseAndEffectData>();
+
         }
     }
 
@@ -70,7 +71,9 @@ namespace BlackBoxControl.Models
     [Serializable]
     public class BusData
     {
+        public int BusNumber { get; set; } 
         public string BusName { get; set; }
+        public string BusType { get; set; } 
         public List<BusNodeData> Nodes { get; set; }
 
         public BusData()
@@ -109,14 +112,8 @@ namespace BlackBoxControl.Models
         public string Name { get; set; }
         public string LogicGate { get; set; }
         public bool IsEnabled { get; set; }
-        public List<CauseInputData> Inputs { get; set; }
-        public List<EffectOutputData> Outputs { get; set; }
-
-        public CauseAndEffectData()
-        {
-            Inputs = new List<CauseInputData>();
-            Outputs = new List<EffectOutputData>();
-        }
+        public List<CauseInputData> Inputs { get; set; } = new List<CauseInputData>();    
+        public List<EffectOutputData> Outputs { get; set; } = new List<EffectOutputData>(); 
     }
 
     [Serializable]
@@ -170,4 +167,5 @@ namespace BlackBoxControl.Models
         public string ContentType { get; set; }
         public string RequestBody { get; set; }
     }
+
 }

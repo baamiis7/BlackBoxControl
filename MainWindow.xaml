@@ -15,56 +15,56 @@
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
 
-    <Window.DataContext>
-        <viewModels:MainViewModel/>
-    </Window.DataContext>
+  <Window.DataContext>
+    <viewModels:MainViewModel/>
+  </Window.DataContext>
 
-    <Border CornerRadius="12" Background="#1E1E1E">
-        <!-- Drop Shadow Effect -->
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.6" Color="Black"/>
-        </Border.Effect>
+  <Border CornerRadius="12" Background="#1E1E1E">
+    <!-- Drop Shadow Effect -->
+    <Border.Effect>
+      <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.6" Color="Black"/>
+    </Border.Effect>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
 
-            <!-- Title Bar -->
-            <Border Grid.Row="0" 
+      <!-- Title Bar -->
+      <Border Grid.Row="0" 
                     CornerRadius="12,12,0,0" 
                     Background="#2D2D30"
                     BorderBrush="#3E3E42"
                     BorderThickness="0,0,0,1">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
 
-                    <!-- Company Branding -->
-                    <StackPanel Grid.Column="0" 
+          <!-- Company Branding -->
+          <StackPanel Grid.Column="0" 
                                 Orientation="Horizontal" 
                                 Margin="15,0,0,0"
                                 VerticalAlignment="Center">
-                        <Ellipse Width="8" Height="8" Fill="#F39C12" Margin="0,0,8,0"/>
-                        <TextBlock Text="BAAMIIS LTD | Fire Panel Simulation"
+            <Ellipse Width="8" Height="8" Fill="#F39C12" Margin="0,0,8,0"/>
+            <TextBlock Text="BAAMIIS LTD | Fire Panel Simulation"
                                    Foreground="#E0E0E0"
                                    FontSize="12"
                                    FontWeight="Medium"
                                    FontFamily="Segoe UI"
                                    VerticalAlignment="Center"/>
-                    </StackPanel>
+          </StackPanel>
 
-                    <!-- Window Controls -->
-                    <StackPanel Grid.Column="2" 
+          <!-- Window Controls -->
+          <StackPanel Grid.Column="2" 
                                 Orientation="Horizontal" 
                                 Margin="0,0,5,0">
 
-                        <Button x:Name="btnMinimize"                           
+            <Button x:Name="btnMinimize"                           
                                 Width="40" Height="40"
                                 BorderThickness="0"
                                 Content="−"
@@ -74,30 +74,30 @@
                                 Cursor="Hand"
                                 Click="btnMinimize_Click"
                                 ToolTip="Minimize">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}"
+              <Button.Style>
+                <Style TargetType="Button">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
                                                         CornerRadius="6">
-                                                    <ContentPresenter VerticalAlignment="Center"
+                          <ContentPresenter VerticalAlignment="Center"
                                                                       HorizontalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#3E3E42"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        </Border>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="#3E3E42"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Button.Style>
+            </Button>
 
-                        <Button x:Name="btnMaximise"                          
+            <Button x:Name="btnMaximise"                          
                                 Width="40" Height="40"
                                 BorderThickness="0"
                                 Content="□"
@@ -107,30 +107,30 @@
                                 Cursor="Hand"
                                 Click="btnMaximise_Click"
                                 ToolTip="Maximize">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}"
+              <Button.Style>
+                <Style TargetType="Button">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
                                                         CornerRadius="6">
-                                                    <ContentPresenter VerticalAlignment="Center"
+                          <ContentPresenter VerticalAlignment="Center"
                                                                       HorizontalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#3E3E42"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        </Border>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="#3E3E42"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Button.Style>
+            </Button>
 
-                        <Button x:Name="btnClose"                          
+            <Button x:Name="btnClose"                          
                                 Width="40" Height="40"
                                 BorderThickness="0"
                                 Content="✕"
@@ -140,603 +140,582 @@
                                 Cursor="Hand"
                                 Click="btnClose_Click"
                                 ToolTip="Close">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Background="{TemplateBinding Background}"
+              <Button.Style>
+                <Style TargetType="Button">
+                  <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Template">
+                    <Setter.Value>
+                      <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
                                                         CornerRadius="6">
-                                                    <ContentPresenter VerticalAlignment="Center"
+                          <ContentPresenter VerticalAlignment="Center"
                                                                       HorizontalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#E74C3C"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
+                        </Border>
+                      </ControlTemplate>
+                    </Setter.Value>
+                  </Setter>
+                  <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Background" Value="#E74C3C"/>
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Button.Style>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
 
-            <!-- Menu Bar -->
-            <Border Grid.Row="1" 
+      <!-- Menu Bar -->
+      <Border Grid.Row="1" 
                     Background="#252526"
                     BorderBrush="#3E3E42"
                     BorderThickness="0,0,0,1">
-                <Menu DataContext="{Binding MenuViewModel}" 
+        <Menu DataContext="{Binding MenuViewModel}" 
                       Background="Transparent"
                       Height="32">
-                    <MenuItem Header="File" Style="{StaticResource CustomMenuItemStyle}">
-                        <MenuItem.Icon>
-                            <TextBlock Text="📁" FontSize="16"/>
-                        </MenuItem.Icon>
+          <MenuItem Header="File" Style="{StaticResource CustomMenuItemStyle}">
+            <MenuItem.Icon>
+              <TextBlock Text="📁" FontSize="16"/>
+            </MenuItem.Icon>
 
-                        <MenuItem Header="New Project" Command="{Binding NewProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="📄" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="New Project" Command="{Binding NewProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="📄" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <MenuItem Header="Open Project" Command="{Binding OpenProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="📂" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Open Project" Command="{Binding OpenProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="📂" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <!-- Open Recent with submenu - FIXED: Removed duplicate Style attribute -->
-                        <MenuItem Header="Open Recent" 
-                      ItemsSource="{Binding RecentProjects}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🕐" FontSize="14"/>
-                            </MenuItem.Icon>
-                            <MenuItem.ItemContainerStyle>
-                                <Style TargetType="MenuItem" BasedOn="{StaticResource CustomMenuItemStyle}">
-                                    <Setter Property="Header" Value="{Binding FileName}"/>
-                                    <Setter Property="ToolTip" Value="{Binding FilePath}"/>
-                                    <Setter Property="Command" Value="{Binding OpenCommand}"/>
-                                    <Setter Property="CommandParameter" Value="{Binding FilePath}"/>
-                                    <Setter Property="Icon">
-                                        <Setter.Value>
-                                            <TextBlock Text="📋" FontSize="12"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </MenuItem.ItemContainerStyle>
-                            <MenuItem.Style>
-                                <Style TargetType="MenuItem" BasedOn="{StaticResource CustomMenuItemStyle}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RecentProjects.Count}" Value="0">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </MenuItem.Style>
-                        </MenuItem>
+            <!-- Open Recent with submenu -->
+            <MenuItem Header="Open Recent" 
+                                  ItemsSource="{Binding RecentProjects}">
+              <MenuItem.Icon>
+                <TextBlock Text="🕐" FontSize="14"/>
+              </MenuItem.Icon>
+              <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource CustomMenuItemStyle}">
+                  <Setter Property="Header" Value="{Binding FileName}"/>
+                  <Setter Property="ToolTip" Value="{Binding FilePath}"/>
+                  <Setter Property="Command" Value="{Binding OpenCommand}"/>
+                  <Setter Property="CommandParameter" Value="{Binding FilePath}"/>
+                  <Setter Property="Icon">
+                    <Setter.Value>
+                      <TextBlock Text="📋" FontSize="12"/>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </MenuItem.ItemContainerStyle>
+              <MenuItem.Style>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource CustomMenuItemStyle}">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding RecentProjects.Count}" Value="0">
+                      <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </MenuItem.Style>
+            </MenuItem>
 
-                        <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+            <Separator Style="{StaticResource MenuSeparatorStyle}"/>
 
-                        <MenuItem Header="Close Project" Command="{Binding CloseProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="✖️" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Close Project" Command="{Binding CloseProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="✖️" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <MenuItem Header="Save Project" Command="{Binding SaveProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="💾" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Save Project" Command="{Binding SaveProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="💾" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <MenuItem Header="Save Project As" Command="{Binding SaveProjectAsCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="💾" FontSize="14" Opacity="0.7"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Save Project As" Command="{Binding SaveProjectAsCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="💾" FontSize="14" Opacity="0.7"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+            <Separator Style="{StaticResource MenuSeparatorStyle}"/>
 
-                        <MenuItem Header="Import Project" Command="{Binding ImportProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="📥" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Import Project" Command="{Binding ImportProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="📥" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <MenuItem Header="Export Project" Command="{Binding ExportProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="📤" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Export Project" Command="{Binding ExportProjectCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="📤" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
 
-                        <Separator Style="{StaticResource MenuSeparatorStyle}"/>
+            <Separator Style="{StaticResource MenuSeparatorStyle}"/>
 
-                        <MenuItem Header="Connect to Panel" Command="{Binding ConnectToPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🔌" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+            <MenuItem Header="Exit" Command="{Binding ExitCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="🚪" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+          </MenuItem>
 
-                        <MenuItem Header="Download from Panel" Command="{Binding DownloadProjectFromPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="⬇️" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+          <MenuItem Header="Monitor" Style="{StaticResource CustomMenuItemStyle}">
+            <MenuItem.Icon>
+              <TextBlock Text="📊" FontSize="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Monitor Panel" Command="{Binding MonitorPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="🖥️" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+          </MenuItem>
 
-                        <MenuItem Header="Upload to Panel" Command="{Binding UploadProjectToPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="⬆️" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <Separator Style="{StaticResource MenuSeparatorStyle}"/>
-
-                        <MenuItem Header="Exit" Command="{Binding ExitCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🚪" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </MenuItem>
-
-                    <MenuItem Header="Monitor" Style="{StaticResource CustomMenuItemStyle}">
-                        <MenuItem.Icon>
-                            <TextBlock Text="📊" FontSize="16"/>
-                        </MenuItem.Icon>
-                        <MenuItem Header="Monitor Panel" Command="{Binding MonitorPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🖥️" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </MenuItem>
-
-                    <MenuItem Header="Themes" Style="{StaticResource CustomMenuItemStyle}">
-                        <MenuItem.Icon>
-                            <TextBlock Text="🎨" FontSize="16"/>
-                        </MenuItem.Icon>
-                        <MenuItem Header="Dark Theme" Command="{Binding DarkThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🌙" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Blue Theme" Command="{Binding BlueThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🔵" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Green Theme" Command="{Binding GreenThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="🟢" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </MenuItem>
+          <MenuItem Header="Themes" Style="{StaticResource CustomMenuItemStyle}">
+            <MenuItem.Icon>
+              <TextBlock Text="🎨" FontSize="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Dark Theme" Command="{Binding DarkThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="🌙" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Blue Theme" Command="{Binding BlueThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="🔵" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Green Theme" Command="{Binding GreenThemeCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="🟢" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+          </MenuItem>
 
           <MenuItem Header="Upload to ESP32" Command="{Binding UploadConfigurationCommand}" Style="{StaticResource CustomMenuItemStyle}">
             <MenuItem.Icon>
               <TextBlock Text="📤" FontSize="14"/>
             </MenuItem.Icon>
           </MenuItem>
+
           <MenuItem Header="Download from Panel" Command="{Binding DownloadFromPanelCommand}" Style="{StaticResource CustomMenuItemStyle}">
             <MenuItem.Icon>
-              <TextBlock Text="⬇️" FontSize="14"/>
+              <TextBlock Text="📥" FontSize="14"/>
             </MenuItem.Icon>
           </MenuItem>
 
-          <Separator Style="{StaticResource MenuSeparatorStyle}"/>
           <MenuItem Header="Help" Style="{StaticResource CustomMenuItemStyle}">
-                        <MenuItem.Icon>
-                            <TextBlock Text="❓" FontSize="16"/>
-                        </MenuItem.Icon>
-                        <MenuItem Header="Documentation" Command="{Binding DocumentationCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="📖" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="About" Command="{Binding AboutCommand}" Style="{StaticResource CustomMenuItemStyle}">
-                            <MenuItem.Icon>
-                                <TextBlock Text="ℹ️" FontSize="14"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </MenuItem>
-                </Menu>
-            </Border>
-            <!-- Main Content Area -->
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="280" MinWidth="200" MaxWidth="400"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*" MinWidth="300"/>
-                </Grid.ColumnDefinitions>
+            <MenuItem.Icon>
+              <TextBlock Text="❓" FontSize="16"/>
+            </MenuItem.Icon>
+            <MenuItem Header="Documentation" Command="{Binding DocumentationCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="📖" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="About" Command="{Binding AboutCommand}" Style="{StaticResource CustomMenuItemStyle}">
+              <MenuItem.Icon>
+                <TextBlock Text="ℹ️" FontSize="14"/>
+              </MenuItem.Icon>
+            </MenuItem>
+          </MenuItem>
+        </Menu>
+      </Border>
 
-                <!-- Left Panel - Panel Explorer -->
-                <Border Grid.Column="0" 
+      <!-- Main Content Area -->
+      <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="280" MinWidth="200" MaxWidth="400"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*" MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel - Panel Explorer -->
+        <Border Grid.Column="0" 
                         Background="#252526"
                         BorderBrush="#3E3E42"
                         BorderThickness="0,0,1,0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                        <!-- Panel Explorer Header -->
-                        <Border Grid.Row="0" 
+            <!-- Panel Explorer Header -->
+            <Border Grid.Row="0" 
                                 Background="#2D2D30"
                                 BorderBrush="#3E3E42"
                                 BorderThickness="0,0,0,1"
                                 Padding="12,10">
-                            <TextBlock Text="PANEL EXPLORER"
+              <TextBlock Text="PANEL EXPLORER"
                                        Foreground="#F39C12"
                                        FontSize="11"
                                        FontWeight="SemiBold"
                                        FontFamily="Segoe UI"/>
-                        </Border>
+            </Border>
 
-                        <!-- TreeView -->
-                        <ScrollViewer Grid.Row="1" 
+            <!-- TreeView -->
+            <ScrollViewer Grid.Row="1" 
                                       VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Auto">
-                            <TreeView AllowDrop="True"
-          ItemsSource="{Binding BlackBoxControlPanels}"
-          Background="#252526"
-          BorderThickness="0"
-          Padding="8"
-          SelectedItemChanged="TreeView_SelectedItemChanged"
-          Drop="Device_Drop">
+              <TreeView AllowDrop="True"
+                                      ItemsSource="{Binding BlackBoxControlPanels}"
+                                      Background="#252526"
+                                      BorderThickness="0"
+                                      Padding="8"
+                                      SelectedItemChanged="TreeView_SelectedItemChanged"
+                                      Drop="Device_Drop">
 
-                                <TreeView.ItemContainerStyle>
-                                    <Style TargetType="TreeViewItem">
-                                        <Setter Property="AllowDrop" Value="True"/>
-                                        <Setter Property="Foreground" Value="#CCCCCC"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="BorderBrush" Value="Transparent"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Padding" Value="4"/>
-                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                                        <EventSetter Event="Drop" Handler="Device_Drop"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="#F39C12"/>
-                                                <Setter Property="Foreground" Value="White"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#3E3E42"/>
-                                                <Setter Property="Foreground" Value="#E0E0E0"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
+                <TreeView.ItemContainerStyle>
+                  <Style TargetType="TreeViewItem">
+                    <Setter Property="AllowDrop" Value="True"/>
+                    <Setter Property="Foreground" Value="#CCCCCC"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                    <EventSetter Event="Drop" Handler="Device_Drop"/>
+                    <Style.Triggers>
+                      <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#F39C12"/>
+                        <Setter Property="Foreground" Value="White"/>
+                      </Trigger>
+                      <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#3E3E42"/>
+                        <Setter Property="Foreground" Value="#E0E0E0"/>
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </TreeView.ItemContainerStyle>
 
-                                </TreeView.ItemContainerStyle>
+                <TreeView.Resources>
+                  <!-- FIRE PANEL -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:BlackBoxControlPanelViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <Viewbox Width="16" Height="16" Margin="0,0,8,0">
+                        <Canvas Width="24" Height="24">
+                          <Rectangle Width="20" Height="18" Canvas.Left="2" Canvas.Top="3" 
+                                                               Fill="#3498DB" Stroke="#2874A6" StrokeThickness="1" RadiusX="1" RadiusY="1"/>
+                          <Ellipse Width="3" Height="3" Canvas.Left="5" Canvas.Top="6" Fill="#2ECC71"/>
+                          <Ellipse Width="3" Height="3" Canvas.Left="10" Canvas.Top="6" Fill="#F39C12"/>
+                          <Ellipse Width="3" Height="3" Canvas.Left="15" Canvas.Top="6" Fill="#E74C3C"/>
+                          <Rectangle Width="16" Height="2" Canvas.Left="4" Canvas.Top="12" Fill="#2874A6"/>
+                          <Rectangle Width="16" Height="2" Canvas.Left="4" Canvas.Top="16" Fill="#2874A6"/>
+                        </Canvas>
+                      </Viewbox>
+                      <TextBlock Text="{Binding Panel.PanelName}" FontWeight="SemiBold" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                <TreeView.Resources>
+                  <!-- LOOP -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:LoopViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <Ellipse Width="10" Height="10" Fill="#2ECC71" Margin="0,0,8,0"/>
+                      <TextBlock Text="{Binding Loop.LoopName}" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- ================= FIRE PANEL ================= -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:BlackBoxControlPanelViewModel}"
+                  <!-- LOOP DEVICE -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:LoopDeviceViewModel}"
                           ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <!-- Server/Panel Icon -->
-                                            <Viewbox Width="16" Height="16" Margin="0,0,8,0">
-                                                <Canvas Width="24" Height="24">
-                                                    <!-- Main panel body -->
-                                                    <Rectangle Width="20" Height="18" Canvas.Left="2" Canvas.Top="3" 
-                          Fill="#3498DB" Stroke="#2874A6" StrokeThickness="1" RadiusX="1" RadiusY="1"/>
-                                                    <!-- Top lights/indicators -->
-                                                    <Ellipse Width="3" Height="3" Canvas.Left="5" Canvas.Top="6" Fill="#2ECC71"/>
-                                                    <Ellipse Width="3" Height="3" Canvas.Left="10" Canvas.Top="6" Fill="#F39C12"/>
-                                                    <Ellipse Width="3" Height="3" Canvas.Left="15" Canvas.Top="6" Fill="#E74C3C"/>
-                                                    <!-- Panel slots -->
-                                                    <Rectangle Width="16" Height="2" Canvas.Left="4" Canvas.Top="12" Fill="#2874A6"/>
-                                                    <Rectangle Width="16" Height="2" Canvas.Left="4" Canvas.Top="16" Fill="#2874A6"/>
-                                                </Canvas>
-                                            </Viewbox>
-                                            <TextBlock Text="{Binding Panel.PanelName}" FontWeight="SemiBold" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                      <Image Source="{Binding Device.ImagePath}" Width="16" Height="16" Margin="0,0,8,0"/>
+                      <TextBlock Text="{Binding NodeName}" Foreground="#CCCCCC"/>
+                      <!-- ✅ CORRECT -->
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- ================= LOOP ======================= -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:LoopViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Ellipse Width="10" Height="10" Fill="#2ECC71" Margin="0,0,8,0"/>
-                                            <TextBlock Text="{Binding Loop.LoopName}" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                  <!-- BUS -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:BusViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="🔌" Margin="0,0,8,0" Foreground="#E67E22"/>
+                      <TextBlock Text="{Binding Bus.BusName}" FontWeight="Medium" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- ================= LOOP DEVICE ================= -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:LoopDeviceViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Device.ImagePath}"
-                   Width="16" Height="16" Margin="0,0,8,0"/>
-                                            <TextBlock Text="{Binding Device.LocationText}" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                  <!-- BUS NODE -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:BusNodeViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <Image Source="{Binding Node.ImagePath}" Width="16" Height="16" Margin="0,0,8,0"/>
+                      <TextBlock Text="{Binding Node.Name}" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- ================= BUS ======================== -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:BusViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="🔌" Margin="0,0,8,0" Foreground="#E67E22"/>
-                                            <TextBlock Text="{Binding Bus.BusName}" FontWeight="Medium" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                  <!-- C&E CONTAINER -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:CauseAndEffectsListViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="⚡" Margin="0,0,8,0" Foreground="#F39C12"/>
+                      <TextBlock Text="Cause and Effects" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- ================= BUS NODE =================== -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:BusNodeViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Node.ImagePath}"
-                   Width="16" Height="16" Margin="0,0,8,0"/>
-                                            <TextBlock Text="{Binding Node.Name}" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                  <!-- SINGLE C&E ENTRY -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:CauseAndEffectViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="⚡" Margin="0,0,8,0" Foreground="#F39C12"/>
+                      <TextBlock Text="{Binding DisplayName}" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
 
-                                    <!-- =========== C&E CONTAINER (list node) ========= -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:CauseAndEffectsListViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="⚡" Margin="0,0,8,0" Foreground="#F39C12"/>
-                                            <TextBlock Text="Cause and Effects" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
+                  <!-- GENERIC TREE NODE -->
+                  <HierarchicalDataTemplate DataType="{x:Type viewModels:TreeNodeViewModel}"
+                                                              ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="{Binding Icon}" Margin="0,0,8,0">
+                        <TextBlock.Style>
+                          <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#95A5A6"/>
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding NodeType}" Value="CauseEffectInput">
+                                <Setter Property="Foreground" Value="#3498DB"/>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding NodeType}" Value="CauseEffectOutput">
+                                <Setter Property="Foreground" Value="#2ECC71"/>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding NodeType}" Value="Device">
+                                <Setter Property="Foreground" Value="#E67E22"/>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </TextBlock.Style>
+                      </TextBlock>
+                      <TextBlock Text="{Binding DisplayName}" Foreground="#CCCCCC"/>
+                    </StackPanel>
+                  </HierarchicalDataTemplate>
+                </TreeView.Resources>
+              </TreeView>
+            </ScrollViewer>
+          </Grid>
+        </Border>
 
-                                    <!-- =========== SINGLE C&E ENTRY ================== -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:CauseAndEffectViewModel}"
-                              ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="⚡" Margin="0,0,8,0" Foreground="#F39C12"/>
-                                            <TextBlock Text="{Binding DisplayName}" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-
-                                    <!-- =========== GENERIC TREE NODE (Inputs/Outputs, etc.) = -->
-                                    <HierarchicalDataTemplate DataType="{x:Type viewModels:TreeNodeViewModel}"
-                          ItemsSource="{Binding Children}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Icon}" Margin="0,0,8,0">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Foreground" Value="#95A5A6"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding NodeType}" Value="CauseEffectInput">
-                                                                <Setter Property="Foreground" Value="#3498DB"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding NodeType}" Value="CauseEffectOutput">
-                                                                <Setter Property="Foreground" Value="#2ECC71"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding NodeType}" Value="Device">
-                                                                <Setter Property="Foreground" Value="#E67E22"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                            <TextBlock Text="{Binding DisplayName}" Foreground="#CCCCCC"/>
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-
-                                </TreeView.Resources>
-                            </TreeView>
-
-
-                        </ScrollViewer>
-                    </Grid>
-                </Border>
-
-                <!-- Splitter -->
-                <GridSplitter Grid.Column="1" 
+        <!-- Splitter -->
+        <GridSplitter Grid.Column="1" 
                               Width="5" 
                               HorizontalAlignment="Stretch"
                               Background="#3E3E42"
                               ShowsPreview="True"/>
 
-                <!-- Right Panel - Content Area -->
-                <Grid Grid.Column="2" Background="#1E1E1E">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="150"/>
-                    </Grid.RowDefinitions>
+        <!-- Right Panel - Content Area -->
+        <Grid Grid.Column="2" Background="#1E1E1E">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+          </Grid.RowDefinitions>
 
-                    <!-- Dynamic Content -->
-                    <Border Grid.Row="0" Margin="15">
-                        <ContentControl Content="{Binding SelectedForm}" 
+          <!-- Dynamic Content -->
+          <Border Grid.Row="0" Margin="15">
+            <ContentControl Content="{Binding SelectedForm}" 
                                         HorizontalAlignment="Stretch" 
                                         VerticalAlignment="Stretch">
-                            <ContentControl.Resources>
-                                <DataTemplate DataType="{x:Type viewModels:BlackBoxControlPanelViewModel}">
-                                    <views:BlackBoxControlForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:LoopViewModel}">
-                                    <views:LoopForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:LoopDeviceViewModel}">
-                                    <views:LoopDeviceForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:BusNodeViewModel}">
-                                    <views:BusNodeForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <!-- Add this template for BusViewModel -->
-                                <DataTemplate DataType="{x:Type viewModels:BusViewModel}">
-                                    <views:BusForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:CauseAndEffectViewModel}">
-                                    <views:CauseAndEffectForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:CauseAndEffectsListViewModel}">
-                                    <views:CauseAndEffectsListForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:TimeOfDayInputViewModel}">
-                                    <views:TimeOfDayInputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:DateTimeInputViewModel}">
-                                    <views:DateTimeInputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:DeviceInputViewModel}">
-                                    <views:DeviceInputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:SendTextOutputViewModel}">
-                                    <views:SendTextOutputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:SendEmailOutputViewModel}">
-                                    <views:SendEmailOutputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:SendApiOutputViewModel}">
-                                    <views:SendApiOutputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:DeviceOutputViewModel}">
-                                    <views:DeviceOutputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModels:ReceiveApiInputViewModel}">
-                                    <views:ReceiveApiInputForm DataContext="{Binding}"/>
-                                </DataTemplate>
-                            </ContentControl.Resources>
-                        </ContentControl>
-                    </Border>
+              <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:BlackBoxControlPanelViewModel}">
+                  <views:BlackBoxControlForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:LoopViewModel}">
+                  <views:LoopForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:LoopDeviceViewModel}">
+                  <views:LoopDeviceForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:BusNodeViewModel}">
+                  <views:BusNodeForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:BusViewModel}">
+                  <views:BusForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:CauseAndEffectViewModel}">
+                  <views:CauseAndEffectForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:CauseAndEffectsListViewModel}">
+                  <views:CauseAndEffectsListForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:TimeOfDayInputViewModel}">
+                  <views:TimeOfDayInputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:DateTimeInputViewModel}">
+                  <views:DateTimeInputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:DeviceInputViewModel}">
+                  <views:DeviceInputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:SendTextOutputViewModel}">
+                  <views:SendTextOutputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:SendEmailOutputViewModel}">
+                  <views:SendEmailOutputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:SendApiOutputViewModel}">
+                  <views:SendApiOutputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:DeviceOutputViewModel}">
+                  <views:DeviceOutputForm DataContext="{Binding}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ReceiveApiInputViewModel}">
+                  <views:ReceiveApiInputForm DataContext="{Binding}"/>
+                </DataTemplate>
+              </ContentControl.Resources>
+            </ContentControl>
+          </Border>
 
-                    <!-- Device Palette -->
-                    <!-- Device Palette at Bottom -->
-                    <Border Grid.Row="3" 
-        Background="#1E1E1E"
-        BorderBrush="#3E3E42"
-        BorderThickness="0,1,0,0"
-        Padding="10">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+          <!-- Device Palette at Bottom -->
+          <Border Grid.Row="1" 
+                            Background="#1E1E1E"
+                            BorderBrush="#3E3E42"
+                            BorderThickness="0,1,0,0"
+                            Padding="10">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
 
-                            <!-- Palette Header -->
-                            <TextBlock Grid.Row="0" 
-                   Text="DEVICE PALETTE"
-                   FontSize="11"
-                   FontWeight="Bold"
-                   Foreground="#858585"
-                   Margin="0,0,0,8"/>
+              <!-- Palette Header -->
+              <TextBlock Grid.Row="0" 
+                                       Text="DEVICE PALETTE"
+                                       FontSize="11"
+                                       FontWeight="Bold"
+                                       Foreground="#858585"
+                                       Margin="0,0,0,8"/>
 
-                            <!-- Scrollable Device List -->
-                            <ScrollViewer Grid.Row="1" 
-                      HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Disabled">
-                                <StackPanel>
-                                    <!-- LOOP DEVICES - Show when Loop is selected -->
-                                    <ItemsControl ItemsSource="{Binding AllowedDevices}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Width="80" 
-                                    Height="100" 
-                                    Margin="5"
-                                    Background="#2D2D30"
-                                    BorderBrush="#3E3E42"
-                                    BorderThickness="1"
-                                    CornerRadius="4"
-                                    Cursor="Hand"
-                                    ToolTip="{Binding Type}">
-                                                    <Border.InputBindings>
-                                                        <MouseBinding MouseAction="LeftClick"
-                                                  Command="{Binding DataContext.AddDeviceCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                  CommandParameter="{Binding}"/>
-                                                    </Border.InputBindings>
-                                                    <Border.Style>
-                                                        <Style TargetType="Border">
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Background" Value="#007ACC"/>
-                                                                    <Setter Property="BorderBrush" Value="#007ACC"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Border.Style>
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <Image Source="{Binding ImagePath}" 
-                                           Width="48" 
-                                           Height="48"
-                                           Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{Binding Type}" 
-                                               FontSize="9"
-                                               Foreground="#CCCCCC"
-                                               TextAlignment="Center"
-                                               TextWrapping="Wrap"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
+              <!-- Scrollable Device List -->
+              <ScrollViewer Grid.Row="1" 
+                                          HorizontalScrollBarVisibility="Auto"
+                                          VerticalScrollBarVisibility="Disabled">
+                <StackPanel>
+                  <!-- LOOP DEVICES - Show when Loop is selected -->
+                  <ItemsControl ItemsSource="{Binding AllowedDevices}">
+                    <ItemsControl.Style>
+                      <Style TargetType="ItemsControl">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding IsBusSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </ItemsControl.Style>
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Border Width="80" 
+                                                        Height="100" 
+                                                        Margin="5"
+                                                        Background="#2D2D30"
+                                                        BorderBrush="#3E3E42"
+                                                        BorderThickness="1"
+                                                        CornerRadius="4"
+                                                        Cursor="Hand"
+                                                        ToolTip="{Binding Type}">
+                          <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick"
+                                                                      Command="{Binding DataContext.AddDeviceCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                      CommandParameter="{Binding}"/>
+                          </Border.InputBindings>
+                          <Border.Style>
+                            <Style TargetType="Border">
+                              <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter Property="Background" Value="#007ACC"/>
+                                  <Setter Property="BorderBrush" Value="#007ACC"/>
+                                </Trigger>
+                              </Style.Triggers>
+                            </Style>
+                          </Border.Style>
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Source="{Binding ImagePath}" 
+                                                               Width="48" 
+                                                               Height="48"
+                                                               Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Type}" 
+                                                                   FontSize="9"
+                                                                   Foreground="#CCCCCC"
+                                                                   TextAlignment="Center"
+                                                                   TextWrapping="Wrap"/>
+                          </StackPanel>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
 
-                                    <!-- BUS NODES - Show when Bus is selected -->
-                                    <ItemsControl ItemsSource="{Binding AvailableBusNodes}">
-                                        <ItemsControl.Style>
-                                            <Style TargetType="ItemsControl">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsBusSelected}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ItemsControl.Style>
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Width="80" 
-                                    Height="100" 
-                                    Margin="5"
-                                    Background="#2D2D30"
-                                    BorderBrush="#3E3E42"
-                                    BorderThickness="1"
-                                    CornerRadius="4"
-                                    Cursor="Hand"
-                                    ToolTip="{Binding Name}">
-                                                    <Border.InputBindings>
-                                                        <MouseBinding MouseAction="LeftClick"
-                                                  Command="{Binding DataContext.AddBusNodeCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                  CommandParameter="{Binding}"/>
-                                                    </Border.InputBindings>
-                                                    <Border.Style>
-                                                        <Style TargetType="Border">
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Background" Value="#E67E22"/>
-                                                                    <Setter Property="BorderBrush" Value="#E67E22"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Border.Style>
-                                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                        <Image Source="{Binding ImagePath}" 
-                                           Width="48" 
-                                           Height="48"
-                                           Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{Binding Name}" 
-                                               FontSize="9"
-                                               Foreground="#CCCCCC"
-                                               TextAlignment="Center"
-                                               TextWrapping="Wrap"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-                </Grid>
+                  <!-- BUS NODES - Show when Bus is selected -->
+                  <ItemsControl ItemsSource="{Binding AvailableBusNodes}">
+                    <ItemsControl.Style>
+                      <Style TargetType="ItemsControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding IsBusSelected}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </ItemsControl.Style>
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Border Width="80" 
+                                                        Height="100" 
+                                                        Margin="5"
+                                                        Background="#2D2D30"
+                                                        BorderBrush="#3E3E42"
+                                                        BorderThickness="1"
+                                                        CornerRadius="4"
+                                                        Cursor="Hand"
+                                                        ToolTip="{Binding Name}">
+                          <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick"
+                                                                      Command="{Binding DataContext.AddBusNodeCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                      CommandParameter="{Binding}"/>
+                          </Border.InputBindings>
+                          <Border.Style>
+                            <Style TargetType="Border">
+                              <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter Property="Background" Value="#E67E22"/>
+                                  <Setter Property="BorderBrush" Value="#E67E22"/>
+                                </Trigger>
+                              </Style.Triggers>
+                            </Style>
+                          </Border.Style>
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Source="{Binding ImagePath}" 
+                                                               Width="48" 
+                                                               Height="48"
+                                                               Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Name}" 
+                                                                   FontSize="9"
+                                                                   Foreground="#CCCCCC"
+                                                                   TextAlignment="Center"
+                                                                   TextWrapping="Wrap"/>
+                          </StackPanel>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+              </ScrollViewer>
             </Grid>
+          </Border>
         </Grid>
-    </Border>
+      </Grid>
+    </Grid>
+  </Border>
 </Window>

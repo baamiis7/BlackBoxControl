@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlackBoxControl.ViewModels;
 
 namespace BlackBoxControl.Models
 {
@@ -86,7 +87,8 @@ namespace BlackBoxControl.Models
         public string FirmwareVersion { get; set; }
         public string ImagePath { get; set; }
         public ObservableCollection<Loop> Loops { get; set; }
-        public ObservableCollection<CEFixed> CauseAndEffects { get; set; }
+        public ObservableCollection<Bus> Busses { get; set; }
+        public ObservableCollection<CauseAndEffect> CauseAndEffects { get; set; } = new ObservableCollection<CauseAndEffect>();
         public ObservableCollection<PanelInput> PanelInputs { get; set; }
         public ObservableCollection<PanelOutput> PanelOutputs { get; set; }
         public ObservableCollection<InputOutputModule> InputOutputModules { get; set; }
