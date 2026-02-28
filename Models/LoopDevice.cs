@@ -9,19 +9,19 @@ namespace BlackBoxControl.Models
 {
     public class LoopDevice
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
         public double AnalogValue { get; set; }
         public double DeviceThreshold { get; set; }
         public double DeviceDaySensitivity { get; set; }
         public double DeviceNightSensitivity { get; set; }
-        public string DeviceInputAction { get; set; }
-        public string DeviceActionMessage { get; set; }
-        public string ImagePath { get; set; } // Add this property for the image path
-        public ObservableCollection<SubAddress> SubAddresses { get; set; }
+        public string DeviceInputAction { get; set; } = string.Empty;
+        public string DeviceActionMessage { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty; // Add this property for the image path
+        public ObservableCollection<SubAddress> SubAddresses { get; set; } = new ObservableCollection<SubAddress>();
         public int Zone { get; set; }               // INT in C, which maps to int in C#
         public int Loop { get; set; }              // BYTE in C, which maps to byte in C#
         public int Address { get; set; }           // BYTE in C, which maps to byte in C#
-        public string LocationText { get; set; }    // CHAR array in C, represented as char[] in C#
+        public string LocationText { get; set; } = string.Empty;    // CHAR array in C, represented as char[] in C#
         public byte SubAddress { get; set; }        // BYTE in C, which maps to byte in C#
         public int FFlags { get; set; }             // INT in C, which maps to int in C# (Extra F added to avoid conflict)
         public byte SubType { get; set; }           // BYTE in C, which maps to byte in C#

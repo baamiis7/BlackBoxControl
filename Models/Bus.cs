@@ -8,10 +8,10 @@ namespace BlackBoxControl.Models
     public class Bus : INotifyPropertyChanged
     {
         private int _busNumber;
-        private string _busName;
-        private string _busType;
+        private string _busName = string.Empty;
+        private string _busType = string.Empty;
         private int _numberOfNodes;
-        private ObservableCollection<BusNode> _nodes;
+        private ObservableCollection<BusNode> _nodes = new ObservableCollection<BusNode>();
 
         public Bus()
         {
@@ -68,8 +68,8 @@ namespace BlackBoxControl.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -7,7 +7,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class DeviceOutputViewModel : ViewModelBase
     {
-        private DeviceOutput _output;
+        private DeviceOutput _output = null!;
         private readonly CauseAndEffectViewModel _parentViewModel;
 
         public DeviceOutput Output

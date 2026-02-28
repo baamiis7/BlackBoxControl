@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using BlackBoxControl.Models;
 
 namespace BlackBoxControl.ViewModels
 {
-    public class CauseAndEffectViewModel : TreeNodeViewModel, INotifyPropertyChanged
+    public class CauseAndEffectViewModel : TreeNodeViewModel
     {
         // --- BACKING FIELDS ---
-        private CauseAndEffect _causeEffect;
-        private string _inputSearchText;
-        private string _outputSearchText;
+        private CauseAndEffect _causeEffect = null!;
+        private string _inputSearchText = string.Empty;
+        private string _outputSearchText = string.Empty;
 
         private ObservableCollection<SelectableDevice> _inputDevices = new ObservableCollection<SelectableDevice>();
         private ObservableCollection<SelectableDevice> _outputDevices = new ObservableCollection<SelectableDevice>();
@@ -28,7 +27,7 @@ namespace BlackBoxControl.ViewModels
         private readonly IEnumerable<Bus> _busses;
 
         // --- EXTRA TREE NODE PROPERTIES ---
-        public string DisplayName
+        public new string DisplayName
         {
             get => CauseEffect?.Name ?? "Cause & Effect";
             set
@@ -40,7 +39,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public string Icon => "⚡";   // Replace with image path if you prefer
+        public new string Icon => "⚡";   // Replace with image path if you prefer
 
         // --- ADVANCED INPUTS/OUTPUTS ---
         public ObservableCollection<TimeOfDayInput> TimeOfDayInputs { get; set; }
@@ -175,7 +174,7 @@ namespace BlackBoxControl.ViewModels
         }
 
         // Add this new method
-        private void CauseEffect_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void CauseEffect_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(CauseAndEffect.LogicGate))
             {
@@ -810,129 +809,5 @@ namespace BlackBoxControl.ViewModels
 
         #endregion
 
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
-
-
-
-
-    // Helper classes stay the same...
-    #region Helper Classes
-
-    public class SelectableDevice : INotifyPropertyChanged
-    {
-        private bool _isSelected;
-
-        public string DeviceId { get; set; }
-        public string Type { get; set; }
-        public string Address { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
-        public string GroupName { get; set; }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                OnPropertyChanged(nameof(IsSelected));
-
-                // Notify C&E VM so Save button re-evaluates CanSave()
-                (Application.Current.MainWindow.DataContext as MainViewModel)?
-                    .RefreshCauseEffectSaveState();
-            }
-        }
-        public Action SelectedChanged { get; set; }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    // --- UPDATED CAUSE AND EFFECT MODEL ---
-    public class CauseAndEffect : INotifyPropertyChanged
-    {
-        private string _name;
-        private LogicGate _logicGate;
-        private bool _isEnabled;
-
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-
-        public LogicGate LogicGate
-        {
-            get { return _logicGate; }
-            set
-            {
-                _logicGate = value;
-                OnPropertyChanged(nameof(LogicGate));
-            }
-        }
-
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged(nameof(IsEnabled));
-            }
-        }
-
-        public string Status
-        {
-            get { return IsEnabled ? "Active" : "Inactive"; }
-        }
-
-        // --- UPDATED: Use new item-based collections ---
-        public ObservableCollection<CauseInput> Inputs { get; set; }
-        public ObservableCollection<EffectOutput> Outputs { get; set; }
-
-        // --- REMOVED: Old properties are no longer needed ---
-        // public System.Collections.Generic.List<string> InputDeviceIds { get; set; }
-        // public System.Collections.Generic.List<string> OutputDeviceIds { get; set; }
-
-        public CauseAndEffect()
-        {
-            LogicGate = LogicGate.OR;
-            IsEnabled = true;
-
-            // Initialize the new collections
-            Inputs = new ObservableCollection<CauseInput>();
-            Outputs = new ObservableCollection<EffectOutput>();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public enum LogicGate
-    {
-        OR,
-        AND,
-        XOR
-    }
-
-    #endregion
 }

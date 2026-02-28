@@ -1,7 +1,5 @@
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,19 +10,19 @@ using BlackBoxControl.Services;
 
 namespace BlackBoxControl.ViewModels
 {
-    public class DownloadConfigurationViewModel : INotifyPropertyChanged
+    public class DownloadConfigurationViewModel : ViewModelBase
     {
-        private readonly SerialCommunicationService _serialService;
+        private readonly ISerialCommunicationService _serialService;
         private readonly ConfigurationDownloadService _downloadService;
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource? _cancellationTokenSource;
 
-        private ObservableCollection<SerialPortInfo> _availablePorts;
-        private SerialPortInfo _selectedPort;
+        private ObservableCollection<SerialPortInfo> _availablePorts = new ObservableCollection<SerialPortInfo>();
+        private SerialPortInfo? _selectedPort;
         private bool _isConnected;
         private bool _isDownloading;
         private int _downloadProgress;
-        private string _statusMessage;
-        private string _logMessages;
+        private string _statusMessage = string.Empty;
+        private string _logMessages = string.Empty;
         private bool _useSimulator;
 
         public ObservableCollection<SerialPortInfo> AvailablePorts
@@ -33,7 +31,7 @@ namespace BlackBoxControl.ViewModels
             set { _availablePorts = value; OnPropertyChanged(); }
         }
 
-        public SerialPortInfo SelectedPort
+        public SerialPortInfo? SelectedPort
         {
             get => _selectedPort;
             set
@@ -104,19 +102,16 @@ namespace BlackBoxControl.ViewModels
                 OnPropertyChanged(nameof(CanSelectPort));
 
                 // Enable/disable simulator in service
-                if (_serialService is MockSerialCommunicationService mockService)
+                _serialService.EnableSimulator(value);
+                if (value)
                 {
-                    mockService.EnableSimulator(value);
-                    if (value)
-                    {
-                        StatusMessage = "Simulator mode enabled - no hardware required";
-                        AddLog("Virtual ESP32 Simulator activated");
-                    }
-                    else
-                    {
-                        StatusMessage = "Simulator mode disabled - using real hardware";
-                        AddLog("Switched to real hardware mode");
-                    }
+                    StatusMessage = "Simulator mode enabled - no hardware required";
+                    AddLog("Virtual ESP32 Simulator activated");
+                }
+                else
+                {
+                    StatusMessage = "Simulator mode disabled - using real hardware";
+                    AddLog("Switched to real hardware mode");
                 }
 
                 // Refresh command states
@@ -139,8 +134,8 @@ namespace BlackBoxControl.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand CloseCommand { get; }
 
-        public event Action<ProjectData> DownloadCompleted;
-        public event Action RequestClose;
+        public event Action<ProjectData>? DownloadCompleted;
+        public event Action? RequestClose;
 
         public DownloadConfigurationViewModel()
         {
@@ -201,13 +196,13 @@ namespace BlackBoxControl.ViewModels
         {
             try
             {
-                string portName = UseSimulator ? "COM_SIMULATOR" : SelectedPort?.PortName;
-
                 if (!UseSimulator && SelectedPort == null)
                 {
                     StatusMessage = "Please select a COM port";
                     return;
                 }
+
+                string portName = UseSimulator ? "COM_SIMULATOR" : SelectedPort!.PortName;
 
                 StatusMessage = UseSimulator ? "Connecting to simulator..." : $"Connecting to {portName}...";
                 AddLog($"Connecting to {portName}...");
@@ -340,7 +335,7 @@ namespace BlackBoxControl.ViewModels
             RequestClose?.Invoke();
         }
 
-        private void OnSerialMessage(object sender, string message)
+        private void OnSerialMessage(object? sender, string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -348,7 +343,7 @@ namespace BlackBoxControl.ViewModels
             });
         }
 
-        private void OnSerialError(object sender, Exception ex)
+        private void OnSerialError(object? sender, Exception ex)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -356,7 +351,7 @@ namespace BlackBoxControl.ViewModels
             });
         }
 
-        private void OnDownloadProgress(object sender, DownloadProgress progress)
+        private void OnDownloadProgress(object? sender, DownloadProgress progress)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -371,11 +366,5 @@ namespace BlackBoxControl.ViewModels
             LogMessages += $"[{timestamp}] {message}\n";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 }

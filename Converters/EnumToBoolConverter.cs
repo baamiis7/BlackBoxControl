@@ -14,13 +14,13 @@ namespace BlackBoxControl.Converters
             if (value == null || parameter == null)
                 return false;
 
-            string enumValue = value.ToString();
-            string targetValue = parameter.ToString();
+            string? enumValue = value.ToString();
+            string? targetValue = parameter.ToString();
 
-            return enumValue.Equals(targetValue, StringComparison.OrdinalIgnoreCase);
+            return enumValue != null && enumValue.Equals(targetValue, StringComparison.OrdinalIgnoreCase);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null || parameter == null)
                 return null;
@@ -29,7 +29,7 @@ namespace BlackBoxControl.Converters
             if (!isChecked)
                 return null;
 
-            return Enum.Parse(targetType, parameter.ToString());
+            return Enum.Parse(targetType, parameter.ToString()!);
         }
     }
 }

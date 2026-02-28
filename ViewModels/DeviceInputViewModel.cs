@@ -7,7 +7,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class DeviceInputViewModel : ViewModelBase
     {
-        private DeviceInput _input;
+        private DeviceInput _input = null!;
         private readonly CauseAndEffectViewModel _parentViewModel;
 
         public DeviceInput Input

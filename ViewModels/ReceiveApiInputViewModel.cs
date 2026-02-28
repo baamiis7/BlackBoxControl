@@ -7,7 +7,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class ReceiveApiInputViewModel : ViewModelBase
     {
-        private ReceiveApiInput _input;
+        private ReceiveApiInput _input = null!;
         private readonly CauseAndEffectViewModel _parentViewModel;
 
         public ReceiveApiInput Input

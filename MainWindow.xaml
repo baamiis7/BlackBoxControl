@@ -15,10 +15,6 @@
         AllowsTransparency="True"
         MouseDown="Window_MouseDown">
 
-  <Window.DataContext>
-    <viewModels:MainViewModel/>
-  </Window.DataContext>
-
   <Border CornerRadius="12" Background="#1E1E1E">
     <!-- Drop Shadow Effect -->
     <Border.Effect>

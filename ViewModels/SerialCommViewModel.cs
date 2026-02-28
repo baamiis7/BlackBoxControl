@@ -10,7 +10,7 @@ namespace BlackBoxControl.ViewModels
     {
         public SerialCommModel _serialModel;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public SerialCommViewModel()
         {
@@ -20,7 +20,7 @@ namespace BlackBoxControl.ViewModels
             CloseCommand = new RelayCommand(CloseSerialPort);
         }
 
-        private string _receivedData;
+        private string _receivedData = string.Empty;
         public string ReceivedData
         {
             get => _receivedData;
@@ -33,7 +33,7 @@ namespace BlackBoxControl.ViewModels
 
         public ICommand OpenCommand { get; }
         public ICommand CloseCommand { get; }
-        public ICommand SendCommand { get; }
+        public ICommand SendCommand { get; } = new RelayCommand(() => { });
 
         private void OpenSerialPort()
         {

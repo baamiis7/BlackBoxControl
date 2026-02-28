@@ -11,7 +11,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class BlackBoxControlPanelViewModel : INotifyPropertyChanged
     {
-        private BlackBoxControlPanel _panel;
+        private BlackBoxControlPanel _panel = null!;
         public BlackBoxControlPanel Panel
         {
             get => _panel;
@@ -22,7 +22,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private string _password;
+        private string _password = string.Empty;
         public string Password
         {
             get { return _password; }
@@ -33,7 +33,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private ObservableCollection<object> _children;
+        private ObservableCollection<object> _children = null!;
 
         // Available input actions for ComboBox
         public ObservableCollection<string> Protocol { get; set; } = new ObservableCollection<string>
@@ -144,7 +144,7 @@ namespace BlackBoxControl.ViewModels
             {
                 foreach (var ce in Panel.CauseAndEffects)
                 {
-                    var ceVM = new CauseAndEffectViewModel(ce, Panel.Loops, Panel.Busses);
+                    var ceVM = new CauseAndEffectViewModel(ce, Panel.Loops!, Panel.Busses!);
                     ceContainer.Children.Add(ceVM);
                 }
             }
@@ -183,8 +183,8 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

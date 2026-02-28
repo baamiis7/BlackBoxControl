@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using BlackBoxControl.Models;
+using BlackBoxControl.Services;
 using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace BlackBoxControl.ViewModels
         public MenuViewModel MenuViewModel { get; }
 
         // Changed from BlackBoxControlPanel to BlackBoxControlPanelViewModel for tree structure support
-        private ObservableCollection<BlackBoxControlPanelViewModel> _BlackBoxControlPanels;
+        private ObservableCollection<BlackBoxControlPanelViewModel> _BlackBoxControlPanels = new ObservableCollection<BlackBoxControlPanelViewModel>();
         public ObservableCollection<BlackBoxControlPanelViewModel> BlackBoxControlPanels
         {
             get { return _BlackBoxControlPanels; }
@@ -30,11 +31,11 @@ namespace BlackBoxControl.ViewModels
         public ObservableCollection<LoopDevice> AvailableDevices { get; set; }
         public ObservableCollection<BusNode> AvailableBusNodes { get; set; } // ADDED
 
-        private object _selectedForm;
-        private LoopDevice _selectedDevice;
-        private object _selectedNode;
+        private object? _selectedForm;
+        private LoopDevice? _selectedDevice;
+        private object? _selectedNode;
 
-        public object SelectedForm
+        public object? SelectedForm
         {
             get { return _selectedForm; }
             set
@@ -52,7 +53,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public object SelectedNode
+        public object? SelectedNode
         {
             get { return _selectedNode; }
             set
@@ -77,7 +78,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public LoopDevice SelectedDevice
+        public LoopDevice? SelectedDevice
         {
             get { return _selectedDevice; }
             set
@@ -87,7 +88,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private ObservableCollection<LoopDevice> _allowedDevices;
+        private ObservableCollection<LoopDevice> _allowedDevices = new ObservableCollection<LoopDevice>();
         public ObservableCollection<LoopDevice> AllowedDevices
         {
             get { return _allowedDevices; }
@@ -98,8 +99,8 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private string _selectedItemDetails;
-        public string SelectedItemDetails
+        private string? _selectedItemDetails;
+        public string? SelectedItemDetails
         {
             get { return _selectedItemDetails; }
             set
@@ -109,9 +110,9 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private string _currentProjectPath;
+        private string? _currentProjectPath;
 
-        public string CurrentProjectPath
+        public string? CurrentProjectPath
         {
             get => _currentProjectPath;
             set
@@ -137,9 +138,9 @@ namespace BlackBoxControl.ViewModels
         public ICommand AddDeviceCommand { get; }
         public ICommand AddBusNodeCommand { get; } // ADDED
 
-        public MainViewModel()
+        public MainViewModel(IProjectService projectService)
         {
-            MenuViewModel = new MenuViewModel(this);
+            MenuViewModel = new MenuViewModel(this, projectService);
 
             // Initialize collections
             BlackBoxControlPanels = new ObservableCollection<BlackBoxControlPanelViewModel>();
@@ -218,6 +219,7 @@ namespace BlackBoxControl.ViewModels
                         // Load the JSON configuration
                         string jsonConfig = File.ReadAllText(configPath);
                         var deviceConfig = JsonConvert.DeserializeObject<LoopDevice>(jsonConfig);
+                        if (deviceConfig == null) continue;
 
                         // Set additional properties
                         deviceConfig.Type = deviceName.Replace("_", " ");
@@ -265,6 +267,7 @@ namespace BlackBoxControl.ViewModels
                         // Load the JSON configuration
                         string jsonConfig = File.ReadAllText(configPath);
                         var busNodeConfig = JsonConvert.DeserializeObject<BusNode>(jsonConfig);
+                        if (busNodeConfig == null) continue;
 
                         // Set additional properties
                         busNodeConfig.Name = nodeName.Replace("_", " ");
@@ -455,7 +458,7 @@ namespace BlackBoxControl.ViewModels
         }
 
         // Add this helper method to MainViewModel
-        private CauseAndEffectViewModel FindParentCauseAndEffectForNode(TreeNodeViewModel treeNode)
+        private CauseAndEffectViewModel? FindParentCauseAndEffectForNode(TreeNodeViewModel treeNode)
         {
             // Search through all fire panels for the C&E that contains this input/output
             foreach (var panel in BlackBoxControlPanels)
@@ -499,7 +502,7 @@ namespace BlackBoxControl.ViewModels
         }
 
         // Helper method to find the parent panel
-        private BlackBoxControlPanelViewModel FindParentPanelViewModel(TreeNodeViewModel childNode)
+        private BlackBoxControlPanelViewModel? FindParentPanelViewModel(TreeNodeViewModel childNode)
         {
             foreach (var panel in BlackBoxControlPanels)
             {
@@ -513,8 +516,8 @@ namespace BlackBoxControl.ViewModels
 
         public void AddDeviceToSelectedItem(LoopDevice device)
         {
-            Loop targetLoop = null;
-            LoopViewModel targetLoopVM = null;
+            Loop? targetLoop = null;
+            LoopViewModel? targetLoopVM = null;
 
             // Determine the target loop based on selected node
             if (SelectedNode is Loop loop)
@@ -585,7 +588,7 @@ namespace BlackBoxControl.ViewModels
         }
 
         // Add this helper method
-        private LoopViewModel FindLoopViewModel(Loop loop)
+        private LoopViewModel? FindLoopViewModel(Loop loop)
         {
             foreach (var panel in BlackBoxControlPanels)
             {
@@ -609,8 +612,8 @@ namespace BlackBoxControl.ViewModels
         // ADDED: Add bus node to selected bus
         public void AddBusNodeToSelectedBus(BusNode busNode)
         {
-            Bus targetBus = null;
-            BusViewModel targetBusVM = null;
+            Bus? targetBus = null;
+            BusViewModel? targetBusVM = null;
 
             // Determine the target bus based on selected node
             if (SelectedNode is Bus bus)
@@ -689,7 +692,7 @@ namespace BlackBoxControl.ViewModels
         /// <summary>
         /// Finds the loop that contains a specific device
         /// </summary>
-        private Loop FindLoopContainingDevice(LoopDevice device)
+        private Loop? FindLoopContainingDevice(LoopDevice device)
         {
             foreach (var panelVM in BlackBoxControlPanels)
             {

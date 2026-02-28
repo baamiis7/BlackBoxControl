@@ -8,12 +8,12 @@ namespace BlackBoxControl.Models
     public class BusNode : INotifyPropertyChanged
     {
         private int _nodeNumber;
-        private string _name;
+        private string _name = string.Empty;
         private int _address;
-        private string _locationText;
-        private string _imagePath;
-        private ObservableCollection<BusNodeIO> _inputs;
-        private ObservableCollection<BusNodeIO> _outputs;
+        private string _locationText = string.Empty;
+        private string _imagePath = string.Empty;
+        private ObservableCollection<BusNodeIO> _inputs = new ObservableCollection<BusNodeIO>();
+        private ObservableCollection<BusNodeIO> _outputs = new ObservableCollection<BusNodeIO>();
 
         public BusNode()
         {
@@ -63,16 +63,16 @@ namespace BlackBoxControl.Models
             set { _outputs = value; OnPropertyChanged(); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string p = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? p = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
     }
 
     // Add this new class for Bus Node Input/Output
     public class BusNodeIO : INotifyPropertyChanged
     {
-        private string _type;
-        private string _description;
+        private string _type = string.Empty;
+        private string _description = string.Empty;
 
         public string Type
         {
@@ -86,8 +86,8 @@ namespace BlackBoxControl.Models
             set { _description = value; OnPropertyChanged(); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string p = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? p = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(p));
     }
 }

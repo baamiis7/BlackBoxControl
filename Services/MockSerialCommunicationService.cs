@@ -9,16 +9,16 @@ namespace BlackBoxControl.Services
     public class MockSerialCommunicationService : SerialCommunicationService
     {
         private bool _useSimulator;
-        private ESP32Simulator _simulator;
+        private ESP32Simulator? _simulator;
         private bool _simulatorConnected;
         private readonly object _packetLock = new object();
         private Queue<BinaryPacket> _receivedPackets = new Queue<BinaryPacket>();
 
-        public void EnableSimulator(bool enable = true)
+        public override void EnableSimulator(bool enabled)
         {
-            _useSimulator = enable;
+            _useSimulator = enabled;
 
-            if (enable)
+            if (enabled)
             {
                 // Use the singleton instance instead of creating a new one
                 _simulator = ESP32SimulatorManager.Instance;
@@ -108,7 +108,8 @@ namespace BlackBoxControl.Services
                     throw new InvalidOperationException("Not connected to simulator");
 
                 System.Diagnostics.Debug.WriteLine($"[MockService] About to call simulator.ReceivePacket...");
-                await Task.Run(() => _simulator.ReceivePacket(packet), cancellationToken);
+                var sim = _simulator;
+                await Task.Run(() => sim!.ReceivePacket(packet), cancellationToken);
                 System.Diagnostics.Debug.WriteLine($"[MockService] Returned from simulator.ReceivePacket");
 
                 await Task.Delay(50, cancellationToken);
@@ -159,7 +160,7 @@ namespace BlackBoxControl.Services
             return await base.WaitForAckAsync(timeoutMs, cancellationToken);
         }
 
-        public override async Task<BinaryPacket> ReceivePacketAsync(CancellationToken cancellationToken)
+        public override async Task<BinaryPacket?> ReceivePacketAsync(CancellationToken cancellationToken)
         {
             if (_useSimulator)
             {

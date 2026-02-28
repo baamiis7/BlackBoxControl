@@ -7,7 +7,7 @@ namespace BlackBoxControl.Services
     /// </summary>
     public static class ESP32SimulatorManager
     {
-        private static ESP32Simulator _instance;
+        private static ESP32Simulator? _instance;
         private static readonly object _lock = new object();
 
         public static ESP32Simulator Instance
@@ -22,7 +22,7 @@ namespace BlackBoxControl.Services
                         System.Diagnostics.Debug.WriteLine("========== SIMULATOR MANAGER CREATED ==========");
                         System.Diagnostics.Debug.WriteLine("[SimulatorManager] Created new ESP32 Simulator instance");
                     }
-                    return _instance;
+                    return _instance!;
                 }
             }
         }

@@ -13,8 +13,8 @@ namespace BlackBoxControl.Models
     {
         public int PanelAddress { get; set; }
         public int NumberOfLoops { get; set; }
-        public string PanelName { get; set; }
-        public string Location { get; set; }
+        public string PanelName { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
 
         // 0x55 = good, anything else bad
         public int ConfigGood { get; set; }
@@ -81,17 +81,17 @@ namespace BlackBoxControl.Models
         public int NumberOfPanelOutputs { get; set; }
         public int NumberOfCauseAndEffects { get; set; }
         public int NumberOfZones { get; set; }
-        public string WiFiSSID { get; set; }
-        public string WiFiPassword { get; set; }
+        public string WiFiSSID { get; set; } = string.Empty;
+        public string WiFiPassword { get; set; } = string.Empty;
         public DateTime LastMaintenanceDate { get; set; }
-        public string FirmwareVersion { get; set; }
-        public string ImagePath { get; set; }
-        public ObservableCollection<Loop> Loops { get; set; }
-        public ObservableCollection<Bus> Busses { get; set; }
+        public string FirmwareVersion { get; set; } = "1.0.0";
+        public string ImagePath { get; set; } = string.Empty;
+        public ObservableCollection<Loop> Loops { get; set; } = new ObservableCollection<Loop>();
+        public ObservableCollection<Bus> Busses { get; set; } = new ObservableCollection<Bus>();
         public ObservableCollection<CauseAndEffect> CauseAndEffects { get; set; } = new ObservableCollection<CauseAndEffect>();
-        public ObservableCollection<PanelInput> PanelInputs { get; set; }
-        public ObservableCollection<PanelOutput> PanelOutputs { get; set; }
-        public ObservableCollection<InputOutputModule> InputOutputModules { get; set; }
-        public string IPAddress { get; internal set; }
+        public ObservableCollection<PanelInput> PanelInputs { get; set; } = new ObservableCollection<PanelInput>();
+        public ObservableCollection<PanelOutput> PanelOutputs { get; set; } = new ObservableCollection<PanelOutput>();
+        public ObservableCollection<InputOutputModule> InputOutputModules { get; set; } = new ObservableCollection<InputOutputModule>();
+        public string IPAddress { get; internal set; } = string.Empty;
     }
 }

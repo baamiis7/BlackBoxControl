@@ -9,7 +9,7 @@ namespace BlackBoxControl.Models
     public class CEFixed
     {
         private byte _ceType;
-        private string _name;                // C# string to hold Name (you can limit the length if needed)
+        private string _name = string.Empty;  // C# string to hold Name (you can limit the length if needed)
         private byte _operator;
         private byte _outputType;
         private ushort _firstCauseIndex;

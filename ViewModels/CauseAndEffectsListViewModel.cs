@@ -11,14 +11,14 @@ namespace BlackBoxControl.ViewModels
 {
     public class CauseAndEffectsListViewModel : ViewModelBase
     {
-        private ObservableCollection<CauseAndEffectViewModel> _causeEffects;
-        private string _searchText;
-        private string _filterStatus;
-        private string _filterLogicGate;
-        private readonly TreeNodeViewModel _containerNode;
+        private ObservableCollection<CauseAndEffectViewModel> _causeEffects = new ObservableCollection<CauseAndEffectViewModel>();
+        private string _searchText = string.Empty;
+        private string _filterStatus = string.Empty;
+        private string _filterLogicGate = string.Empty;
+        private readonly TreeNodeViewModel _containerNode = null!;
 
         // Event to notify the MainViewModel to display a specific C&E form
-        public event EventHandler<CauseAndEffectViewModel> RequestEditForm;
+        public event EventHandler<CauseAndEffectViewModel>? RequestEditForm;
 
         public CauseAndEffectsListViewModel()
         {
@@ -227,9 +227,9 @@ namespace BlackBoxControl.ViewModels
             int outputCount = ceViewModel.CauseEffect?.Outputs?.Count ?? 0;
 
             string message = $"Test Configuration:\n\n" +
-                           $"Name: {ceViewModel.CauseEffect.Name}\n" +
-                           $"Status: {ceViewModel.CauseEffect.Status}\n" +
-                           $"Logic Gate: {ceViewModel.CauseEffect.LogicGate}\n" +
+                           $"Name: {ceViewModel.CauseEffect?.Name}\n" +
+                           $"Status: {ceViewModel.CauseEffect?.Status}\n" +
+                           $"Logic Gate: {ceViewModel.CauseEffect?.LogicGate}\n" +
                            $"Input Devices: {inputCount}\n" +
                            $"Output Devices: {outputCount}\n\n" +
                            "This would simulate the logic evaluation.";
@@ -255,7 +255,7 @@ namespace BlackBoxControl.ViewModels
         /// <summary>
         /// Helper method to get all Bus models from a panel's ViewModel.
         /// </summary>
-        private ObservableCollection<Bus> GetBussesFromPanel(BlackBoxControlPanelViewModel parentPanel)
+        private ObservableCollection<Bus> GetBussesFromPanel(BlackBoxControlPanelViewModel? parentPanel)
         {
             if (parentPanel == null)
                 return new ObservableCollection<Bus>();
@@ -277,7 +277,7 @@ namespace BlackBoxControl.ViewModels
         /// <summary>
         /// Helper method to find the parent BlackBoxControlPanelViewModel for a given TreeNodeViewModel.
         /// </summary>
-        private BlackBoxControlPanelViewModel FindParentPanelViewModel(TreeNodeViewModel childNode)
+        private BlackBoxControlPanelViewModel? FindParentPanelViewModel(TreeNodeViewModel childNode)
         {
             // This is a bit of a workaround. In a real app, you might use a service or DI container.
             // For now, we'll find the main window and get its ViewModel.

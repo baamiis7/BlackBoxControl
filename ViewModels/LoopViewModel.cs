@@ -1,15 +1,13 @@
 ﻿using BlackBoxControl.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
 namespace BlackBoxControl.ViewModels
 {
-    public class LoopViewModel : TreeNodeViewModel, INotifyPropertyChanged
+    public class LoopViewModel : TreeNodeViewModel
     {
-        private Loop _loop;
+        private Loop _loop = null!;
 
         public Loop Loop
         {
@@ -23,10 +21,10 @@ namespace BlackBoxControl.ViewModels
         }
 
         // This is what the TreeView shows for the loop
-        public string DisplayName => Loop?.LoopName ?? "Loop";
+        public new string DisplayName => Loop?.LoopName ?? "Loop";
 
         // Loop icon (optional)
-        public string Icon => "🔁";
+        public new string Icon => "🔁";
 
         public ObservableCollection<string> Protocols { get; set; } =
             new ObservableCollection<string>
@@ -72,10 +70,5 @@ namespace BlackBoxControl.ViewModels
             MessageBox.Show("Changes canceled.", "Cancel", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 }

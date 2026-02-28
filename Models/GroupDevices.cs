@@ -1,14 +1,16 @@
-﻿using BlackBoxControl.ViewModels;
 using System.Collections.ObjectModel;
 
-public class GroupedDevice
+namespace BlackBoxControl.Models
 {
-    public string GroupName { get; set; }   // “Loop 1”, “Bus 2”
-    public ObservableCollection<SelectableDevice> Devices { get; set; }
-
-    public GroupedDevice(string name)
+    public class GroupedDevice
     {
-        GroupName = name;
-        Devices = new ObservableCollection<SelectableDevice>();
+        public string GroupName { get; set; }
+        public ObservableCollection<SelectableDevice> Devices { get; set; }
+
+        public GroupedDevice(string name)
+        {
+            GroupName = name;
+            Devices = new ObservableCollection<SelectableDevice>();
+        }
     }
 }

@@ -13,8 +13,8 @@ namespace BlackBoxControl.Services
     /// </summary>
     public class SerialPortInfo
     {
-        public string PortName { get; set; }
-        public string Description { get; set; }
+        public string PortName { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         public override string ToString() => $"{PortName} - {Description}";
     }
@@ -27,7 +27,7 @@ namespace BlackBoxControl.Services
         public int TotalPackets { get; set; }
         public int SentPackets { get; set; }
         public int PercentComplete => TotalPackets > 0 ? (SentPackets * 100) / TotalPackets : 0;
-        public string CurrentOperation { get; set; }
+        public string CurrentOperation { get; set; } = string.Empty;
         public bool IsComplete => SentPackets >= TotalPackets;
     }
 
@@ -39,23 +39,23 @@ namespace BlackBoxControl.Services
         public int TotalPackets { get; set; }
         public int ReceivedPackets { get; set; }
         public int PercentComplete => TotalPackets > 0 ? (ReceivedPackets * 100) / TotalPackets : 0;
-        public string CurrentOperation { get; set; }
+        public string CurrentOperation { get; set; } = string.Empty;
         public bool IsComplete => ReceivedPackets >= TotalPackets;
     }
 
     /// <summary>
     /// Service for serial communication with ESP32
     /// </summary>
-    public class SerialCommunicationService : IDisposable
+    public class SerialCommunicationService : ISerialCommunicationService
     {
-        private SerialPort _serialPort;
+        private SerialPort? _serialPort;
         private readonly object _lock = new object();
         private bool _isConnected;
 
-        public event EventHandler<string> MessageReceived;
-        public event EventHandler<Exception> ErrorOccurred;
-        public event EventHandler<UploadProgress> UploadProgressChanged;
-        public event EventHandler<DownloadProgress> DownloadProgressChanged;
+        public event EventHandler<string>? MessageReceived;
+        public event EventHandler<Exception>? ErrorOccurred;
+        public event EventHandler<UploadProgress>? UploadProgressChanged;
+        public event EventHandler<DownloadProgress>? DownloadProgressChanged;
 
         public virtual bool IsConnected
         {
@@ -214,7 +214,7 @@ namespace BlackBoxControl.Services
                 {
                     lock (_lock)
                     {
-                        _serialPort.Write(packetBytes, 0, packetBytes.Length);
+                        _serialPort!.Write(packetBytes, 0, packetBytes.Length);
                     }
                 }, cancellationToken);
 
@@ -243,7 +243,7 @@ namespace BlackBoxControl.Services
 
                 try
                 {
-                    if (_serialPort.BytesToRead > 0)
+                    if (_serialPort!.BytesToRead > 0)
                     {
                         int bytesRead = _serialPort.BytesToRead;
                         byte[] readBuffer = new byte[bytesRead];
@@ -313,7 +313,7 @@ namespace BlackBoxControl.Services
         /// <summary>
         /// Receive packet from ESP32 (for download)
         /// </summary>
-        public virtual async Task<BinaryPacket> ReceivePacketAsync(CancellationToken cancellationToken)
+        public virtual async Task<BinaryPacket?> ReceivePacketAsync(CancellationToken cancellationToken)
         {
             // Base implementation - to be overridden in derived classes
             throw new NotImplementedException("ReceivePacketAsync must be implemented in derived class");
@@ -394,5 +394,7 @@ namespace BlackBoxControl.Services
                 Disconnect();
             }
         }
+
+        public virtual void EnableSimulator(bool enabled) { }
     }
 }

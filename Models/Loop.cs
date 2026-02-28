@@ -10,9 +10,9 @@ namespace BlackBoxControl.Models
     public class Loop
     {
         public int LoopNumber { get; set; }
-        public string LoopName { get; set; }
-        public string LoopProtocol { get; set; }
-        public string ImagePath { get; set; }
+        public string LoopName { get; set; } = string.Empty;
+        public string LoopProtocol { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
         public ObservableCollection<LoopDevice> Devices { get; set; } = new ObservableCollection<LoopDevice>();  // Keep this as List
         public int NumberOfDevices { get; set; }
     }

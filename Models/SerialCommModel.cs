@@ -45,7 +45,7 @@ namespace BlackBoxControl.Models
             OnDataReceived(buffer);
         }
 
-        public event Action<byte[]> DataReceived;
+        public event Action<byte[]>? DataReceived;
 
         protected virtual void OnDataReceived(byte[] data)
         {

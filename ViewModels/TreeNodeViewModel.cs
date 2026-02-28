@@ -35,12 +35,12 @@ namespace BlackBoxControl.ViewModels
     /// </summary>
     public class TreeNodeViewModel : ViewModelBase
     {
-        private string _displayName;
-        private string _icon;
+        private string _displayName = string.Empty;
+        private string _icon = string.Empty;
         private TreeNodeType _nodeType;
-        private ObservableCollection<TreeNodeViewModel> _children;
+        private ObservableCollection<TreeNodeViewModel> _children = new ObservableCollection<TreeNodeViewModel>();
         private bool _isExpanded;
-        private object _tag;
+        private object? _tag;
 
         public TreeNodeViewModel()
         {
@@ -95,7 +95,7 @@ namespace BlackBoxControl.ViewModels
                 OnPropertyChanged(nameof(IsExpanded));
             }
         }
-        public object Tag
+        public object? Tag
         {
             get => _tag;
             set

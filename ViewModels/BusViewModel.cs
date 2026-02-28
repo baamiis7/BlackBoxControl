@@ -8,7 +8,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class BusViewModel : TreeNodeViewModel
     {
-        private Bus _bus;
+        private Bus _bus = null!;
 
         public Bus Bus
         {

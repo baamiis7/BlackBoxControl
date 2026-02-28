@@ -7,7 +7,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class SendTextOutputViewModel : ViewModelBase
     {
-        private SendTextOutput _output;
+        private SendTextOutput _output = null!;
         private readonly CauseAndEffectViewModel _parentViewModel;
 
         public SendTextOutput Output

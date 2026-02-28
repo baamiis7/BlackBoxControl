@@ -12,9 +12,9 @@ namespace BlackBoxControl.Services
 {
     public class ConfigurationUploadService
     {
-        private readonly SerialCommunicationService _serialService;
+        private readonly ISerialCommunicationService _serialService;
 
-        public ConfigurationUploadService(SerialCommunicationService serialService)
+        public ConfigurationUploadService(ISerialCommunicationService serialService)
         {
             _serialService = serialService ?? throw new ArgumentNullException(nameof(serialService));
         }
@@ -29,13 +29,8 @@ namespace BlackBoxControl.Services
             if (!_serialService.IsConnected)
                 throw new InvalidOperationException("Not connected to ESP32");
 
-            // Clear simulator before upload if using simulator
-            if (_serialService is MockSerialCommunicationService mockService)
-            {
-                var simulator = ESP32SimulatorManager.Instance;
-                simulator.ClearStoredData();
-                System.Diagnostics.Debug.WriteLine("[Upload] Cleared simulator data before new upload");
-            }
+            // Clear any stored simulator data before each upload
+            ESP32SimulatorManager.Instance.ClearStoredData();
 
             try
             {
@@ -144,8 +139,6 @@ namespace BlackBoxControl.Services
             data.Add((byte)device.Address);
 
             byte typeCode = GetDeviceTypeCode(device.Type);
-            System.Diagnostics.Debug.WriteLine($"[Upload] Device Addr={device.Address}, OriginalType='{device.Type}', TypeCode=0x{typeCode:X2}, Location='{device.LocationText}'");
-
             data.Add(typeCode);
             data.AddRange(GetFixedString(device.LocationText ?? "", 32));
             data.Add((byte)device.Zone);
@@ -156,8 +149,6 @@ namespace BlackBoxControl.Services
 
         private async Task<bool> UploadBusAsync(BlackBoxControlPanelData panel, BusData bus, CancellationToken cancellationToken)
         {
-            System.Diagnostics.Debug.WriteLine($"[Upload] Uploading bus: {bus.BusName}, BusNumber={bus.BusNumber}, Nodes={bus.Nodes?.Count ?? 0}");
-
             var data = new List<byte>();
 
             data.Add((byte)panel.PanelAddress);
@@ -166,8 +157,6 @@ namespace BlackBoxControl.Services
             byte busTypeByte = bus.BusType == "CAN" ? (byte)1 : (byte)0;
             data.Add(busTypeByte);
             data.Add((byte)(bus.Nodes?.Count ?? 0));
-
-            System.Diagnostics.Debug.WriteLine($"[Upload] Bus packet data - Panel={panel.PanelAddress}, BusNum={bus.BusNumber}, Name={bus.BusName}, Nodes={bus.Nodes?.Count ?? 0}");
 
             var packet = new BinaryPacket(ProtocolConstants.PACKET_BUS_CONFIG, data.ToArray());
             return await _serialService.SendPacketWithAckAsync(packet, cancellationToken);
@@ -222,9 +211,6 @@ namespace BlackBoxControl.Services
             // Output count
             data.Add((byte)(ce.Outputs?.Count ?? 0));
 
-            System.Diagnostics.Debug.WriteLine(
-                $"[Upload] C&E: {ce.Name}, Logic={ce.LogicGate}, Inputs={ce.Inputs?.Count ?? 0}, Outputs={ce.Outputs?.Count ?? 0}");
-
             // Send CE header
             var packet = new BinaryPacket(ProtocolConstants.PACKET_CE_HEADER, data.ToArray());
             if (!await _serialService.SendPacketWithAckAsync(packet, cancellationToken))
@@ -278,7 +264,7 @@ namespace BlackBoxControl.Services
             {
                 case "Device":
                     addressType = CEDataHelper.DEVICE_INPUT;
-                    ParseDeviceId(input.DeviceId, out data1, out data2, out data3, out data4);
+                    ParseDeviceId(input.DeviceId ?? string.Empty, out data1, out data2, out data3, out data4);
                     extendedData = $"{input.Type}|{input.LocationText}";
                     break;
 
@@ -324,9 +310,6 @@ namespace BlackBoxControl.Services
             // Extended data (64 bytes)
             data.AddRange(GetFixedString(extendedData, 64));
 
-            System.Diagnostics.Debug.WriteLine(
-                $"[Upload] CE Input: Type={input.InputType}, AddressType=0x{addressType:X2}");
-
             var packet = new BinaryPacket(ProtocolConstants.PACKET_CE_INPUT, data.ToArray());
             return await _serialService.SendPacketWithAckAsync(packet, cancellationToken);
         }
@@ -350,7 +333,7 @@ namespace BlackBoxControl.Services
             {
                 case "Device":
                     addressType = CEDataHelper.DEVICE_OUTPUT;
-                    ParseDeviceId(output.DeviceId, out data1, out data2, out data3, out data4);
+                    ParseDeviceId(output.DeviceId ?? string.Empty, out data1, out data2, out data3, out data4);
                     extendedData = $"{output.Type}|{output.LocationText}";
                     break;
 
@@ -391,9 +374,6 @@ namespace BlackBoxControl.Services
 
             // Extended data (64 bytes)
             data.AddRange(GetFixedString(extendedData, 64));
-
-            System.Diagnostics.Debug.WriteLine(
-                $"[Upload] CE Output: Type={output.OutputType}, AddressType=0x{addressType:X2}");
 
             var packet = new BinaryPacket(ProtocolConstants.PACKET_CE_OUTPUT, data.ToArray());
             return await _serialService.SendPacketWithAckAsync(packet, cancellationToken);

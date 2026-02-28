@@ -7,7 +7,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class TimeOfDayInputViewModel : ViewModelBase
     {
-        private TimeOfDayInput _input;
+        private TimeOfDayInput _input = null!;
         private readonly CauseAndEffectViewModel _parentViewModel;
 
         public TimeOfDayInput Input

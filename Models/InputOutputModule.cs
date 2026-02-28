@@ -19,8 +19,8 @@ namespace BlackBoxControl.Models
             Type = type;
             Name = name.Length <= IOModuleConstants.IO_TEXT_LENGTH ? name : name.Substring(0, IOModuleConstants.IO_TEXT_LENGTH);
         }
-        public string ImagePath { get; set; }
-        public ObservableCollection<PanelInput> PanelInputs { get; set; }
-        public ObservableCollection<PanelOutput> PanelOutputs { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
+        public ObservableCollection<PanelInput> PanelInputs { get; set; } = new ObservableCollection<PanelInput>();
+        public ObservableCollection<PanelOutput> PanelOutputs { get; set; } = new ObservableCollection<PanelOutput>();
     }
 }

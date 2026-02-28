@@ -15,10 +15,10 @@ namespace BlackBoxControl.Models
     // Represents a physical device input
     public class DeviceInput : CauseInput
     {
-        public string DeviceId { get; set; } // e.g., "Loop1-Address5"
-        public string Type { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
+        public string DeviceId { get; set; } = string.Empty; // e.g., "Loop1-Address5"
+        public string Type { get; set; } = string.Empty;
+        public string LocationText { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
 
         public override string GetDescription()
         {
@@ -61,10 +61,10 @@ namespace BlackBoxControl.Models
     // Represents a physical device output
     public class DeviceOutput : EffectOutput
     {
-        public string DeviceId { get; set; }
-        public string Type { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
+        public string DeviceId { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string LocationText { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
 
         public override string GetDescription()
         {
@@ -75,8 +75,8 @@ namespace BlackBoxControl.Models
     // Represents a send text message action
     public class SendTextOutput : EffectOutput
     {
-        public string PhoneNumber { get; set; }
-        public string Message { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
 
         public override string GetDescription()
         {
@@ -87,9 +87,9 @@ namespace BlackBoxControl.Models
     // Represents a send email action
     public class SendEmailOutput : EffectOutput
     {
-        public string EmailAddress { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
+        public string EmailAddress { get; set; } = string.Empty;
+        public string Subject { get; set; } = string.Empty;
+        public string Body { get; set; } = string.Empty;
 
         public override string GetDescription()
         {
@@ -98,10 +98,10 @@ namespace BlackBoxControl.Models
     }
     public class SendApiOutput : EffectOutput
     {
-        public string ApiUrl { get; set; }
-        public string HttpMethod { get; set; }
-        public string ContentType { get; set; }
-        public string RequestBody { get; set; }
+        public string ApiUrl { get; set; } = string.Empty;
+        public string HttpMethod { get; set; } = string.Empty;
+        public string ContentType { get; set; } = string.Empty;
+        public string RequestBody { get; set; } = string.Empty;
 
         public override string GetDescription()
         {

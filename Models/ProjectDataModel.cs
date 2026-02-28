@@ -6,8 +6,8 @@ namespace BlackBoxControl.Models
     [Serializable]
     public class ProjectData
     {
-        public string ProjectName { get; set; }
-        public string ProjectVersion { get; set; }
+        public string ProjectName { get; set; } = string.Empty;
+        public string ProjectVersion { get; set; } = "1.0";
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public List<BlackBoxControlPanelData> BlackBoxControlPanels { get; set; }
@@ -24,13 +24,13 @@ namespace BlackBoxControl.Models
     [Serializable]
     public class BlackBoxControlPanelData
     {
-        public string PanelName { get; set; }
-        public string Location { get; set; }
+        public string PanelName { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
         public int PanelAddress { get; set; }
         public int NumberOfLoops { get; set; }
         public int NumberOfZones { get; set; }
         public int ConfigGood { get; set; }
-        public string FirmwareVersion { get; set; }
+        public string FirmwareVersion { get; set; } = "1.0.0";
 
         public List<LoopData> Loops { get; set; }
         public List<BusData> Busses { get; set; }
@@ -49,7 +49,7 @@ namespace BlackBoxControl.Models
     public class LoopData
     {
         public int LoopNumber { get; set; }
-        public string LoopName { get; set; }
+        public string LoopName { get; set; } = string.Empty;
         public List<LoopDeviceData> Devices { get; set; }
 
         public LoopData()
@@ -59,21 +59,21 @@ namespace BlackBoxControl.Models
     }
 
     [Serializable]
-    public class LoopDeviceData
+    public record LoopDeviceData
     {
         public int Address { get; set; }
-        public string Type { get; set; }
-        public string LocationText { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public string LocationText { get; set; } = string.Empty;
         public int Zone { get; set; }
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
     }
 
     [Serializable]
     public class BusData
     {
-        public int BusNumber { get; set; } 
-        public string BusName { get; set; }
-        public string BusType { get; set; } 
+        public int BusNumber { get; set; }
+        public string BusName { get; set; } = string.Empty;
+        public string BusType { get; set; } = "RS485";
         public List<BusNodeData> Nodes { get; set; }
 
         public BusData()
@@ -86,9 +86,9 @@ namespace BlackBoxControl.Models
     public class BusNodeData
     {
         public int Address { get; set; }
-        public string Name { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string LocationText { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
         public List<InputOutputData> Inputs { get; set; }
         public List<InputOutputData> Outputs { get; set; }
 
@@ -100,17 +100,17 @@ namespace BlackBoxControl.Models
     }
 
     [Serializable]
-    public class InputOutputData
+    public record InputOutputData
     {
-        public string Type { get; set; }
-        public string Description { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 
     [Serializable]
     public class CauseAndEffectData
     {
-        public string Name { get; set; }
-        public string LogicGate { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string LogicGate { get; set; } = "AND";
         public bool IsEnabled { get; set; }
         public List<CauseInputData> Inputs { get; set; } = new List<CauseInputData>();    
         public List<EffectOutputData> Outputs { get; set; } = new List<EffectOutputData>(); 
@@ -119,53 +119,53 @@ namespace BlackBoxControl.Models
     [Serializable]
     public class CauseInputData
     {
-        public string InputType { get; set; } // "Device", "TimeOfDay", "DateTime", "ReceiveApi"
+        public string InputType { get; set; } = string.Empty; // "Device", "TimeOfDay", "DateTime", "ReceiveApi"
 
         // For Device Input
-        public string DeviceId { get; set; }
-        public string Type { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
+        public string? DeviceId { get; set; }
+        public string? Type { get; set; }
+        public string? LocationText { get; set; }
+        public string? ImagePath { get; set; }
 
         // For Time of Day
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
+        public string? StartTime { get; set; }
+        public string? EndTime { get; set; }
 
         // For DateTime
         public DateTime? TriggerDateTime { get; set; }
 
         // For Receive API
-        public string ListenUrl { get; set; }
-        public string HttpMethod { get; set; }
-        public string ExpectedPath { get; set; }
-        public string AuthToken { get; set; }
+        public string? ListenUrl { get; set; }
+        public string? HttpMethod { get; set; }
+        public string? ExpectedPath { get; set; }
+        public string? AuthToken { get; set; }
     }
 
     [Serializable]
     public class EffectOutputData
     {
-        public string OutputType { get; set; } // "Device", "SendText", "SendEmail", "SendApi"
+        public string OutputType { get; set; } = string.Empty; // "Device", "SendText", "SendEmail", "SendApi"
 
         // For Device Output
-        public string DeviceId { get; set; }
-        public string Type { get; set; }
-        public string LocationText { get; set; }
-        public string ImagePath { get; set; }
+        public string? DeviceId { get; set; }
+        public string? Type { get; set; }
+        public string? LocationText { get; set; }
+        public string? ImagePath { get; set; }
 
         // For Send Text
-        public string PhoneNumber { get; set; }
-        public string Message { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Message { get; set; }
 
         // For Send Email
-        public string EmailAddress { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? Subject { get; set; }
+        public string? Body { get; set; }
 
         // For Send API
-        public string ApiUrl { get; set; }
-        public string HttpMethod { get; set; }
-        public string ContentType { get; set; }
-        public string RequestBody { get; set; }
+        public string? ApiUrl { get; set; }
+        public string? HttpMethod { get; set; }
+        public string? ContentType { get; set; }
+        public string? RequestBody { get; set; }
     }
 
 }

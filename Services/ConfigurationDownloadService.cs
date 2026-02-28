@@ -12,14 +12,14 @@ namespace BlackBoxControl.Services
 {
     public class ConfigurationDownloadService
     {
-        private readonly SerialCommunicationService _serialService;
-        private ProjectData _downloadedProject;
-        private BlackBoxControlPanelData _currentPanel;
-        private LoopData _currentLoop;
-        private BusData _currentBus;
-        private CauseAndEffectData _currentCauseEffect; // 🔥 NEW
+        private readonly ISerialCommunicationService _serialService;
+        private ProjectData? _downloadedProject;
+        private BlackBoxControlPanelData? _currentPanel;
+        private LoopData? _currentLoop;
+        private BusData? _currentBus;
+        private CauseAndEffectData? _currentCauseEffect;
 
-        public ConfigurationDownloadService(SerialCommunicationService serialService)
+        public ConfigurationDownloadService(ISerialCommunicationService serialService)
         {
             _serialService = serialService ?? throw new ArgumentNullException(nameof(serialService));
         }
@@ -160,7 +160,7 @@ namespace BlackBoxControl.Services
                     CauseAndEffects = new List<CauseAndEffectData>() // 🔥 NEW
                 };
 
-                _downloadedProject.BlackBoxControlPanels.Add(_currentPanel);
+                _downloadedProject!.BlackBoxControlPanels.Add(_currentPanel!);
                 Debug.WriteLine($"[Download] Received panel: {panelName}");
             }
             catch (Exception ex)

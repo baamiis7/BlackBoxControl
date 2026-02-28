@@ -9,7 +9,7 @@ namespace BlackBoxControl.ViewModels
 {
     public class BusNodeViewModel : TreeNodeViewModel, INotifyPropertyChanged
     {
-        private BusNode _node;
+        private BusNode _node = null!;
 
         public BusNode Node
         {
@@ -23,7 +23,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public string DisplayName
+        public new string DisplayName
         {
             get => Node?.Name ?? "Node";
             set
@@ -36,7 +36,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public string Icon
+        public new string Icon
         {
             get => Node?.ImagePath ?? "/Assets/Nodes/default.png";
             set

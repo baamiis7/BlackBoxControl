@@ -151,7 +151,7 @@ namespace BlackBoxControl.Services
                 { "Wireless Optical Detector", "/Images/Wireless_Optical_Detector.PNG" }
             };
 
-            if (imageMap.TryGetValue(deviceType, out string imagePath))
+            if (imageMap.TryGetValue(deviceType, out string? imagePath))
             {
                 return imagePath;
             }

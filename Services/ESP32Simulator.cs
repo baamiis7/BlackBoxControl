@@ -14,13 +14,13 @@ namespace BlackBoxControl.Services
     {
         private readonly string _portName;
         private List<BlackBoxControlPanelData> _storedPanels = new List<BlackBoxControlPanelData>();
-        private BlackBoxControlPanelData _currentPanel;
-        private LoopData _currentLoop;
-        private BusData _currentBus;
-        private CauseAndEffectData _currentCauseEffect; // 🔥 NEW
+        private BlackBoxControlPanelData? _currentPanel;
+        private LoopData? _currentLoop;
+        private BusData? _currentBus;
+        private CauseAndEffectData? _currentCauseEffect;
 
         // Event to send packets back to PC
-        public event Action<BinaryPacket> PacketToSend;
+        public event Action<BinaryPacket>? PacketToSend;
 
         private ESP32Simulator(string portName)
         {
