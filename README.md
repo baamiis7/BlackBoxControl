@@ -304,7 +304,7 @@ For support, please:
 - **GitHub Issues:** [Report a bug](https://github.com/baamiis/BlackBoxControlPanelSimulation/issues)
 
 ## 👨‍💻 Author
-
+**Khalid Hamdou**
 **baamiis**
 - GitHub: [@baamiis](https://github.com/baamiis)
 - Email: baamiis7@gmail.com
@@ -334,6 +334,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with ❤️ by baamiis**
+**Made with ❤️ by Khalid Hamdou baamiis ltd**
 
 *Last Updated: January 2025*

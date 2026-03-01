@@ -1,0 +1,38 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [ "BlackBoxControl.csproj" ]
+        }
+      ],
+      "dest": "api",
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [ "api/**.yml", "api/index.md" ]
+      },
+      {
+        "files": [
+          "docs/**.md",
+          "docs/**.yml",
+          "toc.yml",
+          "index.md"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [ "default", "modern" ],
+    "globalMetadata": {
+      "_appTitle": "BlackBoxControl",
+      "_appName": "BlackBoxControl — Fire Alarm Panel Configurator",
+      "_appFooter": "BAAMIIS LTD — BlackBoxControl Documentation",
+      "_enableSearch": true,
+      "_disableContribution": true
+    }
+  }
+}

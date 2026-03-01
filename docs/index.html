@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BlackBoxControl — Developer Documentation</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:          #0C1410;
+  --surface:     #142218;
+  --surface2:    #1A2E1F;
+  --border:      #243D2A;
+  --primary:     #3AB86B;
+  --primary-dim: #21924E;
+  --secondary:   #2BA3A0;
+  --warning:     #F0B429;
+  --danger:      #E05252;
+  --fg:          #D9EDE1;
+  --fg-dim:      #6B9978;
+  --fg-dis:      #2E4A34;
+  --code-bg:     #0a120d;
+  --nav-w:       270px;
+  --header-h:    56px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ── Top bar ── */
+header {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 20px;
+  z-index: 200;
+  gap: 14px;
+}
+header .logo {
+  width: 32px; height: 32px;
+  background: var(--primary);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+header h1 { font-size: 16px; font-weight: 600; color: var(--fg); }
+header span { font-size: 12px; color: var(--fg-dim); margin-left: 4px; }
+header .badge {
+  margin-left: auto;
+  background: var(--primary-dim);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 11px; font-weight: 600;
+}
+
+/* ── Sidebar nav ── */
+nav {
+  position: fixed;
+  top: var(--header-h); left: 0; bottom: 0;
+  width: var(--nav-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px 0;
+  z-index: 100;
+}
+nav .nav-section {
+  padding: 6px 16px 4px;
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  color: var(--fg-dis); text-transform: uppercase;
+}
+nav a {
+  display: block;
+  padding: 6px 16px 6px 20px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+}
+nav a:hover { color: var(--fg); background: var(--surface2); border-left-color: var(--border); }
+nav a.active { color: var(--primary); border-left-color: var(--primary); background: rgba(58,184,107,.07); }
+nav a.sub { padding-left: 32px; font-size: 12px; }
+
+/* ── Main content ── */
+main {
+  margin-left: var(--nav-w);
+  margin-top: var(--header-h);
+  padding: 40px 48px;
+  max-width: 960px;
+}
+
+/* ── Section cards ── */
+.doc-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+.doc-section + .doc-section { }
+
+/* ── Typography ── */
+h2 {
+  font-size: 22px; font-weight: 700;
+  color: var(--fg);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+h2 .icon {
+  background: var(--primary);
+  color: #fff;
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+h3 {
+  font-size: 15px; font-weight: 600;
+  color: var(--primary);
+  margin: 24px 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+h4 { font-size: 13px; font-weight: 600; color: var(--fg); margin: 16px 0 8px; }
+p { margin-bottom: 12px; color: var(--fg); }
+strong { color: var(--fg); font-weight: 600; }
+em { color: var(--fg-dim); font-style: italic; }
+
+/* ── Code ── */
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+code {
+  font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+  color: var(--primary);
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 12px;
+}
+pre code {
+  color: var(--fg);
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+.kw  { color: #7ec8a4; }
+.cm  { color: var(--fg-dim); font-style: italic; }
+.st  { color: #e8c56a; }
+.nm  { color: #80bfff; }
+.op  { color: #c0d8c0; }
+
+/* ── Tables ── */
+.table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead tr { background: var(--surface2); }
+th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600; font-size: 11px;
+  text-transform: uppercase; letter-spacing: .05em;
+  color: var(--fg-dim);
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bg);
+  vertical-align: top;
+}
+tr:hover td { background: var(--surface2); }
+td code { font-size: 11.5px; }
+
+/* ── Badges / chips ── */
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px; font-weight: 600;
+  margin-right: 4px;
+}
+.chip-green  { background: rgba(58,184,107,.15); color: var(--primary); border: 1px solid var(--primary-dim); }
+.chip-blue   { background: rgba(43,163,160,.15); color: var(--secondary); border: 1px solid var(--secondary); }
+.chip-yellow { background: rgba(240,180,41,.15);  color: var(--warning);   border: 1px solid var(--warning); }
+.chip-red    { background: rgba(224,82,82,.15);   color: var(--danger);    border: 1px solid var(--danger); }
+
+/* ── Callout boxes ── */
+.callout {
+  border-left: 3px solid;
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.callout-info    { border-color: var(--secondary); background: rgba(43,163,160,.08); }
+.callout-warning { border-color: var(--warning);   background: rgba(240,180,41,.08); }
+.callout-tip     { border-color: var(--primary);   background: rgba(58,184,107,.08); }
+
+/* ── Packet diagram ── */
+.packet-diagram {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0 16px;
+  font-family: monospace;
+  font-size: 12px;
+}
+.packet-diagram .cell {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border-right: 1px solid var(--border);
+}
+.packet-diagram .cell:last-child { border-right: none; }
+.packet-diagram .cell .label { color: var(--fg-dim); font-size: 10px; display: block; margin-bottom: 4px; }
+.packet-diagram .cell .val   { color: var(--primary); font-weight: 700; }
+.packet-diagram .cell .size  { color: var(--fg-dis); font-size: 10px; display: block; margin-top: 2px; }
+.cell-start  { background: rgba(58,184,107,.12); }
+.cell-type   { background: rgba(43,163,160,.12); }
+.cell-len    { background: rgba(240,180,41,.10); }
+.cell-data   { background: rgba(128,191,255,.08); flex: 3 !important; }
+.cell-chk    { background: rgba(240,180,41,.10); }
+.cell-end    { background: rgba(58,184,107,.12); }
+
+/* ── Sequence diagram ── */
+.seq {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-family: monospace;
+  font-size: 12.5px;
+  line-height: 1.9;
+  margin: 12px 0;
+}
+.seq .pc   { color: #80bfff; }
+.seq .esp  { color: var(--primary); }
+.seq .note { color: var(--fg-dim); font-style: italic; }
+.seq .sep  { color: var(--border); }
+
+/* ── Layer diagram ── */
+.layers { margin: 16px 0; }
+.layer {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.layer-view   { background: rgba(43,163,160,.10); border-color: var(--secondary); }
+.layer-vm     { background: rgba(58,184,107,.08); border-color: var(--primary-dim); }
+.layer-svc    { background: rgba(240,180,41,.07); border-color: var(--warning); }
+.layer-model  { background: rgba(128,191,255,.07); border-color: #4a7aaa; }
+.layer-proto  { background: rgba(224,82,82,.07); border-color: var(--danger); }
+.layer .lbl   { font-weight: 700; font-size: 11px; letter-spacing:.05em; text-transform:uppercase; margin-right: 8px; }
+
+/* ── ADR status ── */
+.adr-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px; font-weight: 700;
+  background: rgba(58,184,107,.15);
+  color: var(--primary);
+  border: 1px solid var(--primary-dim);
+  margin-bottom: 16px;
+}
+
+/* ── Scroll-spy highlight ── */
+:target { scroll-margin-top: calc(var(--header-h) + 20px); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--fg-dis); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ HEADER -->
+<header>
+  <div class="logo">🔥</div>
+  <h1>BlackBoxControl</h1>
+  <span>Developer Documentation</span>
+  <span class="badge">.NET 9 · WPF · MVVM</span>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════ SIDEBAR -->
+<nav id="sidebar">
+  <div class="nav-section">Overview</div>
+  <a href="#architecture">Architecture</a>
+  <a href="#startup">  Startup &amp; DI</a>
+  <a href="#dataflow">  Data Flow</a>
+
+  <div class="nav-section">Protocol</div>
+  <a href="#protocol">Binary Protocol</a>
+  <a href="#packet-format">  Packet Format</a>
+  <a href="#packet-types">  Packet Types</a>
+  <a href="#upload-seq">  Upload Sequence</a>
+  <a href="#download-seq">  Download Sequence</a>
+
+  <div class="nav-section">Data</div>
+  <a href="#data-model">Data Model</a>
+  <a href="#panel-model">  BlackBoxControlPanel</a>
+  <a href="#loop-model">  Loop &amp; Device</a>
+  <a href="#bus-model">  Bus &amp; BusNode</a>
+  <a href="#ce-model">  Cause &amp; Effect</a>
+  <a href="#kbb-format">  .kbb File Format</a>
+
+  <div class="nav-section">Services</div>
+  <a href="#services">Services Overview</a>
+  <a href="#project-service">  ProjectService</a>
+  <a href="#project-mapper">  ProjectMapper</a>
+  <a href="#serial-service">  SerialCommunicationService</a>
+  <a href="#mock-service">  MockSerialService</a>
+  <a href="#upload-service">  Upload / Download</a>
+
+  <div class="nav-section">UI &amp; Themes</div>
+  <a href="#themes">Theme System</a>
+  <a href="#brush-keys">  Brush Keys</a>
+  <a href="#adding-theme">  Adding a Theme</a>
+
+  <div class="nav-section">Decisions</div>
+  <a href="#adr001">ADR-001 MVVM &amp; DI</a>
+  <a href="#adr002">ADR-002 Binary Protocol</a>
+  <a href="#adr003">ADR-003 BaseStyles Split</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ MAIN -->
+<main>
+
+<!-- ══════════════ ARCHITECTURE ══════════════ -->
+<section class="doc-section" id="architecture">
+  <h2><span class="icon">🏗</span>Architecture Overview</h2>
+
+  <p>
+    <strong>BlackBoxControl</strong> is a Windows WPF desktop configuration tool for
+    fire alarm control panels manufactured by <strong>BAAMIIS LTD</strong>. It connects
+    to an <strong>ESP32 microcontroller</strong> over USB-serial and transfers panel
+    configuration using a custom binary framed protocol. Projects are saved locally as
+    <code>.kbb</code> files (JSON).
+  </p>
+
+  <div class="callout callout-info">
+    <strong>Platform:</strong> Windows 10+, .NET 9, WPF · <strong>Pattern:</strong> MVVM with manual DI
+  </div>
+
+  <h3>System Context</h3>
+  <pre><code>┌─────────────────────────────────────────────────┐
+│           BlackBoxControl.exe                   │
+│        (WPF Configuration Tool)                 │
+└──────────────────────┬──────────────────────────┘
+                       │  USB / Serial  115 200 baud
+                       ▼
+             ┌─────────────────┐
+             │   ESP32 MCU     │
+             │ (Fire Panel FW) │
+             └─────────────────┘
+                       │  RS485 / Loops
+             ┌─────────────────┐
+             │  Fire Panel HW  │
+             │ Loops · Buses   │
+             └─────────────────┘</code></pre>
+
+  <h3>Application Layers</h3>
+  <div class="layers">
+    <div class="layer layer-view">
+      <span class="lbl" style="color:var(--secondary)">Views</span>
+      MainWindow · BlackBoxControlForm · LoopForm · LoopDeviceForm · BusForm · BusNodeForm · CauseAndEffectForm · CauseAndEffectsListForm
+    </div>
+    <div class="layer layer-vm">
+      <span class="lbl" style="color:var(--primary)">ViewModels</span>
+      MainViewModel · MenuViewModel · DevicePaletteViewModel · BlackBoxControlPanelViewModel · LoopViewModel · LoopDeviceViewModel · BusViewModel · BusNodeViewModel · CauseAndEffectViewModel · Upload/DownloadConfigurationViewModel
+    </div>
+    <div class="layer layer-svc">
+      <span class="lbl" style="color:var(--warning)">Services</span>
+      IProjectService → ProjectService · ISerialCommunicationService → SerialCommunicationService / MockSerialCommunicationService · ProjectMapper · ConfigurationUploadService · ConfigurationDownloadService
+    </div>
+    <div class="layer layer-model">
+      <span class="lbl" style="color:#80bfff">Models</span>
+      BlackBoxControlPanel · Loop · LoopDevice · Bus · BusNode · CauseAndEffect · CauseInput · EffectOutput · LogicGate
+    </div>
+    <div class="layer layer-proto">
+      <span class="lbl" style="color:var(--danger)">Protocol</span>
+      BinaryProtocol.cs — BinaryPacket · ProtocolConstants · ProtocolWriter · ProtocolReader
+    </div>
+  </div>
+
+  <h3 id="startup">Startup &amp; Dependency Injection</h3>
+  <p><code>App.xaml.cs.OnStartup()</code> manually wires the object graph (no DI container):</p>
+  <pre><code>App.OnStartup()
+  ├── IProjectService            = new ProjectService()
+  ├── ISerialCommunicationService = new SerialCommunicationService()
+  │                                (or MockSerialCommunicationService for dev)
+  └── MainViewModel(IProjectService, ISerialService)
+        ├── MenuViewModel(IProjectService)
+        └── DevicePaletteViewModel()</code></pre>
+
+  <h3 id="dataflow">Data Flow — Save Project</h3>
+  <pre><code>User clicks Save
+  → MenuViewModel.SaveCommand
+  → ProjectMapper.ToProjectData(panelViewModels)     ← conversion
+  → IProjectService.SaveAsync(path, projectData)
+  → File.WriteAllTextAsync(path)  →  .kbb (JSON)</code></pre>
+
+  <h3>Data Flow — Upload to Device</h3>
+  <pre><code>User clicks Upload
+  → UploadConfigurationViewModel.UploadCommand
+  → ProjectMapper.ToProjectData(panelViewModels)
+  → ConfigurationUploadService.UploadAsync(data, serialService)
+      → SendPacketAsync(HANDSHAKE)     → WaitForAckAsync (5 s)
+      → SendPacketAsync(PANEL_CONFIG)  → WaitForAckAsync (2 s)
+      → SendPacketAsync(LOOP_CONFIG)   → ACK  × N loops
+      → SendPacketAsync(DEVICE_CONFIG) → ACK  × N devices
+      → SendPacketAsync(BUS_CONFIG)    → ACK  × N buses
+      → SendPacketAsync(BUS_NODE_CONFIG) → ACK × N nodes
+      → SendPacketAsync(CE_HEADER / CE_INPUT / CE_OUTPUT) → ACK
+      → SendPacketAsync(END_TRANSMISSION)</code></pre>
+
+  <h3>Panel Explorer Tree Structure</h3>
+  <pre><code>BlackBoxControlPanel
+├── Loops  (container)
+│   └── Loop
+│       └── LoopDevice  × N
+├── Buses  (container)
+│   └── Bus
+│       └── BusNode  × N
+└── Cause &amp; Effects  (container)
+    └── CauseAndEffect
+        ├── CauseInput  × N
+        └── EffectOutput × N</code></pre>
+  <p>
+    <code>MainViewModel.SelectedNode</code> drives <code>DisplayDetails()</code> which
+    sets <code>SelectedForm</code> (a <code>ContentControl</code> in MainWindow) to the
+    matching UserControl.
+  </p>
+</section>
+
+<!-- ══════════════ PROTOCOL ══════════════ -->
+<section class="doc-section" id="protocol">
+  <h2><span class="icon">📡</span>Binary Serial Protocol</h2>
+
+  <div class="callout callout-info">
+    <strong>Source:</strong> <code>Protocol/BinaryProtocol.cs</code> &nbsp;·&nbsp;
+    <strong>Baud:</strong> 115 200 &nbsp;·&nbsp;
+    <strong>MCU:</strong> ESP32
+  </div>
+
+  <h3 id="packet-format">Packet Frame Format</h3>
+  <p>Every packet uses the same framing regardless of type:</p>
+
+  <div class="packet-diagram">
+    <div class="cell cell-start"><span class="label">START</span><span class="val">0xAA</span><span class="size">1 byte</span></div>
+    <div class="cell cell-type"><span class="label">TYPE</span><span class="val">0x01–0xFF</span><span class="size">1 byte</span></div>
+    <div class="cell cell-len"><span class="label">LEN_H</span><span class="val">high</span><span class="size">1 byte</span></div>
+    <div class="cell cell-len"><span class="label">LEN_L</span><span class="val">low</span><span class="size">1 byte</span></div>
+    <div class="cell cell-data"><span class="label">PAYLOAD</span><span class="val">type-specific data</span><span class="size">0 – 512 bytes</span></div>
+    <div class="cell cell-chk"><span class="label">CHECKSUM</span><span class="val">XOR</span><span class="size">1 byte</span></div>
+    <div class="cell cell-end"><span class="label">END</span><span class="val">0x55</span><span class="size">1 byte</span></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>Size</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>START</code></td><td>1 byte</td><td>Always <code>0xAA</code></td></tr>
+        <tr><td><code>TYPE</code></td><td>1 byte</td><td>Packet type constant</td></tr>
+        <tr><td><code>LEN_H</code></td><td>1 byte</td><td>Payload length, high byte (big-endian)</td></tr>
+        <tr><td><code>LEN_L</code></td><td>1 byte</td><td>Payload length, low byte</td></tr>
+        <tr><td><code>PAYLOAD</code></td><td>0–512 bytes</td><td>Type-specific data</td></tr>
+        <tr><td><code>CHECKSUM</code></td><td>1 byte</td><td>XOR of all payload bytes</td></tr>
+        <tr><td><code>END</code></td><td>1 byte</td><td>Always <code>0x55</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Minimum packet size:</strong> 6 bytes (zero-length payload). <strong>Max payload:</strong> 512 bytes.</p>
+
+  <h4>Checksum Algorithm</h4>
+  <pre><code><span class="kw">byte</span> checksum = 0;
+<span class="kw">foreach</span> (<span class="kw">byte</span> b <span class="kw">in</span> payloadBytes)
+    checksum ^= b;  <span class="cm">// XOR of payload only — START/TYPE/LEN/END not included</span></code></pre>
+
+  <h3 id="packet-types">Packet Types</h3>
+
+  <h4>Control Packets</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Value</th><th>Direction</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>PACKET_HANDSHAKE</code></td><td><code>0xF0</code></td><td><span class="chip chip-blue">PC → ESP32</span></td><td>Open session</td></tr>
+        <tr><td><code>PACKET_ACK</code></td><td><code>0xF1</code></td><td><span class="chip chip-green">ESP32 → PC</span></td><td>Acknowledge last packet</td></tr>
+        <tr><td><code>PACKET_NACK</code></td><td><code>0xF2</code></td><td><span class="chip chip-red">ESP32 → PC</span></td><td>Reject — bad checksum / overflow</td></tr>
+        <tr><td><code>PACKET_DOWNLOAD_REQUEST</code></td><td><code>0xF3</code></td><td><span class="chip chip-blue">PC → ESP32</span></td><td>Request ESP32 to send config</td></tr>
+        <tr><td><code>PACKET_END_TRANSMISSION</code></td><td><code>0xFF</code></td><td><span class="chip chip-blue">PC → ESP32</span></td><td>Close session</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Configuration Packets (Upload)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Value</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>PACKET_PANEL_CONFIG</code></td><td><code>0x01</code></td><td>Global panel settings</td></tr>
+        <tr><td><code>PACKET_LOOP_CONFIG</code></td><td><code>0x02</code></td><td>One loop definition</td></tr>
+        <tr><td><code>PACKET_DEVICE_CONFIG</code></td><td><code>0x03</code></td><td>One loop device</td></tr>
+        <tr><td><code>PACKET_BUS_CONFIG</code></td><td><code>0x04</code></td><td>One RS485 bus</td></tr>
+        <tr><td><code>PACKET_CAUSE_EFFECT</code></td><td><code>0x05</code></td><td>C&amp;E rule (legacy combined)</td></tr>
+        <tr><td><code>PACKET_BUS_NODE_CONFIG</code></td><td><code>0x06</code></td><td>One RS485 bus node</td></tr>
+        <tr><td><code>PACKET_CE_HEADER</code></td><td><code>0x07</code></td><td>C&amp;E rule header</td></tr>
+        <tr><td><code>PACKET_CE_INPUT</code></td><td><code>0x08</code></td><td>One cause input</td></tr>
+        <tr><td><code>PACKET_CE_OUTPUT</code></td><td><code>0x09</code></td><td>One effect output</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="upload-seq">Upload Sequence</h3>
+  <div class="seq">
+<span class="pc">PC</span>                                         <span class="esp">ESP32</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── HANDSHAKE (0xF0) ───────────────────────►│</span>  <span class="note">timeout: 5 000 ms</span>
+<span class="esp">│◄─── ACK       (0xF1) ───────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── PANEL_CONFIG  (0x01) ───────────────────►│</span>  <span class="note">timeout: 2 000 ms each</span>
+<span class="esp">│◄─── ACK (0xF1) ─────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── LOOP_CONFIG   (0x02) × N loops ─────────►│</span>
+<span class="esp">│◄─── ACK each ───────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── DEVICE_CONFIG (0x03) × N devices ───────►│</span>
+<span class="esp">│◄─── ACK each ───────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── BUS_CONFIG    (0x04) × N buses ─────────►│</span>
+<span class="esp">│◄─── ACK each ───────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── BUS_NODE_CONFIG (0x06) × N nodes ───────►│</span>
+<span class="esp">│◄─── ACK each ───────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── CE_HEADER (0x07) ───────────────────────►│</span>  <span class="note">per C&amp;E rule</span>
+<span class="pc">│──── CE_INPUT  (0x08) × N ───────────────────►│</span>
+<span class="pc">│──── CE_OUTPUT (0x09) × N ───────────────────►│</span>
+<span class="esp">│◄─── ACK each ───────────────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── END_TRANSMISSION (0xFF) ────────────────►│</span>
+  </div>
+  <div class="callout callout-warning">
+    If ESP32 replies <strong>NACK</strong> at any step, upload is aborted immediately.
+    If no reply arrives within the timeout, upload is also aborted.
+  </div>
+
+  <h3 id="download-seq">Download Sequence</h3>
+  <div class="seq">
+<span class="pc">PC</span>                                         <span class="esp">ESP32</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── HANDSHAKE (0xF0) ───────────────────────►│</span>
+<span class="esp">│◄─── ACK       (0xF1) ───────────────────────│</span>
+<span class="sep">│                                              │</span>
+<span class="pc">│──── DOWNLOAD_REQUEST (0xF3) ────────────────►│</span>
+<span class="esp">│◄─── PANEL_CONFIG     (0x01) ────────────────│</span>
+<span class="esp">│◄─── LOOP_CONFIG      (0x02) × N ────────────│</span>
+<span class="esp">│◄─── DEVICE_CONFIG    (0x03) × N ────────────│</span>
+<span class="esp">│◄─── BUS_CONFIG       (0x04) × N ────────────│</span>
+<span class="esp">│◄─── BUS_NODE_CONFIG  (0x06) × N ────────────│</span>
+<span class="esp">│◄─── CE_HEADER / CE_INPUT / CE_OUTPUT ───────│</span>
+<span class="esp">│◄─── END_TRANSMISSION (0xFF) ────────────────│</span>
+  </div>
+
+  <h3>Timeouts</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Value</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>ACK_TIMEOUT_MS</code></td><td>2 000 ms</td><td>Every packet ACK wait</td></tr>
+        <tr><td><code>HANDSHAKE_TIMEOUT_MS</code></td><td>5 000 ms</td><td>Initial handshake only</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════ DATA MODEL ══════════════ -->
+<section class="doc-section" id="data-model">
+  <h2><span class="icon">📦</span>Data Model</h2>
+
+  <h3 id="panel-model">BlackBoxControlPanel</h3>
+  <p>Top-level hardware model. One instance per fire panel.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>PanelName</code></td><td>string</td><td>Display name</td></tr>
+        <tr><td><code>Location</code></td><td>string</td><td>Physical location</td></tr>
+        <tr><td><code>PanelAddress</code></td><td>string</td><td>Panel network address</td></tr>
+        <tr><td><code>NumberOfLoops</code></td><td>int</td><td>Configured loop count</td></tr>
+        <tr><td><code>FirmwareVersion</code></td><td>string</td><td>Installed firmware version</td></tr>
+        <tr><td><code>NodeAddress</code></td><td>string</td><td>RS485 node address</td></tr>
+        <tr><td><code>NetCardAddress</code></td><td>string</td><td>Network card IP/MAC</td></tr>
+        <tr><td><code>WiFiSSID</code></td><td>string</td><td>WiFi network name</td></tr>
+        <tr><td><code>ISDevices</code></td><td>bool</td><td>Intrinsically safe devices fitted</td></tr>
+        <tr><td><code>TSYear/Month/Day/Hour/Minute</code></td><td>string</td><td>RTC time-stamp fields</td></tr>
+        <tr><td><code>BatteryCapacity</code></td><td>string</td><td>Battery capacity (Ah)</td></tr>
+        <tr><td><code>Loops</code></td><td>ObservableCollection&lt;Loop&gt;</td><td>Child loops</td></tr>
+        <tr><td><code>Busses</code></td><td>ObservableCollection&lt;Bus&gt;</td><td>Child buses</td></tr>
+        <tr><td><code>CauseAndEffects</code></td><td>ObservableCollection&lt;CauseAndEffect&gt;</td><td>C&amp;E rules</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="loop-model">Loop &amp; LoopDevice</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>LoopNumber</code></td><td>int</td><td>Unique loop number (1-based)</td></tr>
+        <tr><td><code>LoopName</code></td><td>string</td><td>Display name</td></tr>
+        <tr><td><code>LoopProtocol</code></td><td>string</td><td>Argus / Hochiki / Apollo / System Sensor</td></tr>
+        <tr><td><code>NumberOfDevices</code></td><td>int</td><td>Auto-calculated, read-only</td></tr>
+        <tr><td><code>Devices</code></td><td>ObservableCollection&lt;LoopDevice&gt;</td><td>Child devices</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>Type</code></td><td>string</td><td>Device type (from device templates JSON)</td></tr>
+        <tr><td><code>Address</code></td><td>int</td><td>Loop address</td></tr>
+        <tr><td><code>LocationText</code></td><td>string</td><td>Physical location description</td></tr>
+        <tr><td><code>AnalogValue</code></td><td>int</td><td>Current analog reading (%)</td></tr>
+        <tr><td><code>DeviceThreshold</code></td><td>int</td><td>Alarm threshold (%)</td></tr>
+        <tr><td><code>DeviceDaySensitivity</code></td><td>int</td><td>Day-mode sensitivity (0–100)</td></tr>
+        <tr><td><code>DeviceNightSensitivity</code></td><td>int</td><td>Night-mode sensitivity (0–100)</td></tr>
+        <tr><td><code>DeviceInputAction</code></td><td>string</td><td>Action on alarm trigger</td></tr>
+        <tr><td><code>DeviceActionMessage</code></td><td>string</td><td>Custom alarm message</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="bus-model">Bus &amp; BusNode</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>BusNumber</code></td><td>int</td><td>Bus number (1-based)</td></tr>
+        <tr><td><code>BusName</code></td><td>string</td><td>Display name</td></tr>
+        <tr><td><code>BusType</code></td><td>string</td><td>RS485 / RS232 / CAN / Ethernet</td></tr>
+        <tr><td><code>NumberOfNodes</code></td><td>int</td><td>Auto-calculated</td></tr>
+        <tr><td><code>Nodes</code></td><td>ObservableCollection&lt;BusNode&gt;</td><td>Child nodes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="ce-model">CauseAndEffect</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>Name</code></td><td>string</td><td>Rule name</td></tr>
+        <tr><td><code>IsEnabled</code></td><td>bool</td><td>Active/inactive toggle</td></tr>
+        <tr><td><code>LogicGate</code></td><td>LogicGate enum</td><td>OR / AND / XOR</td></tr>
+        <tr><td><code>Inputs</code></td><td>ObservableCollection&lt;CauseInput&gt;</td><td>Trigger conditions</td></tr>
+        <tr><td><code>Outputs</code></td><td>ObservableCollection&lt;EffectOutput&gt;</td><td>Actions to perform</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>LogicGate</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>OR</code></td><td>Any one input triggers the rule</td></tr>
+        <tr><td><code>AND</code></td><td>All inputs must trigger simultaneously</td></tr>
+        <tr><td><code>XOR</code></td><td>Exactly one input must trigger</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="kbb-format">.kbb File Format</h3>
+  <p><code>.kbb</code> files are <strong>UTF-8 JSON</strong> serialised from <code>ProjectData</code>.
+  The extension stands for <strong>B</strong>lack<strong>B</strong>ox <strong>K</strong>onfiguration.</p>
+  <pre><code>{
+  <span class="st">"ProjectName"</span>: <span class="st">"Site A — Building 1"</span>,
+  <span class="st">"Panels"</span>: [
+    {
+      <span class="st">"PanelName"</span>: <span class="st">"Main Panel"</span>,
+      <span class="st">"Location"</span>:  <span class="st">"Ground Floor, Room 1"</span>,
+      <span class="st">"Loops"</span>: [ <span class="cm">/* Loop objects */</span> ],
+      <span class="st">"Busses"</span>: [ <span class="cm">/* Bus objects */</span> ],
+      <span class="st">"CauseAndEffects"</span>: [ <span class="cm">/* C&amp;E rule objects */</span> ]
+    }
+  ]
+}</code></pre>
+  <div class="callout callout-tip">
+    All conversion between ViewModels and <code>ProjectData</code> is done exclusively
+    in <code>Services/ProjectMapper.cs</code>. Never add conversion logic elsewhere.
+  </div>
+</section>
+
+<!-- ══════════════ SERVICES ══════════════ -->
+<section class="doc-section" id="services">
+  <h2><span class="icon">⚙</span>Services</h2>
+
+  <h3 id="project-service">IProjectService / ProjectService</h3>
+  <p>Responsible for saving and loading <code>.kbb</code> project files. Pure file I/O — no conversion logic.</p>
+  <pre><code><span class="kw">interface</span> <span class="nm">IProjectService</span>
+{
+    <span class="kw">void</span>   Save(<span class="kw">string</span> filePath, ProjectData data);
+    Task   SaveAsync(<span class="kw">string</span> filePath, ProjectData data);
+    ProjectData? Load(<span class="kw">string</span> filePath);
+    Task&lt;ProjectData?&gt; LoadAsync(<span class="kw">string</span> filePath);
+}</code></pre>
+  <ul style="margin:8px 0 0 20px;color:var(--fg-dim);font-size:13px;">
+    <li>Uses <code>Newtonsoft.Json</code> for serialisation</li>
+    <li>Async overloads use <code>File.WriteAllTextAsync</code> / <code>File.ReadAllTextAsync</code></li>
+    <li>Called only from <code>MenuViewModel</code></li>
+  </ul>
+
+  <h3 id="project-mapper">ProjectMapper</h3>
+  <p>Single source of truth for converting between ViewModels and the <code>ProjectData</code> DTO.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Direction</th></tr></thead>
+      <tbody>
+        <tr><td><code>ToProjectData(name, panelVMs)</code></td><td>ViewModels → DTO (save / upload)</td></tr>
+        <tr><td><code>ToPanelViewModels(projectData)</code></td><td>DTO → ViewModels (load / download)</td></tr>
+        <tr><td><code>ToCauseInputData(input)</code></td><td>CauseInput VM → DTO</td></tr>
+        <tr><td><code>ToCauseInput(data)</code></td><td>DTO → CauseInput VM</td></tr>
+        <tr><td><code>ToEffectOutputData(output)</code></td><td>EffectOutput VM → DTO</td></tr>
+        <tr><td><code>ToEffectOutput(data)</code></td><td>DTO → EffectOutput VM</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="serial-service">SerialCommunicationService (real hardware)</h3>
+  <p>Opens <code>System.IO.Ports.SerialPort</code> at 115 200 baud.</p>
+  <ul style="margin:0 0 12px 20px;color:var(--fg-dim);font-size:13px;line-height:2;">
+    <li><strong>SendPacketAsync</strong> — serialises <code>BinaryPacket.ToBytes()</code> and writes to port</li>
+    <li><strong>WaitForAckAsync</strong> — <strong>TaskCompletionSource-based</strong> (no polling): creates a TCS, <code>SerialPort.DataReceived</code> fires, buffers bytes, parses ACK packet, calls <code>_ackTcs.TrySetResult(isAck)</code></li>
+    <li>Uses <code>Task.WhenAny(tcs.Task, Task.Delay(timeout))</code> for timeout</li>
+  </ul>
+
+  <h3 id="mock-service">MockSerialCommunicationService (simulator)</h3>
+  <p>Used during development or when no hardware is connected. Two <code>Channel&lt;BinaryPacket&gt;</code> replace polling:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Channel</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>_ackChannel</code></td><td>Receives ACK/NACK packets; read by <code>WaitForAckAsync</code></td></tr>
+        <tr><td><code>_dataChannel</code></td><td>Receives config packets; read by <code>ReceivePacketAsync</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Activated by calling <code>ISerialCommunicationService.EnableSimulator()</code>.</p>
+
+  <h3 id="upload-service">ConfigurationUploadService / DownloadService</h3>
+  <p>Orchestrates the full upload/download sequences using <code>ISerialCommunicationService</code>.
+  Works identically with real hardware or the mock — no <code>if (isMock)</code> branching.</p>
+</section>
+
+<!-- ══════════════ THEMES ══════════════ -->
+<section class="doc-section" id="themes">
+  <h2><span class="icon">🎨</span>Theme System</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Theme</th><th>File</th><th>Palette</th><th>Use case</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip chip-green">Green</span> default</td><td><code>GreenTheme.xaml</code></td><td>Forest + Emerald</td><td>Fire safety / operational</td></tr>
+        <tr><td><span class="chip chip-blue">Blue</span></td><td><code>BlueTheme.xaml</code></td><td>Midnight Navy + Azure</td><td>Corporate / professional</td></tr>
+        <tr><td><span class="chip chip-yellow">Dark</span></td><td><code>DarkTheme.xaml</code></td><td>Charcoal + Fire Orange</td><td>Low-light environments</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>File Structure</h3>
+  <pre><code>Themes/
+  BaseStyles.xaml      <span class="cm">← ALL control templates (shared, ~300 lines)</span>
+  GreenTheme.xaml      <span class="cm">← color brushes only + merges BaseStyles (~20 lines)</span>
+  BlueTheme.xaml       <span class="cm">← color brushes only + merges BaseStyles (~20 lines)</span>
+  DarkTheme.xaml       <span class="cm">← color brushes only + merges BaseStyles (~20 lines)</span>
+
+Resources/
+  LogicGateIcons.xaml  <span class="cm">← merged inside BaseStyles (always loaded with any theme)</span></code></pre>
+
+  <h3 id="brush-keys">Color Brush Keys</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Key</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>PrimaryBrush</code></td><td>Main brand color — buttons, highlights, active states</td></tr>
+        <tr><td><code>PrimaryHoverBrush</code></td><td>Button hover state</td></tr>
+        <tr><td><code>PrimaryPressedBrush</code></td><td>Button pressed state</td></tr>
+        <tr><td><code>SecondaryBrush</code></td><td>Accent for secondary elements</td></tr>
+        <tr><td><code>SuccessBrush</code></td><td>Online / active / valid states</td></tr>
+        <tr><td><code>DangerBrush</code></td><td>Delete buttons / error states</td></tr>
+        <tr><td><code>WarningBrush</code></td><td>Warning indicators / threshold alerts</td></tr>
+        <tr><td><code>BackgroundBrush</code></td><td>Window / page background (darkest)</td></tr>
+        <tr><td><code>SurfaceBrush</code></td><td>Cards, GroupBoxes, panels (mid)</td></tr>
+        <tr><td><code>BorderBrush</code></td><td>All border / separator lines</td></tr>
+        <tr><td><code>HoverBrush</code></td><td>Row / card hover background</td></tr>
+        <tr><td><code>ForegroundBrush</code></td><td>Primary text</td></tr>
+        <tr><td><code>ForegroundDimBrush</code></td><td>Labels, subtitles, hints</td></tr>
+        <tr><td><code>ForegroundDisabledBrush</code></td><td>Disabled control text</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="adding-theme">Adding a New Theme</h3>
+  <ol style="margin:0 0 12px 20px;color:var(--fg-dim);font-size:13px;line-height:2.2;">
+    <li>Copy <code>GreenTheme.xaml</code> to e.g. <code>Themes/RedTheme.xaml</code></li>
+    <li>Update the ~20 color brush values</li>
+    <li>Register the name <code>"Red"</code> in <code>ThemeManager</code></li>
+    <li>Add a menu item in <code>MenuViewModel</code> / <code>MainWindow.xaml</code></li>
+  </ol>
+  <div class="callout callout-warning">
+    Always use <strong><code>DynamicResource</code></strong> (not <code>StaticResource</code>) for color brush
+    references in form XAML. Static references are not updated when the theme changes at runtime.
+  </div>
+</section>
+
+<!-- ══════════════ ADRs ══════════════ -->
+<section class="doc-section" id="adr001">
+  <h2><span class="icon">📝</span>ADR-001: MVVM with Manual DI</h2>
+  <div class="adr-status">✓ Accepted</div>
+
+  <h3>Context</h3>
+  <p>The application needs testable ViewModels, swappable services (real serial vs. simulator), and clear separation between UI and business logic.</p>
+
+  <h3>Decision</h3>
+  <p>Adopt <strong>MVVM</strong> throughout and use <strong>manual dependency injection</strong> in <code>App.xaml.cs.OnStartup()</code> rather than a DI container.</p>
+
+  <h3>Rationale</h3>
+  <p>The object graph is small and shallow — a DI container adds complexity without benefit. Manual wiring is explicit and easy to trace for a small team. The <code>ISerialCommunicationService</code> and <code>IProjectService</code> interfaces are sufficient to enable unit testing without any container.</p>
+
+  <h3>Consequences</h3>
+  <div class="callout callout-tip"><strong>Positive:</strong> ViewModels are independently testable · Serial hardware swappable for simulator · No DI NuGet dependency</div>
+  <div class="callout callout-warning"><strong>Negative:</strong> Adding a transitive dependency requires manually threading it through constructors · No lifetime management (all objects are app-lifetime singletons)</div>
+</section>
+
+<section class="doc-section" id="adr002">
+  <h2><span class="icon">📝</span>ADR-002: Custom Binary Framed Protocol</h2>
+  <div class="adr-status">✓ Accepted</div>
+
+  <h3>Context</h3>
+  <p>The PC tool must transfer structured configuration data to an ESP32 with limited RAM (512-byte packet limit) and no OS-level framing.</p>
+
+  <h3>Decision</h3>
+  <p>Use a custom binary framed protocol with fixed start/end markers, 2-byte big-endian length, XOR checksum, explicit packet type byte, and per-packet ACK/NACK handshake.</p>
+
+  <h3>Rationale</h3>
+  <p><strong>Binary vs JSON/XML:</strong> Significantly smaller payloads; ESP32 does not need a JSON parser. <strong>Per-packet ACK:</strong> Fine-grained error recovery. <strong>XOR checksum:</strong> Sufficient for single-bit error detection on short-range USB-serial. <strong>Start/end markers:</strong> Allow receiver to re-synchronise after noise.</p>
+
+  <h3>Consequences</h3>
+  <div class="callout callout-tip"><strong>Positive:</strong> Small payloads fitting ESP32 RAM · Simple to implement on both sides · Deterministic upload time</div>
+  <div class="callout callout-warning"><strong>Negative:</strong> Both sides must be updated in lockstep on packet format changes · XOR does not detect all multi-bit errors (acceptable for wired USB)</div>
+</section>
+
+<section class="doc-section" id="adr003">
+  <h2><span class="icon">📝</span>ADR-003: BaseStyles + Per-Theme Color Files</h2>
+  <div class="adr-status">✓ Accepted</div>
+
+  <h3>Context</h3>
+  <p>The application originally had three theme files each containing 300+ lines of duplicated XAML control templates. Any style change required editing three files. The only difference between files was ~20 color values.</p>
+
+  <h3>Decision</h3>
+  <p>Extract all control templates into a single <code>Themes/BaseStyles.xaml</code>. Each theme file becomes ~20 lines of color brush definitions that merge BaseStyles. All color references in BaseStyles use <code>DynamicResource</code>. <code>LogicGateIcons.xaml</code> is merged inside BaseStyles (not App.xaml) to ensure it is always reloaded on theme switch.</p>
+
+  <h3>Consequences</h3>
+  <div class="callout callout-tip"><strong>Positive:</strong> 3×300 → 1×300 + 3×20 lines · Adding a theme requires only a color palette · <code>DynamicResource</code> means theme switching works at runtime without restart</div>
+  <div class="callout callout-warning"><strong>Negative:</strong> All themes share identical control shapes (acceptable — branding is color-only) · <code>DynamicResource</code> has a small runtime lookup cost vs <code>StaticResource</code> (negligible)</div>
+</section>
+
+</main>
+
+<script>
+// ── Scroll-spy: highlight active nav link ──
+const links = document.querySelectorAll('nav a[href^="#"]');
+const sections = Array.from(document.querySelectorAll('[id]'));
+
+function onScroll() {
+  const scrollY = window.scrollY + 80;
+  let current = '';
+  sections.forEach(s => { if (s.offsetTop <= scrollY) current = s.id; });
+  links.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>

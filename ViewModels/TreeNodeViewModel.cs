@@ -31,7 +31,7 @@ namespace BlackBoxControl.ViewModels
 
 
     /// <summary>
-    /// Base class for tree view container nodes (Loops, Busses, C&E containers)
+    /// Base class for tree view container nodes (Loops, Busses, C&amp;E containers)
     /// </summary>
     public class TreeNodeViewModel : ViewModelBase
     {

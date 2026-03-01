@@ -7,6 +7,9 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>BlackBoxControl.xml</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>

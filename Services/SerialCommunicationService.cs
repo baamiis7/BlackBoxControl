@@ -51,6 +51,8 @@ namespace BlackBoxControl.Services
         private SerialPort? _serialPort;
         private readonly object _lock = new object();
         private bool _isConnected;
+        private readonly List<byte> _receiveBuffer = new();
+        private volatile TaskCompletionSource<bool>? _ackTcs;
 
         public event EventHandler<string>? MessageReceived;
         public event EventHandler<Exception>? ErrorOccurred;
@@ -233,39 +235,18 @@ namespace BlackBoxControl.Services
         /// </summary>
         protected virtual async Task<bool> WaitForAckAsync(int timeoutMs, CancellationToken cancellationToken)
         {
-            var startTime = DateTime.Now;
-            var buffer = new List<byte>();
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            while ((DateTime.Now - startTime).TotalMilliseconds < timeoutMs)
+            lock (_lock) { _receiveBuffer.Clear(); }
+            _ackTcs = tcs;
+
+            try
             {
-                if (cancellationToken.IsCancellationRequested)
-                    return false;
-
-                try
-                {
-                    if (_serialPort!.BytesToRead > 0)
-                    {
-                        int bytesRead = _serialPort.BytesToRead;
-                        byte[] readBuffer = new byte[bytesRead];
-                        _serialPort.Read(readBuffer, 0, bytesRead);
-                        buffer.AddRange(readBuffer);
-
-                        // Try to parse packet
-                        if (TryParseAckPacket(buffer.ToArray(), out bool isAck))
-                        {
-                            return isAck;
-                        }
-                    }
-                }
-                catch
-                {
-                    // Continue waiting
-                }
-
-                await Task.Delay(10, cancellationToken);
+                var completedTask = await Task.WhenAny(tcs.Task, Task.Delay(timeoutMs, cancellationToken));
+                return completedTask == tcs.Task && await tcs.Task;
             }
-
-            return false;
+            catch (OperationCanceledException) { return false; }
+            finally { _ackTcs = null; }
         }
 
         /// <summary>
@@ -320,25 +301,30 @@ namespace BlackBoxControl.Services
         }
 
         /// <summary>
-        /// Handle received data
+        /// Handle received data — buffers bytes, attempts ACK parse, signals TCS
         /// </summary>
         protected virtual void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
-                if (_serialPort == null || !_serialPort.IsOpen)
-                    return;
-
-                int bytesToRead = _serialPort.BytesToRead;
-                if (bytesToRead > 0)
+                byte[] incoming;
+                lock (_lock)
                 {
-                    byte[] buffer = new byte[bytesToRead];
-                    _serialPort.Read(buffer, 0, bytesToRead);
-
-                    // Log received data for debugging
-                    string hex = BitConverter.ToString(buffer).Replace("-", " ");
-                    OnMessage($"Received: {hex}");
+                    if (_serialPort?.IsOpen != true) return;
+                    int count = _serialPort.BytesToRead;
+                    if (count <= 0) return;
+                    incoming = new byte[count];
+                    _serialPort.Read(incoming, 0, count);
+                    _receiveBuffer.AddRange(incoming);
                 }
+
+                if (TryParseAckPacket(_receiveBuffer.ToArray(), out bool isAck))
+                {
+                    _receiveBuffer.Clear();
+                    _ackTcs?.TrySetResult(isAck);
+                }
+
+                OnMessage($"Received {incoming.Length} bytes");
             }
             catch (Exception ex)
             {

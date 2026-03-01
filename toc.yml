@@ -1,0 +1,5 @@
+- name: Guides
+  href: docs/
+  homepage: docs/README.md
+- name: API Reference
+  href: api/

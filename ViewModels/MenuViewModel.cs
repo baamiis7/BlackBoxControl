@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using BlackBoxControl.Helpers;
@@ -59,12 +60,12 @@ namespace BlackBoxControl.ViewModels
             LoadRecentProjects();
 
             NewProjectCommand = new RelayCommand(NewProject);
-            OpenProjectCommand = new RelayCommand(OpenProject);
-            OpenRecentProjectCommand = new RelayCommand<string>(OpenRecentProject);
+            OpenProjectCommand = new RelayCommand(async () => await OpenProjectAsync());
+            OpenRecentProjectCommand = new RelayCommand<string>(async path => await OpenRecentProjectAsync(path));
             ClearRecentProjectsCommand = new RelayCommand(ClearRecentProjects);
             CloseProjectCommand = new RelayCommand(CloseProject);
-            SaveProjectCommand = new RelayCommand(SaveProject, CanSaveProject);
-            SaveProjectAsCommand = new RelayCommand(SaveProjectAs);
+            SaveProjectCommand = new RelayCommand(async () => await SaveProjectAsync(), CanSaveProject);
+            SaveProjectAsCommand = new RelayCommand(async () => await SaveProjectAsAsync());
             ImportProjectCommand = new RelayCommand(ImportProject);
             ExportProjectCommand = new RelayCommand(ExportProject);
             ConnectToPanelCommand = new RelayCommand(ConnectToPanel);
@@ -99,7 +100,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private void OpenProject()
+        private async Task OpenProjectAsync()
         {
             var openFileDialog = new OpenFileDialog
             {
@@ -110,11 +111,11 @@ namespace BlackBoxControl.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                OpenProjectFile(openFileDialog.FileName);
+                await OpenProjectFileAsync(openFileDialog.FileName);
             }
         }
 
-        private void OpenRecentProject(string projectPath)
+        private async Task OpenRecentProjectAsync(string projectPath)
         {
             if (string.IsNullOrEmpty(projectPath))
                 return;
@@ -135,14 +136,14 @@ namespace BlackBoxControl.ViewModels
                 return;
             }
 
-            OpenProjectFile(projectPath);
+            await OpenProjectFileAsync(projectPath);
         }
 
-        private void OpenProjectFile(string filePath)
+        private async Task OpenProjectFileAsync(string filePath)
         {
             try
             {
-                var projectData = _projectService.Load(filePath)
+                var projectData = await _projectService.LoadAsync(filePath)
                     ?? throw new InvalidOperationException("Failed to deserialize project file.");
                 var panelVMs = ProjectMapper.ToPanelViewModels(projectData);
 
@@ -231,11 +232,11 @@ namespace BlackBoxControl.ViewModels
             return _mainViewModel?.BlackBoxControlPanels?.Count > 0;
         }
 
-        private void SaveProject()
+        private async Task SaveProjectAsync()
         {
             if (string.IsNullOrEmpty(_mainViewModel.CurrentProjectPath))
             {
-                SaveProjectAs();
+                await SaveProjectAsAsync();
             }
             else
             {
@@ -245,7 +246,7 @@ namespace BlackBoxControl.ViewModels
                         Path.GetFileNameWithoutExtension(_mainViewModel.CurrentProjectPath),
                         _mainViewModel.BlackBoxControlPanels);
 
-                    _projectService.Save(_mainViewModel.CurrentProjectPath, projectData);
+                    await _projectService.SaveAsync(_mainViewModel.CurrentProjectPath, projectData);
                     RecentProjectsManager.AddRecentProject(_mainViewModel.CurrentProjectPath);
                     LoadRecentProjects();
 
@@ -266,7 +267,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        private void SaveProjectAs()
+        private async Task SaveProjectAsAsync()
         {
             var saveFileDialog = new SaveFileDialog
             {
@@ -284,7 +285,7 @@ namespace BlackBoxControl.ViewModels
                         Path.GetFileNameWithoutExtension(saveFileDialog.FileName),
                         _mainViewModel.BlackBoxControlPanels);
 
-                    _projectService.Save(saveFileDialog.FileName, projectData);
+                    await _projectService.SaveAsync(saveFileDialog.FileName, projectData);
                     _mainViewModel.CurrentProjectPath = saveFileDialog.FileName;
                     RecentProjectsManager.AddRecentProject(saveFileDialog.FileName);
                     LoadRecentProjects();

@@ -1,0 +1,20 @@
+- name: Overview
+  href: README.md
+- name: Architecture
+  href: ARCHITECTURE.md
+- name: Protocol
+  href: PROTOCOL.md
+- name: Data Model
+  href: DATA-MODEL.md
+- name: Services
+  href: SERVICES.md
+- name: Themes
+  href: THEMES.md
+- name: Architecture Decision Records
+  items:
+    - name: ADR-001 — MVVM and DI
+      href: ADR/001-mvvm-and-di.md
+    - name: ADR-002 — Binary Protocol
+      href: ADR/002-binary-protocol.md
+    - name: ADR-003 — BaseStyles Theme Split
+      href: ADR/003-basestyles-theme-split.md

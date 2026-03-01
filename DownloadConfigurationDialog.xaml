@@ -83,7 +83,6 @@
                    VerticalAlignment="Center"
                    Margin="5"/>
         <ComboBox Grid.Row="1" Grid.Column="1"
-                  Style="{StaticResource ModernDarkComboBox}"
                   ItemsSource="{Binding AvailablePorts}"
                   SelectedItem="{Binding SelectedPort}"
                   DisplayMemberPath="PortName"

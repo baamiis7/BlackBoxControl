@@ -693,7 +693,7 @@ namespace BlackBoxControl.ViewModels
         }
 
         /// <summary>
-        /// Rebuild the TreeView children of this C&E node based on CauseEffect.Inputs/Outputs
+        /// Rebuild the TreeView children of this C&amp;E node based on CauseEffect.Inputs/Outputs
         /// </summary>
         public void RebuildTreeChildren()
         {

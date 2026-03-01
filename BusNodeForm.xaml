@@ -1,115 +1,124 @@
-﻿<UserControl x:Class="BlackBoxControl.BusNodeForm"
+<UserControl x:Class="BlackBoxControl.BusNodeForm"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
-        <StackPanel MaxWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Border Background="{StaticResource SurfaceBrush}" 
-                    BorderBrush="{StaticResource BorderBrush}"
-                    BorderThickness="0,0,0,2"
-                    Padding="0,0,0,15"
-                    Margin="0,0,0,20">
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel>
-                        <TextBlock Text="Bus Node Configuration"
-                                   FontSize="24"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource ForegroundBrush}"/>
-
-                        <TextBlock Text="Configure RS485 node settings"
-                                   FontSize="13"
-                                   Foreground="{StaticResource ForegroundDimBrush}"/>
-                    </StackPanel>
-
-                    <!-- Node Icon -->
-                    <Border Grid.Column="1"
-                            Background="{StaticResource SurfaceBrush}"
-                            BorderBrush="{StaticResource BorderBrush}"
-                            BorderThickness="1"
-                            CornerRadius="4"
-                            Padding="6"
-                            Margin="10,0,0,0">
-                        <Image Source="{Binding Node.ImagePath}"
-                               Width="48" Height="48"
-                               Stretch="Uniform"/>
-                    </Border>
-                </Grid>
-            </Border>
-
+        <!-- Sticky Header -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="20,14">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Node Information -->
-                <GroupBox Header="Node Information" Padding="15" Margin="0,0,0,20">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="{DynamicResource SecondaryBrush}"
+                        Width="36" Height="36" CornerRadius="4" Margin="0,0,12,0">
+                    <TextBlock Text="⚡" FontSize="18" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" Foreground="White"/>
+                </Border>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="Bus Node Configuration" FontSize="16" FontWeight="SemiBold"
+                               Foreground="{DynamicResource ForegroundBrush}"/>
+                    <TextBlock Text="Configure RS485 node settings"
+                               FontSize="11" Foreground="{DynamicResource ForegroundDimBrush}"/>
+                </StackPanel>
 
-                        <Label Content="Node Name:" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox Grid.Row="0" Grid.Column="1"
-                                 Text="{Binding Node.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Address:" Grid.Row="1" Grid.Column="0" Margin="0,10,0,0"/>
-                        <TextBox Grid.Row="1" Grid.Column="1"
-                                 Margin="0,10,0,0"
-                                 Text="{Binding Node.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Location:" Grid.Row="2" Grid.Column="0" Margin="0,10,0,0"/>
-                        <TextBox Grid.Row="2" Grid.Column="1"
-                                 Margin="0,10,0,0"
-                                 Text="{Binding Node.LocationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <Label Content="Icon:" Grid.Row="3" Grid.Column="0" Margin="0,10,0,0"/>
-                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0">
-                            <TextBox Text="{Binding Node.ImagePath}" Width="250"/>
-                            <Button Content="Browse"
-                                    Margin="10,0,0,0"
-                                    Command="{Binding BrowseImageCommand}"/>
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
+                <!-- Node image in header -->
+                <Border Grid.Column="2"
+                        Background="{DynamicResource SurfaceBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1" CornerRadius="4" Padding="6">
+                    <Image Source="{Binding Node.ImagePath}" Width="48" Height="48" Stretch="Uniform"/>
+                </Border>
             </Grid>
+        </Border>
 
-            <!-- Buttons -->
+        <!-- Content -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox Grid.Row="0" Header="Node Information" Padding="14">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Node Name:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Node.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,8"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Address:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Text="{Binding Node.Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,8"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Location:" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Text="{Binding Node.LocationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,8"/>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Icon:" VerticalAlignment="Center"/>
+                    <Grid Grid.Row="3" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding Node.ImagePath}"/>
+                        <Button Grid.Column="1" Content="Browse"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="8,0,0,0"
+                                Command="{Binding BrowseImageCommand}"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <!-- Sticky Footer -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="20,12">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-
-                <Button Content="Cancel" Command="{Binding CancelCommand}" 
-                        Style="{StaticResource SecondaryButton}" 
-                        Width="100" Margin="0,0,10,0"/>
-
-                <Button Content="Save" Command="{Binding SaveCommand}" 
-                        Style="{StaticResource PrimaryButton}" 
-                        Width="120"/>
                 <Button Content="Delete Node"
+                        Style="{StaticResource DangerButton}"
+                        MinWidth="100" Margin="0,0,8,0"
                         Command="{Binding DataContext.RemoveNodeCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                        CommandParameter="{Binding}"
-                        Width="100" 
+                        CommandParameter="{Binding}"/>
+                <Button Content="Cancel"
                         Style="{StaticResource SecondaryButton}"
-                        Margin="20,0,10,0"/>
-
+                        MinWidth="90" Margin="0,0,8,0"
+                        Command="{Binding CancelCommand}"/>
+                <Button Content="Save"
+                        Style="{StaticResource PrimaryButton}"
+                        MinWidth="100"
+                        Command="{Binding SaveCommand}"/>
             </StackPanel>
+        </Border>
 
-        </StackPanel>
-    </ScrollViewer>
-
+    </Grid>
 </UserControl>

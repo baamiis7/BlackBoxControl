@@ -4,8 +4,6 @@ using System.Windows;
 using BlackBoxControl.Models;
 using BlackBoxControl.Services;
 using System.Linq;
-using System.IO;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Windows.Input;
 using BlackBoxControl.Helpers;
@@ -15,6 +13,7 @@ namespace BlackBoxControl.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public MenuViewModel MenuViewModel { get; }
+        public DevicePaletteViewModel DevicePalette { get; } = new();
 
         // Changed from BlackBoxControlPanel to BlackBoxControlPanelViewModel for tree structure support
         private ObservableCollection<BlackBoxControlPanelViewModel> _BlackBoxControlPanels = new ObservableCollection<BlackBoxControlPanelViewModel>();
@@ -28,11 +27,7 @@ namespace BlackBoxControl.ViewModels
             }
         }
 
-        public ObservableCollection<LoopDevice> AvailableDevices { get; set; }
-        public ObservableCollection<BusNode> AvailableBusNodes { get; set; } // ADDED
-
         private object? _selectedForm;
-        private LoopDevice? _selectedDevice;
         private object? _selectedNode;
 
         public object? SelectedForm
@@ -62,7 +57,7 @@ namespace BlackBoxControl.ViewModels
                 System.Diagnostics.Debug.WriteLine($"SelectedNode changed to: {value?.GetType().Name}");
                 OnPropertyChanged(nameof(SelectedNode));
                 OnPropertyChanged(nameof(IsBusSelected)); // ADDED
-                UpdateAvailableDevices();
+                DevicePalette.Update(value);
                 DisplayDetails();
             }
         }
@@ -75,27 +70,6 @@ namespace BlackBoxControl.ViewModels
                 var result = SelectedNode is BusViewModel || SelectedNode is Bus;
                 System.Diagnostics.Debug.WriteLine($"IsBusSelected called: {result}, SelectedNode type: {SelectedNode?.GetType().Name}");
                 return result;
-            }
-        }
-
-        public LoopDevice? SelectedDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                OnPropertyChanged(nameof(SelectedDevice));
-            }
-        }
-
-        private ObservableCollection<LoopDevice> _allowedDevices = new ObservableCollection<LoopDevice>();
-        public ObservableCollection<LoopDevice> AllowedDevices
-        {
-            get { return _allowedDevices; }
-            set
-            {
-                _allowedDevices = value;
-                OnPropertyChanged(nameof(AllowedDevices));
             }
         }
 
@@ -144,17 +118,10 @@ namespace BlackBoxControl.ViewModels
 
             // Initialize collections
             BlackBoxControlPanels = new ObservableCollection<BlackBoxControlPanelViewModel>();
-            AvailableDevices = new ObservableCollection<LoopDevice>();
-            AvailableBusNodes = new ObservableCollection<BusNode>(); // ADDED
-            AllowedDevices = new ObservableCollection<LoopDevice>();
 
             // Initialize commands
             AddDeviceCommand = new RelayCommand<LoopDevice>(device => AddDeviceToSelectedItem(device));
             AddBusNodeCommand = new RelayCommand<BusNode>(busNode => AddBusNodeToSelectedBus(busNode)); // ADDED
-
-            // Load available devices from configuration
-            LoadAvailableDevices();
-            LoadAvailableBusNodes(); // ADDED
 
             // Don't create initial project automatically
             // CreateNewProject();
@@ -198,142 +165,6 @@ namespace BlackBoxControl.ViewModels
 
             // Select the new panel
             SelectedForm = panelViewModel;
-        }
-
-        private void LoadAvailableDevices()
-        {
-            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Images");
-            string configDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DeviceConfigurations");
-
-            if (Directory.Exists(imagesDirectory) && Directory.Exists(configDirectory))
-            {
-                var deviceImages = Directory.GetFiles(imagesDirectory, "*.png");
-
-                foreach (var imagePath in deviceImages)
-                {
-                    string deviceName = Path.GetFileNameWithoutExtension(imagePath);
-                    string configPath = Path.Combine(configDirectory, deviceName + ".json");
-
-                    if (File.Exists(configPath))
-                    {
-                        // Load the JSON configuration
-                        string jsonConfig = File.ReadAllText(configPath);
-                        var deviceConfig = JsonConvert.DeserializeObject<LoopDevice>(jsonConfig);
-                        if (deviceConfig == null) continue;
-
-                        // Set additional properties
-                        deviceConfig.Type = deviceName.Replace("_", " ");
-                        deviceConfig.ImagePath = imagePath;
-
-                        // Add the device to the collection
-                        AvailableDevices.Add(deviceConfig);
-                    }
-                    else
-                    {
-                        // Handle the case where the configuration file does not exist
-                        var device = new LoopDevice
-                        {
-                            Type = deviceName.Replace("_", " "),
-                            ImagePath = imagePath
-                        };
-                        AvailableDevices.Add(device);
-                    }
-                }
-            }
-        }
-
-        // ADDED: Load available bus nodes
-        private void LoadAvailableBusNodes()
-        {
-            AvailableBusNodes.Clear();
-
-            string imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "BusImages");
-            string configDirectory = Path.Combine(Directory.GetCurrentDirectory(), "BusNodeConfigurations");
-
-            System.Diagnostics.Debug.WriteLine($"Loading bus nodes from: {imagesDirectory}");
-
-            if (Directory.Exists(imagesDirectory))
-            {
-                var busImages = Directory.GetFiles(imagesDirectory, "*.png");
-                System.Diagnostics.Debug.WriteLine($"Found {busImages.Length} bus images");
-
-                foreach (var imagePath in busImages)
-                {
-                    string nodeName = Path.GetFileNameWithoutExtension(imagePath);
-                    string configPath = Path.Combine(configDirectory, nodeName + ".json");
-
-                    if (File.Exists(configPath))
-                    {
-                        // Load the JSON configuration
-                        string jsonConfig = File.ReadAllText(configPath);
-                        var busNodeConfig = JsonConvert.DeserializeObject<BusNode>(jsonConfig);
-                        if (busNodeConfig == null) continue;
-
-                        // Set additional properties
-                        busNodeConfig.Name = nodeName.Replace("_", " ");
-                        busNodeConfig.ImagePath = imagePath;
-
-                        // Add the bus node to the collection
-                        AvailableBusNodes.Add(busNodeConfig);
-                        System.Diagnostics.Debug.WriteLine($"Added bus node: {busNodeConfig.Name}");
-                    }
-                    else
-                    {
-                        // Handle the case where the configuration file does not exist
-                        var busNode = new BusNode
-                        {
-                            Name = nodeName.Replace("_", " "),
-                            ImagePath = imagePath,
-                            LocationText = "",
-                            Inputs = new ObservableCollection<BusNodeIO>(),
-                            Outputs = new ObservableCollection<BusNodeIO>()
-                        };
-                        AvailableBusNodes.Add(busNode);
-                        System.Diagnostics.Debug.WriteLine($"Added bus node (no config): {busNode.Name}");
-                    }
-                }
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine($"BusImages directory not found: {imagesDirectory}");
-            }
-
-            System.Diagnostics.Debug.WriteLine($"Total bus nodes loaded: {AvailableBusNodes.Count}");
-        }
-
-        private void UpdateAvailableDevices()
-        {
-            System.Diagnostics.Debug.WriteLine($"UpdateAvailableDevices called. SelectedNode type: {SelectedNode?.GetType().Name}");
-            System.Diagnostics.Debug.WriteLine($"AvailableDevices count: {AvailableDevices.Count}");
-            System.Diagnostics.Debug.WriteLine($"AvailableBusNodes count: {AvailableBusNodes.Count}");
-
-            // Update the AllowedDevices based on the SelectedNode
-            if (SelectedNode is LoopViewModel || SelectedNode is Loop)
-            {
-                System.Diagnostics.Debug.WriteLine("Loop selected - showing loop devices");
-                // Show loop devices
-                AllowedDevices = new ObservableCollection<LoopDevice>(AvailableDevices);
-            }
-            else if (SelectedNode is BusViewModel || SelectedNode is Bus)
-            {
-                System.Diagnostics.Debug.WriteLine("Bus selected - clearing loop devices");
-                // For bus selection, clear loop devices
-                AllowedDevices.Clear();
-            }
-            else if (SelectedNode is BlackBoxControlPanelViewModel || SelectedNode is BlackBoxControlPanel)
-            {
-                System.Diagnostics.Debug.WriteLine("Panel selected - showing all devices");
-                // Show all devices at panel level
-                AllowedDevices = new ObservableCollection<LoopDevice>(AvailableDevices);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Other node selected - clearing devices");
-                AllowedDevices.Clear();
-            }
-
-            System.Diagnostics.Debug.WriteLine($"AllowedDevices count after update: {AllowedDevices.Count}");
-            OnPropertyChanged(nameof(AllowedDevices));
         }
 
         public void DisplayDetails()

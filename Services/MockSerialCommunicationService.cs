@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using BlackBoxControl.Protocol;
 
@@ -11,8 +11,8 @@ namespace BlackBoxControl.Services
         private bool _useSimulator;
         private ESP32Simulator? _simulator;
         private bool _simulatorConnected;
-        private readonly object _packetLock = new object();
-        private Queue<BinaryPacket> _receivedPackets = new Queue<BinaryPacket>();
+        private readonly Channel<BinaryPacket> _ackChannel = Channel.CreateUnbounded<BinaryPacket>();
+        private readonly Channel<BinaryPacket> _dataChannel = Channel.CreateUnbounded<BinaryPacket>();
 
         public override void EnableSimulator(bool enabled)
         {
@@ -42,11 +42,13 @@ namespace BlackBoxControl.Services
 
         private void OnSimulatorPacket(BinaryPacket packet)
         {
-            lock (_packetLock)
-            {
-                _receivedPackets.Enqueue(packet);
-                System.Diagnostics.Debug.WriteLine($"[MockService] Queued packet from simulator: 0x{packet.PacketType:X2}");
-            }
+            if (packet.PacketType == ProtocolConstants.PACKET_ACK ||
+                packet.PacketType == ProtocolConstants.PACKET_NACK)
+                _ackChannel.Writer.TryWrite(packet);
+            else
+                _dataChannel.Writer.TryWrite(packet);
+
+            System.Diagnostics.Debug.WriteLine($"[MockService] Queued packet from simulator: 0x{packet.PacketType:X2}");
         }
 
         public override bool IsConnected
@@ -88,7 +90,7 @@ namespace BlackBoxControl.Services
                 System.Diagnostics.Debug.WriteLine("MockService: Disconnecting simulator");
                 _simulatorConnected = false;
 
-                // DON'T clear the packet queue here - download might need them!
+                // DON'T drain channels here - download might need pending packets!
 
                 OnMessage("Disconnected from Virtual ESP32 Simulator");
             }
@@ -124,36 +126,19 @@ namespace BlackBoxControl.Services
         {
             if (_useSimulator)
             {
-                // In simulator mode, ACKs are sent via the packet queue
-                var startTime = DateTime.Now;
-
-                while ((DateTime.Now - startTime).TotalMilliseconds < timeoutMs)
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(timeoutMs);
+                try
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                        return false;
-
-                    lock (_packetLock)
-                    {
-                        if (_receivedPackets.Count > 0)
-                        {
-                            var packet = _receivedPackets.Dequeue();
-                            System.Diagnostics.Debug.WriteLine($"[MockService] Received ACK/packet: 0x{packet.PacketType:X2}");
-
-                            if (packet.PacketType == ProtocolConstants.PACKET_ACK)
-                            {
-                                return true;
-                            }
-
-                            // If it's not an ACK, put it back for later
-                            _receivedPackets.Enqueue(packet);
-                        }
-                    }
-
-                    await Task.Delay(10, cancellationToken);
+                    var ack = await _ackChannel.Reader.ReadAsync(timeoutCts.Token);
+                    System.Diagnostics.Debug.WriteLine($"[MockService] Received ACK/packet: 0x{ack.PacketType:X2}");
+                    return ack.PacketType == ProtocolConstants.PACKET_ACK;
                 }
-
-                System.Diagnostics.Debug.WriteLine("[MockService] ACK timeout");
-                return false;
+                catch (OperationCanceledException)
+                {
+                    System.Diagnostics.Debug.WriteLine("[MockService] ACK timeout");
+                    return false;
+                }
             }
 
             // If not simulator, call base implementation
@@ -164,33 +149,29 @@ namespace BlackBoxControl.Services
         {
             if (_useSimulator)
             {
-                var startTime = DateTime.Now;
-                var timeoutSeconds = 5; // 5 second timeout per packet
-
-                while ((DateTime.Now - startTime).TotalSeconds < timeoutSeconds)
+                using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                timeoutCts.CancelAfter(5000);
+                try
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                        return null;
-
-                    lock (_packetLock)
-                    {
-                        if (_receivedPackets.Count > 0)
-                        {
-                            var packet = _receivedPackets.Dequeue();
-                            System.Diagnostics.Debug.WriteLine($"[MockService] Returning packet: 0x{packet.PacketType:X2}");
-                            return packet;
-                        }
-                    }
-
-                    await Task.Delay(10, cancellationToken);
+                    var packet = await _dataChannel.Reader.ReadAsync(timeoutCts.Token);
+                    System.Diagnostics.Debug.WriteLine($"[MockService] Returning packet: 0x{packet.PacketType:X2}");
+                    return packet;
                 }
-
-                System.Diagnostics.Debug.WriteLine("[MockService] Timeout waiting for packet");
-                return null;
+                catch (OperationCanceledException)
+                {
+                    System.Diagnostics.Debug.WriteLine("[MockService] Timeout waiting for packet");
+                    return null;
+                }
             }
 
             // For real hardware, implement actual receive
             throw new NotImplementedException("Real hardware receive not implemented");
+        }
+
+        private void ClearStoredData()
+        {
+            while (_ackChannel.Reader.TryRead(out _)) { }
+            while (_dataChannel.Reader.TryRead(out _)) { }
         }
 
         protected override void Dispose(bool disposing)
